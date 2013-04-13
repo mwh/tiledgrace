@@ -14,18 +14,18 @@
         }
         .tile.operator {
            background: #9b9;
-           border: 4px outset #060;
+           border: 2px outset #060;
         }
         .tile.request {
             background: #b99;
-            border: 4px outset #600;
+            border: 2px outset #600;
         }
         .tile.number {
            background: #8c8;
-           border: 4px outset #080;
+           border: 2px outset #080;
         }
         .tile {
-           padding: 4px;
+           padding: 1px;
            width: auto;
            height: auto;
            display: inline-flex;
@@ -33,6 +33,7 @@
            position: absolute;
            white-space: nowrap;
            align-items: center;
+           transition: opacity 0.5s;
         }
         .tile input {
            border: none;
@@ -40,14 +41,15 @@
         .selected {
            z-index: 999;
            opacity: 0.5;
+           cursor: default;
         }
         .hole {
            min-width: 2em;
-           padding: 4px;
+           padding: 1px;
            background: #aaa;
            display: inline-flex;
            width: auto;
-           min-height: 8px;
+           min-height: 12px;
         }
         #toolbox {
             background: #ccf;
@@ -88,7 +90,7 @@
         function findOffsetTopLeft(el) {
             var x = el.offsetLeft;
             var y = el.offsetTop;
-            if (el.offsetParent && el.offsetParent != codearea) {
+            if (el.offsetParent && el.offsetParent != codearea && el.offsetParent != toolbox) {
                 var xy = findOffsetTopLeft(el.offsetParent);
                 x = x + xy.left;
                 y = y + xy.top;
@@ -115,12 +117,14 @@
                     if (h.offsetParent == obj)
                         continue;
                     var xy = findOffsetTopLeft(h);
-                    if (left < xy.left
-                            || left > xy.left + h.offsetWidth) {
+                    xy.top = xy.top + codearea.offsetTop;
+                    xy.left = xy.left + codearea.offsetLeft;
+                    if (left + offsetX < xy.left
+                            || left + offsetX > xy.left + h.offsetWidth) {
                         continue;
                     }
-                    if (top < xy.top
-                            || top > xy.top + h.offsetHeight) {
+                    if (top + offsetY < xy.top
+                            || top + offsetY > xy.top + h.offsetHeight) {
                         continue;
                     }
                     if (h.offsetWidth * h.offsetHeight < holeSize) {
@@ -128,7 +132,7 @@
                         bestHole = h;
                     }
                 }
-                if (bestHole != null) {
+                if (bestHole != null && bestHole.children.length == 0) {
                     bestHole.style.background = 'yellow';
                 }
             }
@@ -153,12 +157,14 @@
                     if (h.offsetParent == obj)
                         continue;
                     var xy = findOffsetTopLeft(h);
-                    if (left < xy.left
-                            || left > xy.left + h.offsetWidth) {
+                    xy.top = xy.top + codearea.offsetTop;
+                    xy.left = xy.left + codearea.offsetLeft;
+                    if (left + offsetX < xy.left
+                            || left + offsetX > xy.left + h.offsetWidth) {
                         continue;
                     }
-                    if (top < xy.top
-                            || top > xy.top + h.offsetHeight) {
+                    if (top + offsetY < xy.top
+                            || top + offsetY > xy.top + h.offsetHeight) {
                         continue;
                     }
                     if (h.offsetWidth * h.offsetHeight < holeSize) {
@@ -167,11 +173,13 @@
                     }
                 }
                 if (bestHole != null) {
-                    obj.style.top = 0;
-                    obj.style.left = 0;
-                    obj.style.position = 'static';
-                    bestHole.appendChild(obj);
-                    bestHole.style.background = '';
+                    if (bestHole.children.length == 0) {
+                        obj.style.top = 0;
+                        obj.style.left = 0;
+                        obj.style.position = 'static';
+                        bestHole.appendChild(obj);
+                        bestHole.style.background = '';
+                    }
                 }
                 generateCode();
             }
@@ -257,7 +265,7 @@
                 var cl = this.cloneNode();
                 codearea.appendChild(cl);
                 cl.style.position = 'absolute';
-                cl.style.top = this.offsetTop + 'px';
+                cl.style.top = (this.offsetTop - toolbox.offsetTop) + 'px';
                 cl.style.left = '500px';
                 attachTileBehaviour(cl);
                 dragstart.call(cl, ev);
