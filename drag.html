@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+ <head>
+     <meta charset="UTF-8">
+     <title>Gratch</title>
+     <style type="text/css">
+        #codearea {
+           width: 500px;
+           height: 500px;
+           background: #ddd;
+           position: relative;
+           float: left;
+           overflow: auto;
+        }
+        .tile.operator {
+           background: #9b9;
+           border: 4px outset #060;
+        }
+        .tile.request {
+            background: #b99;
+            border: 4px outset #600;
+        }
+        .tile.number {
+           background: #8c8;
+           border: 4px outset #080;
+        }
+        .tile {
+           padding: 4px;
+           width: auto;
+           height: auto;
+           display: block;
+           float: left;
+           position: absolute;
+           white-space: nowrap;
+        }
+        .tile input {
+           border: none;
+        }
+        .selected {
+           z-index: 999;
+           opacity: 0.5;
+        }
+        .hole {
+           min-width: 2em;
+           padding: 4px;
+           background: #aaa;
+           display: inline-block;
+           width: auto;
+           min-height: 8px;
+        }
+        #toolbox {
+            background: #ccf;
+            float:left;
+            height: 500px;
+            width: 150px;
+        }
+        #toolbox .tile {
+            position: static;
+            clear: both;
+        }
+        .tile .op {
+            display:inline-block;
+            padding-left: 4px;
+            padding-right: 4px;
+            font-weight: bold;
+        }
+        #gracecode {
+            float: left;
+            width: 200px;
+            height: 500px;
+        }
+     </style>
+ </head>
+ <body>
+     <div id="codearea">
+     </div>
+     <div id="toolbox">
+         <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
+         <div class="tile number"><input type="text" value="0" size="1" ></div>
+         <div class="tile request"><div class="hole"></div><span style="display:inline-block;">.</span><input type="text" size="5"></div>
+     </div>
+     <textarea id="gracecode"></textarea>
+     <script type="text/javascript">
+        var holes = document.getElementsByClassName('hole');
+        var codearea = document.getElementById('codearea');
+        var toolbox = document.getElementById('toolbox');
+        function findOffsetTopLeft(el) {
+            var x = el.offsetLeft;
+            var y = el.offsetTop;
+            if (el.offsetParent && el.offsetParent != codearea) {
+                var xy = findOffsetTopLeft(el.offsetParent);
+                x = x + xy.left;
+                y = y + xy.top;
+            }
+            return {left: x, top: y};
+        }
+        function dragstart(ev) {
+            var xy = findOffsetTopLeft(this);
+            var offsetY = ev.clientY - xy.top;
+            var offsetX = ev.clientX - xy.left;
+            var obj = this;
+            ev.preventDefault();
+            var dragcontinue = function(ev2) {
+                var top = (ev2.clientY - offsetY);
+                var left = (ev2.clientX - offsetX);
+                obj.style.top = top + 'px';
+                obj.style.left = left + 'px';
+                ev2.preventDefault();
+                var holeSize = 1000000;
+                var bestHole = null;
+                for (var i=holes.length - 1; i>=0; i--) {
+                    var h = holes[i];
+                    h.style.background = '';
+                    if (h.offsetParent == obj)
+                        continue;
+                    var xy = findOffsetTopLeft(h);
+                    if (left < xy.left
+                            || left > xy.left + h.offsetWidth) {
+                        continue;
+                    }
+                    if (top < xy.top
+                            || top > xy.top + h.offsetHeight) {
+                        continue;
+                    }
+                    if (h.offsetWidth * h.offsetHeight < holeSize) {
+                        holeSize = h.offsetWidth * h.offsetHeight;
+                        bestHole = h;
+                    }
+                }
+                if (bestHole != null) {
+                    bestHole.style.background = 'yellow';
+                }
+            }
+            var d = document.getElementById('codearea');
+            this.style.position = 'absolute';
+            this.style.top = xy.top + 'px';
+            this.style.left = xy.left + 'px';
+            this.parentNode.removeChild(this);
+            d.appendChild(this);
+            var dragend = function(ev) {
+                var top = (ev.clientY - offsetY);
+                var left = (ev.clientX - offsetX);
+                obj.style.top = top + 'px';
+                obj.style.left = left + 'px';
+                d.removeEventListener('mousemove', dragcontinue);
+                d.removeEventListener('mouseup', dragend);
+                obj.classList.remove('selected');
+                var holeSize = 1000000;
+                var bestHole = null;
+                for (var i=holes.length - 1; i>=0; i--) {
+                    var h = holes[i];
+                    if (h.offsetParent == obj)
+                        continue;
+                    var xy = findOffsetTopLeft(h);
+                    if (left < xy.left
+                            || left > xy.left + h.offsetWidth) {
+                        continue;
+                    }
+                    if (top < xy.top
+                            || top > xy.top + h.offsetHeight) {
+                        continue;
+                    }
+                    if (h.offsetWidth * h.offsetHeight < holeSize) {
+                        holeSize = h.offsetWidth * h.offsetHeight;
+                        bestHole = h;
+                    }
+                }
+                if (bestHole != null) {
+                    obj.style.top = 0;
+                    obj.style.left = 0;
+                    obj.style.position = 'static';
+                    bestHole.appendChild(obj);
+                    bestHole.style.background = '';
+                }
+                generateCode();
+            }
+            d.addEventListener('mousemove', dragcontinue)
+            d.addEventListener('mouseup', dragend)
+            this.classList.add('selected');
+            ev.stopPropagation();
+        }
+        function generateNodeCode(n) {
+            if (typeof n == 'undefined' || typeof n == 'boolean')
+                return '!ABSENT!';
+            if (n.classList.contains('number')) {
+                return n.getElementsByTagName('input')[0].value;
+            }
+            if (n.classList.contains('request')) {
+                return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
+            }
+            if (n.classList.contains('operator')) {
+                var l = false;
+                var r = false;
+                var op = '';
+                for (var i=0; i<n.children.length; i++) {
+                    var c = n.children[i];
+                    if (c.classList.contains('hole')) {
+                        if (l) {
+                            r = c.children[0];
+                            break;
+                        } else {
+                            l = c.children[0];
+                        }
+                    }
+                    if (c.classList.contains('op')) {
+                        op = c.innerHTML;
+                    }
+                }
+                return '(' + generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r) + ')';
+            }
+        }
+        function generateCode() {
+            var tb = document.getElementById('gracecode');
+            tb.value = '';
+            for (var i=0; i<codearea.children.length; i++) {
+                var child = codearea.children[i];
+                tb.value = tb.value + generateNodeCode(child) + '\n';
+            }
+        }
+        function attachTileBehaviour(n) {
+            n.addEventListener('mousedown', dragstart);
+            Array.prototype.forEach.call(n.getElementsByTagName('input'),
+                    function(el) {
+                        el.addEventListener('mousedown', function(ev) {
+                            ev.stopPropagation();
+                        });
+                    });
+            Array.prototype.forEach.call(n.getElementsByClassName('op'),
+                    function(el) {
+                        el.addEventListener('dblclick', function(ev) {
+                            switch(this.innerHTML) {
+                                case "*":
+                                    this.innerHTML = '-';
+                                    break;
+                                case "-":
+                                    this.innerHTML = '/';
+                                    break;
+                                case "/":
+                                    this.innerHTML = '++';
+                                    break;
+                                case "++":
+                                    this.innerHTML = '+';
+                                    break;
+                                default:
+                                    this.innerHTML = '*';
+                            }
+                        });
+                    });
+        }
+        function attachHoleBehaviour(n) {
+            n.addEventListener('mouseup', holedrop);
+            n.addEventListener('mousemove', function(){alert("entering");});
+        }
+        function attachToolboxBehaviour(n) {
+            n.addEventListener('mousedown', function(ev) {
+                var cl = this.cloneNode();
+                codearea.appendChild(cl);
+                cl.style.position = 'absolute';
+                cl.style.top = this.offsetTop + 'px';
+                cl.style.left = '500px';
+                attachTileBehaviour(cl);
+                dragstart.call(cl, ev);
+            });
+        }
+        Array.prototype.forEach.call(codearea.getElementsByClassName('tile'),
+                attachTileBehaviour);
+        Array.prototype.forEach.call(toolbox.getElementsByClassName('tile'),
+                attachToolboxBehaviour);
+     </script>
+ </body>
+</html>
