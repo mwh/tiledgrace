@@ -28,10 +28,11 @@
            padding: 4px;
            width: auto;
            height: auto;
-           display: block;
+           display: inline-flex;
            float: left;
            position: absolute;
            white-space: nowrap;
+           align-items: center;
         }
         .tile input {
            border: none;
@@ -44,7 +45,7 @@
            min-width: 2em;
            padding: 4px;
            background: #aaa;
-           display: inline-block;
+           display: inline-flex;
            width: auto;
            min-height: 8px;
         }
@@ -59,7 +60,7 @@
             clear: both;
         }
         .tile .op {
-            display:inline-block;
+            display:inline-flex;
             padding-left: 4px;
             padding-right: 4px;
             font-weight: bold;
@@ -77,7 +78,7 @@
      <div id="toolbox">
          <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="1" ></div>
-         <div class="tile request"><div class="hole"></div><span style="display:inline-block;">.</span><input type="text" size="5"></div>
+         <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
      </div>
      <textarea id="gracecode"></textarea>
      <script type="text/javascript">
