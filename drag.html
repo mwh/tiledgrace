@@ -24,6 +24,12 @@
            background: #8c8;
            border: 2px outset #080;
         }
+        .tile.if {
+           background: #88c;
+           border: 2px outset #008;
+           flex-direction: column;
+           align-items: flex-start;
+        }
         .tile {
            padding: 1px;
            width: auto;
@@ -76,6 +82,10 @@
             border-bottom-color: yellow;
             border-bottom-style: solid;
         }
+        .hole.multi {
+           flex-direction: column;
+           align-items: flex-start;
+        }
      </style>
  </head>
  <body>
@@ -85,12 +95,14 @@
          <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="1" ></div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
+         <div class="tile if"><div><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
      </div>
      <textarea id="gracecode"></textarea>
      <script type="text/javascript">
         var holes = document.getElementsByClassName('hole');
         var codearea = document.getElementById('codearea');
         var toolbox = document.getElementById('toolbox');
+        var tiles = codearea.getElementsByClassName('tile');
         function findOffsetTopLeft(el) {
             var x = el.offsetLeft;
             var y = el.offsetTop;
@@ -102,11 +114,19 @@
             return {left: x, top: y};
         }
         function isBottomTarget(ch, obj) {
-            var t = ch.offsetTop + ch.offsetHeight;
-            var l = ch.offsetLeft;
-            var r = ch.offsetLeft + ch.offsetWidth;
-            var m = obj.offsetLeft + obj.offsetWidth / 2;
-            if (obj.offsetTop < t + 4 && obj.offsetTop > t - 4) {
+            if (ch.parentElement.classList.contains('hole')) {
+                if (!ch.parentElement.classList.contains('multi')) {
+                    return false;
+                }
+            }
+            var chXY = findOffsetTopLeft(ch);
+            var objXY = findOffsetTopLeft(obj);
+            var t = chXY.top + ch.offsetHeight;
+            var l = chXY.left;
+            var r = chXY.left + ch.offsetWidth;
+            var m = objXY.left + obj.offsetWidth / 2;
+            document.title = "t: " + t + " l: " + l + " m: " + m;
+            if (objXY.top < t + 4 && objXY.top > t - 4) {
                 if (m >= l && m <= r)
                     return true;
             }
@@ -157,8 +177,8 @@
                     tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
                     tmp.style.left = last.offsetLeft + 'px';
                 }
-                for (var i=0; i<codearea.children.length; i++) {
-                    var ch = codearea.children[i];
+                for (var i=0; i<tiles.length; i++) {
+                    var ch = tiles[i];
                     if (ch == obj)
                         continue;
                     if (isBottomTarget(ch, obj)) {
@@ -218,8 +238,8 @@
                         bestHole.style.background = '';
                     }
                 }
-                for (var i=0; i<codearea.children.length; i++) {
-                    var ch = codearea.children[i];
+                for (var i=0; i<tiles.length; i++) {
+                    var ch = tiles[i];
                     if (ch == obj)
                         continue;
                     var t = ch.offsetTop + ch.offsetHeight;
@@ -234,12 +254,18 @@
                         ch.next = obj;
                         ch.classList.remove('bottom-join-target');
                         obj.prev = ch;
-                        obj.style.left = ch.offsetLeft + 'px';
-                        obj.style.top = t + 'px';
+                        var pe = ch.parentElement;
                         var tmp = ch;
                         while (tmp.next) {
                             var last = tmp;
                             tmp = tmp.next;
+                            tmp.parentElement.removeChild(tmp);
+                            pe.appendChild(tmp);
+                            if (pe.classList.contains('multi')) {
+                                tmp.style.position = "static";
+                                tmp.style.left = "";
+                                tmp.style.top = "";
+                            }
                             tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
                             tmp.style.left = last.offsetLeft + 'px';
                         }
@@ -290,6 +316,16 @@
                     }
                 }
                 return '(' + generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r) + ')';
+            }
+            if (n.classList.contains('if')) {
+                var cond = n.children[0].children[1].children[0];
+                var bodyHole = n.children[1].children[0];
+                var body = '';
+                for (var i=0; i<bodyHole.children.length; i++) {
+                    var ch = bodyHole.children[i];
+                    body = body + '    ' + generateNodeCode(ch) + '\n'
+                }
+                return 'if (' + generateNodeCode(cond) + ') then {\n' + body + '}';
             }
         }
         function generateCode() {
