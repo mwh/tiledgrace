@@ -225,8 +225,11 @@
                     var t = ch.offsetTop + ch.offsetHeight;
                     if (isBottomTarget(ch, obj)) {
                         if (ch.next) {
-                            ch.next.prev = obj;
-                            obj.next = ch.next;
+                            var tmp = obj;
+                            while (tmp.next)
+                                tmp = tmp.next;
+                            tmp.next = ch.next;
+                            ch.next.prev = tmp;
                         }
                         ch.next = obj;
                         ch.classList.remove('bottom-join-target');
