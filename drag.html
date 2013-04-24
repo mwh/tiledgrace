@@ -72,6 +72,10 @@
             width: 200px;
             height: 500px;
         }
+        .tile.bottom-join-target {
+            border-bottom-color: yellow;
+            border-bottom-style: solid;
+        }
      </style>
  </head>
  <body>
@@ -96,6 +100,17 @@
                 y = y + xy.top;
             }
             return {left: x, top: y};
+        }
+        function isBottomTarget(ch, obj) {
+            var t = ch.offsetTop + ch.offsetHeight;
+            var l = ch.offsetLeft;
+            var r = ch.offsetLeft + ch.offsetWidth;
+            var m = obj.offsetLeft + obj.offsetWidth / 2;
+            if (obj.offsetTop < t + 4 && obj.offsetTop > t - 4) {
+                if (m >= l && m <= r)
+                    return true;
+            }
+            return false;
         }
         function dragstart(ev) {
             var xy = findOffsetTopLeft(this);
@@ -135,6 +150,23 @@
                 if (bestHole != null && bestHole.children.length == 0) {
                     bestHole.style.background = 'yellow';
                 }
+                var tmp = obj;
+                while (typeof tmp.next != "undefined" && tmp.next) {
+                    var last = tmp;
+                    tmp = tmp.next;
+                    tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
+                    tmp.style.left = last.offsetLeft + 'px';
+                }
+                for (var i=0; i<codearea.children.length; i++) {
+                    var ch = codearea.children[i];
+                    if (ch == obj)
+                        continue;
+                    if (isBottomTarget(ch, obj)) {
+                        ch.classList.add('bottom-join-target');
+                    } else {
+                        ch.classList.remove('bottom-join-target');
+                    }
+                }
             }
             var d = document.getElementById('codearea');
             this.style.position = 'absolute';
@@ -150,6 +182,11 @@
                 d.removeEventListener('mousemove', dragcontinue);
                 d.removeEventListener('mouseup', dragend);
                 obj.classList.remove('selected');
+                var tmp = obj;
+                while (typeof tmp.next != "undefined" && tmp.next) {
+                    tmp = tmp.next;
+                    tmp.classList.remove('selected');
+                }
                 var holeSize = 1000000;
                 var bestHole = null;
                 for (var i=holes.length - 1; i>=0; i--) {
@@ -181,11 +218,45 @@
                         bestHole.style.background = '';
                     }
                 }
+                for (var i=0; i<codearea.children.length; i++) {
+                    var ch = codearea.children[i];
+                    if (ch == obj)
+                        continue;
+                    var t = ch.offsetTop + ch.offsetHeight;
+                    if (isBottomTarget(ch, obj)) {
+                        if (ch.next) {
+                            ch.next.prev = obj;
+                            obj.next = ch.next;
+                        }
+                        ch.next = obj;
+                        ch.classList.remove('bottom-join-target');
+                        obj.prev = ch;
+                        obj.style.left = ch.offsetLeft + 'px';
+                        obj.style.top = t + 'px';
+                        var tmp = ch;
+                        while (tmp.next) {
+                            var last = tmp;
+                            tmp = tmp.next;
+                            tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
+                            tmp.style.left = last.offsetLeft + 'px';
+                        }
+                        break;
+                    }
+                }
                 generateCode();
             }
             d.addEventListener('mousemove', dragcontinue)
             d.addEventListener('mouseup', dragend)
             this.classList.add('selected');
+            var tmp = this;
+            while (typeof tmp.next != "undefined" && tmp.next) {
+                tmp = tmp.next;
+                tmp.classList.add('selected');
+            }
+            if (typeof this.prev != "undefined" && this.prev) {
+                this.prev.next = false;
+                this.prev = false;
+            }
             ev.stopPropagation();
         }
         function generateNodeCode(n) {
@@ -223,11 +294,18 @@
             tb.value = '';
             for (var i=0; i<codearea.children.length; i++) {
                 var child = codearea.children[i];
-                tb.value = tb.value + generateNodeCode(child) + '\n';
+                if (child.prev != false)
+                    continue;
+                while (child) {
+                    tb.value = tb.value + generateNodeCode(child) + '\n';
+                    child = child.next;
+                }
             }
         }
         function attachTileBehaviour(n) {
             n.addEventListener('mousedown', dragstart);
+            n.next = false;
+            n.prev = false;
             Array.prototype.forEach.call(n.getElementsByTagName('input'),
                     function(el) {
                         el.addEventListener('mousedown', function(ev) {
