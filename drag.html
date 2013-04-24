@@ -117,7 +117,7 @@
          <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
          <div class="tile if"><div><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
-         <div class="tile print">print <div class="hole"></div></div>
+         <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
      </div>
      <textarea id="gracecode"></textarea>
      <script type="text/javascript">
@@ -332,7 +332,14 @@
                 return '"' + n.getElementsByTagName('input')[0].value + '"';
             }
             if (n.classList.contains('print')) {
-                return 'print ' + generateNodeCode(n.children[0].children[0]);
+                var arg = n.children[1].children[0];
+                if (arg.classList.contains('string')) {
+                    return 'print ' + generateNodeCode(arg);
+                } else if (arg.classList.contains('operator')) {
+                    return 'print' + generateNodeCode(arg);
+                } else {
+                    return 'print(' + generateNodeCode(arg) + ')';
+                }
             }
             if (n.classList.contains('request')) {
                 return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
@@ -392,6 +399,7 @@
                         });
                         el.addEventListener('keyup', function(ev) {
                             this.size = this.value.length + 3;
+                            generateCode();
                         });
                     });
             Array.prototype.forEach.call(n.getElementsByClassName('op'),
