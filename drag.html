@@ -113,7 +113,7 @@
      <div id="toolbox">
          <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
          <div class="tile comparison-operator"><div class="hole number"></div><div class="cmpop">==</div><div class="hole number"></div></div>
-         <div class="tile number"><input type="text" value="0" size="1" ></div>
+         <div class="tile number"><input type="text" value="0" size="3" ></div>
          <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
          <div class="tile if"><div><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
@@ -274,6 +274,9 @@
                 }
                 for (var i=0; i<tiles.length; i++) {
                     var ch = tiles[i];
+                    ch.classList.remove('bottom-join-target');
+                    if (bestHole)
+                        continue;
                     if (ch == obj)
                         continue;
                     var t = ch.offsetTop + ch.offsetHeight;
@@ -286,7 +289,6 @@
                             ch.next.prev = tmp;
                         }
                         ch.next = obj;
-                        ch.classList.remove('bottom-join-target');
                         obj.prev = ch;
                         var pe = ch.parentElement;
                         var tmp = ch;
@@ -333,6 +335,8 @@
             }
             if (n.classList.contains('print')) {
                 var arg = n.children[1].children[0];
+                if (!arg)
+                    return 'print(!ABSENT!)'
                 if (arg.classList.contains('string')) {
                     return 'print ' + generateNodeCode(arg);
                 } else if (arg.classList.contains('operator')) {
