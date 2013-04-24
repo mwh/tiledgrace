@@ -28,11 +28,22 @@
            background: #8c8;
            border: 2px outset #080;
         }
+        .tile.string {
+           background: #cec;
+           border: 2px outset #0c0;
+        }
+        .tile.string input {
+            color: #080;
+        }
         .tile.if {
            background: #88c;
            border: 2px outset #008;
            flex-direction: column;
            align-items: flex-start;
+        }
+        .tile.print {
+           background: #cc8;
+           border: 2px outset #880;
         }
         .tile {
            padding: 1px;
@@ -47,6 +58,9 @@
         }
         .tile input {
            border: none;
+        }
+        .tile input[type=text] {
+            font-family: monospace;
         }
         .selected {
            z-index: 999;
@@ -89,6 +103,7 @@
         .hole.multi {
            flex-direction: column;
            align-items: flex-start;
+           display: flex;
         }
      </style>
  </head>
@@ -99,8 +114,10 @@
          <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
          <div class="tile comparison-operator"><div class="hole number"></div><div class="cmpop">==</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="1" ></div>
+         <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
          <div class="tile if"><div><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
+         <div class="tile print">print <div class="hole"></div></div>
      </div>
      <textarea id="gracecode"></textarea>
      <script type="text/javascript">
@@ -311,6 +328,12 @@
             if (n.classList.contains('number')) {
                 return n.getElementsByTagName('input')[0].value;
             }
+            if (n.classList.contains('string')) {
+                return '"' + n.getElementsByTagName('input')[0].value + '"';
+            }
+            if (n.classList.contains('print')) {
+                return 'print ' + generateNodeCode(n.children[0].children[0]);
+            }
             if (n.classList.contains('request')) {
                 return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
             }
@@ -366,6 +389,9 @@
                     function(el) {
                         el.addEventListener('mousedown', function(ev) {
                             ev.stopPropagation();
+                        });
+                        el.addEventListener('keyup', function(ev) {
+                            this.size = this.value.length + 3;
                         });
                     });
             Array.prototype.forEach.call(n.getElementsByClassName('op'),
