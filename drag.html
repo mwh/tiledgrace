@@ -117,6 +117,7 @@
          <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
          <div class="tile if"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
+         <div class="tile if else"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
      </div>
      <textarea id="gracecode"></textarea>
@@ -376,7 +377,19 @@
                     var ch = bodyHole.children[i];
                     body = body + '    ' + generateNodeCode(ch) + '\n'
                 }
-                return 'if (' + generateNodeCode(cond) + ') then {\n' + body + '}';
+                var elseText = false;
+                if (n.classList.contains('else')) {
+                    elseText = ' else {\n';
+                    var elseHole = n.children[3].children[0];
+                    for (var i=0; i<elseHole.children.length; i++) {
+                        var ch = elseHole.children[i];
+                        elseText = elseText + '    ' + generateNodeCode(ch) + '\n'
+                    }
+                    elseText = elseText + '}'
+                }
+                if (!elseText)
+                    elseText = '';
+                return 'if (' + generateNodeCode(cond) + ') then {\n' + body + '}' + elseText;
             }
         }
         function generateCode() {
