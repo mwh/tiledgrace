@@ -16,6 +16,10 @@
            background: #9b9;
            border: 2px outset #060;
         }
+        .tile.comparison-operator {
+           background: #44d;
+           border: 2px outset #00b;
+        }
         .tile.request {
             background: #b99;
             border: 2px outset #600;
@@ -67,7 +71,7 @@
             position: static;
             clear: both;
         }
-        .tile .op {
+        .tile .op, .tile .cmpop {
             display:inline-flex;
             padding-left: 4px;
             padding-right: 4px;
@@ -93,6 +97,7 @@
      </div>
      <div id="toolbox">
          <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
+         <div class="tile comparison-operator"><div class="hole number"></div><div class="cmpop">==</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="1" ></div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
          <div class="tile if"><div><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
@@ -125,7 +130,6 @@
             var l = chXY.left;
             var r = chXY.left + ch.offsetWidth;
             var m = objXY.left + obj.offsetWidth / 2;
-            document.title = "t: " + t + " l: " + l + " m: " + m;
             if (objXY.top < t + 4 && objXY.top > t - 4) {
                 if (m >= l && m <= r)
                     return true;
@@ -192,8 +196,17 @@
             this.style.position = 'absolute';
             this.style.top = xy.top + 'px';
             this.style.left = xy.left + 'px';
-            this.parentNode.removeChild(this);
-            d.appendChild(this);
+            var tmp = this;
+            var runningTop = xy.top;
+            while (tmp) {
+                tmp.parentNode.removeChild(tmp);
+                d.appendChild(tmp);
+                tmp.style.position = 'absolute';
+                tmp.style.top = runningTop + 'px';
+                tmp.style.left = xy.left + 'px';
+                runningTop += tmp.offsetHeight;
+                tmp = tmp.next;
+            }
             var dragend = function(ev) {
                 var top = (ev.clientY - offsetY);
                 var left = (ev.clientX - offsetX);
@@ -231,10 +244,14 @@
                 }
                 if (bestHole != null) {
                     if (bestHole.children.length == 0) {
-                        obj.style.top = 0;
-                        obj.style.left = 0;
-                        obj.style.position = 'static';
-                        bestHole.appendChild(obj);
+                        var tmp = obj;
+                        while (tmp) {
+                            tmp.style.top = 0;
+                            tmp.style.left = 0;
+                            tmp.style.position = 'static';
+                            bestHole.appendChild(tmp);
+                            tmp = tmp.next;
+                        }
                         bestHole.style.background = '';
                     }
                 }
@@ -297,7 +314,7 @@
             if (n.classList.contains('request')) {
                 return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
             }
-            if (n.classList.contains('operator')) {
+            if (n.classList.contains('operator') || n.classList.contains('comparison-operator')) {
                 var l = false;
                 var r = false;
                 var op = '';
@@ -311,7 +328,7 @@
                             l = c.children[0];
                         }
                     }
-                    if (c.classList.contains('op')) {
+                    if (c.classList.contains('op') || c.classList.contains('cmpop')) {
                         op = c.innerHTML;
                     }
                 }
@@ -369,6 +386,21 @@
                                     break;
                                 default:
                                     this.innerHTML = '*';
+                            }
+                        });
+                    });
+            Array.prototype.forEach.call(n.getElementsByClassName('cmpop'),
+                    function(el) {
+                        el.addEventListener('dblclick', function(ev) {
+                            switch(this.innerHTML) {
+                                case "==":
+                                    this.innerHTML = '<';
+                                    break;
+                                case "<":
+                                    this.innerHTML = '>';
+                                    break;
+                                default:
+                                    this.innerHTML = '==';
                             }
                         });
                     });
