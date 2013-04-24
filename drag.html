@@ -402,7 +402,11 @@
                             ev.stopPropagation();
                         });
                         el.addEventListener('keyup', function(ev) {
-                            this.size = this.value.length + 3;
+                            this.size = this.value.length + 1;
+                            generateCode();
+                        });
+                        el.addEventListener('blur', function(ev) {
+                            this.size = this.value.length;
                             generateCode();
                         });
                     });
