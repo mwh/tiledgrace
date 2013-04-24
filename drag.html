@@ -325,6 +325,7 @@
             }
             ev.stopPropagation();
         }
+        var blockIndent = 0;
         function generateNodeCode(n) {
             if (typeof n == 'undefined' || typeof n == 'boolean')
                 return '!ABSENT!';
@@ -373,9 +374,13 @@
                 var cond = n.children[0].children[1].children[0];
                 var bodyHole = n.children[1].children[0];
                 var body = '';
+                var indent = '';
+                for (var i=0; i<blockIndent; i++)
+                    indent += '    ';
+                blockIndent++;
                 for (var i=0; i<bodyHole.children.length; i++) {
                     var ch = bodyHole.children[i];
-                    body = body + '    ' + generateNodeCode(ch) + '\n'
+                    body = body + indent + '    ' + generateNodeCode(ch) + '\n'
                 }
                 var elseText = false;
                 if (n.classList.contains('else')) {
@@ -383,13 +388,14 @@
                     var elseHole = n.children[3].children[0];
                     for (var i=0; i<elseHole.children.length; i++) {
                         var ch = elseHole.children[i];
-                        elseText = elseText + '    ' + generateNodeCode(ch) + '\n'
+                        elseText = elseText + indent + '    ' + generateNodeCode(ch) + '\n'
                     }
-                    elseText = elseText + '}'
+                    elseText = elseText + indent + '}'
                 }
+                blockIndent--;
                 if (!elseText)
                     elseText = '';
-                return 'if (' + generateNodeCode(cond) + ') then {\n' + body + '}' + elseText;
+                return 'if (' + generateNodeCode(cond) + ') then {\n' + body + indent + '}' + elseText;
             }
         }
         function generateCode() {
