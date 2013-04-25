@@ -142,7 +142,36 @@
          <div class="tile while"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">while {</span><div class="hole"></div><span style="display:inline-flex;">} do {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
      </div>
-     <textarea id="gracecode"></textarea>
+     <textarea id="gracecode"></textarea><br />
+     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea><input type="button" onclick="go()" value="Run">
+     <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea>
      <script type="text/javascript" src="main.js"></script>
+     <script type="text/javascript" src="minigrace.js"></script>
+     <script type="text/javascript">
+        var getCode = function() {
+            return document.getElementById('gracecode').value;
+        }
+
+        // Setup stderr.
+        minigrace.stderr_write = function(value) {
+            var stderr = document.getElementById("stderr_txt");
+            stderr.value += value;
+            stderr.scrollTop = stderr.scrollHeight;
+        };
+
+        // Setup stdout.
+        minigrace.stdout_write = function(value) {
+            var stdout = document.getElementById("stdout_txt");
+            stdout.value += value;
+            stdout.scrollTop = stdout.scrollHeight;
+        };
+
+        function go() {
+            document.getElementById('stderr_txt').value = "";
+            document.getElementById('stdout_txt').value = "";
+            minigrace.modname = "main";
+            minigrace.compilerun(getCode());
+        }
+    </script>
  </body>
 </html>
