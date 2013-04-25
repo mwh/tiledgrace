@@ -92,7 +92,7 @@ function dragstart(ev) {
     this.style.left = xy.left + 'px';
     var tmp = this;
     var runningTop = xy.top;
-    while (tmp) {
+    while (tmp && tmp.parentNode != d) {
         tmp.parentNode.removeChild(tmp);
         d.appendChild(tmp);
         tmp.style.position = 'absolute';
@@ -259,6 +259,23 @@ function generateNodeCode(n) {
             }
         }
         return '(' + generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r) + ')';
+    }
+    if (n.classList.contains('assign')) {
+        var l = false;
+        var r = false;
+        var op = '';
+        for (var i=0; i<n.children.length; i++) {
+            var c = n.children[i];
+            if (c.classList.contains('hole')) {
+                if (l) {
+                    r = c.children[0];
+                    break;
+                } else {
+                    l = c.children[0];
+                }
+            }
+        }
+        return generateNodeCode(l) + ' := ' + generateNodeCode(r);
     }
     if (n.classList.contains('if')) {
         var cond = n.children[0].children[1].children[0];

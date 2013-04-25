@@ -32,6 +32,10 @@
            background: #eaa;
            border: 2px outset #c00;
         }
+        .tile.assign {
+           background: #ccc;
+           border: 2px outset #888;
+        }
         .tile.number {
            background: #8c8;
            border: 2px outset #080;
@@ -127,6 +131,7 @@
      <div id="toolbox">
          <div class="tile vardec"><span style="margin-right: 4px; color: blue;">var</span><input type="text" value="" size="1" class="variable-name"><span style="margin-left: 4px; margin-right: 4px; color: #687687;">:=</span><div class="hole"></div></div>
          <div class="tile var"><select name="var"></select></div>
+         <div class="tile assign"><div class="hole"></div><span style="margin-left: 4px; margin-right: 4px; color: #687687;">:=</span><div class="hole"></div></div>
          <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
          <div class="tile comparison-operator"><div class="hole number"></div><div class="cmpop">==</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="3" ></div>
