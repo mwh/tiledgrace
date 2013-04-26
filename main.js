@@ -30,6 +30,13 @@ function isBottomTarget(ch, obj) {
     }
     return false;
 }
+function isOverBin(ev) {
+    var bin = document.getElementById('bin');
+    if (ev.clientY < bin.offsetHeight + codearea.offsetTop
+            && ev.clientX > bin.offsetLeft + codearea.offsetLeft)
+        return true;
+    return false;
+}
 function dragstart(ev) {
     var xy = findOffsetTopLeft(this);
     var offsetY = ev.clientY - xy.top;
@@ -42,6 +49,16 @@ function dragstart(ev) {
         obj.style.top = top + 'px';
         obj.style.left = left + 'px';
         ev2.preventDefault();
+        var tmp = obj;
+        var overBin = isOverBin(ev2);
+        var tmp = obj;
+        while (tmp) {
+            if (overBin)
+                tmp.classList.add('over-bin');
+            else
+                tmp.classList.remove('over-bin');
+            tmp = tmp.next;
+        }
         var holeSize = 1000000;
         var bestHole = null;
         for (var i=holes.length - 1; i>=0; i--) {
@@ -70,6 +87,11 @@ function dragstart(ev) {
         }
         var tmp = obj;
         while (typeof tmp.next != "undefined" && tmp.next) {
+            if (isOverBin(ev2)) {
+                tmp.classList.add('over-bin');
+            } else {
+                tmp.classList.remove('over-bin');
+            }
             var last = tmp;
             tmp = tmp.next;
             tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
@@ -109,6 +131,15 @@ function dragstart(ev) {
         d.removeEventListener('mousemove', dragcontinue);
         d.removeEventListener('mouseup', dragend);
         obj.classList.remove('selected');
+        if (isOverBin(ev)) {
+            var tmp = obj;
+            while (tmp) {
+                tmp.parentNode.removeChild(tmp);
+                tmp = tmp.next;
+            }
+            generateCode();
+            return;
+        }
         var tmp = obj;
         while (typeof tmp.next != "undefined" && tmp.next) {
             tmp = tmp.next;

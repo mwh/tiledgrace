@@ -123,10 +123,27 @@
            align-items: flex-start;
            display: flex;
         }
+        #bin {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: red;
+        }
+        .tile.over-bin {
+            opacity: 0.25;
+            transition: opacity 0s;
+        }
+        .tile.over-bin, .over-bin .tile, .over-bin .hole {
+            background: red;
+            border-color: red;
+        }
      </style>
  </head>
  <body>
      <div id="codearea">
+         <div id="bin"></div>
      </div>
      <div id="toolbox">
          <div class="tile vardec"><span style="margin-right: 4px; color: blue;">var</span><input type="text" value="" size="1" class="variable-name"><span style="margin-left: 4px; margin-right: 4px; color: #687687;">:=</span><div class="hole"></div></div>
