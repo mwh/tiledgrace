@@ -21,11 +21,13 @@ function isBottomTarget(ch, obj) {
     var chXY = findOffsetTopLeft(ch);
     var objXY = findOffsetTopLeft(obj);
     var t = chXY.top + ch.offsetHeight;
-    var l = chXY.left;
+    var l = chXY.left - ch.offsetWidth / 2;
     var r = chXY.left + ch.offsetWidth;
     var m = objXY.left + obj.offsetWidth / 2;
     if (objXY.top < t + 4 && objXY.top > t - 4) {
-        if (m >= l && m <= r)
+        if (objXY.left >= l && objXY.left <= r)
+            return true;
+        if (chXY.left >= objXY.left && chXY.left < m)
             return true;
     }
     return false;
