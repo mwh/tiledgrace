@@ -155,14 +155,15 @@
          <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
          <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
          <div class="tile if"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
-         <div class="tile if else"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
+         <div class="tile if else if-else"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
          <div class="tile while"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">while {</span><div class="hole"></div><span style="display:inline-flex;">} do {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
      </div>
      <textarea id="gracecode"></textarea><br />
-     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea><input type="button" onclick="go()" value="Run">
+     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea><input type="button" onclick="go()" value="Run"><input type="button" onclick="generateJSON()" value="Save">
      <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea>
      <script type="text/javascript" src="main.js"></script>
+     <script type="text/javascript" src="json.js"></script>
      <script type="text/javascript" src="minigrace.js"></script>
      <script type="text/javascript">
         var getCode = function() {
@@ -188,6 +189,9 @@
             document.getElementById('stdout_txt').value = "";
             minigrace.modname = "main";
             minigrace.compilerun(getCode());
+        }
+        if (localStorage.getItem("autosave-json")) {
+            loadJSON(localStorage.getItem("autosave-json"));
         }
     </script>
  </body>

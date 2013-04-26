@@ -1,3 +1,4 @@
+"use strict"
 var holes = document.getElementsByClassName('hole');
 var codearea = document.getElementById('codearea');
 var toolbox = document.getElementById('toolbox');
@@ -389,8 +390,10 @@ function renameVar(oldValue, newValue) {
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
-    n.next = false;
-    n.prev = false;
+    if (!n.next)
+        n.next = false;
+    if (!n.prev)
+        n.prev = false;
     Array.prototype.forEach.call(n.getElementsByTagName('select'),
             function(el) {
                 el.addEventListener('mousedown', function(ev) {
