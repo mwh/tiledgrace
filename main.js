@@ -257,7 +257,10 @@ function generateNodeCode(n) {
         return n.getElementsByTagName('select')[0].value;
     }
     if (n.classList.contains('vardec')) {
-        return 'var ' + n.childNodes[1].value + ' := ' + generateNodeCode(n.childNodes[3]);
+        var name = n.childNodes[1].value;
+        if (!name)
+            name = "!UNNAMED!";
+        return 'var ' + name + ' := ' + generateNodeCode(n.childNodes[3]);
     }
     if (n.classList.contains('print')) {
         var arg = n.children[1].children[0];
