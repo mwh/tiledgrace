@@ -1,5 +1,3 @@
-"use strict"
-var blockIndent = 0;
 function generateNodeJSON(n) {
     if (typeof n == 'undefined' || typeof n == 'boolean')
         return '!ABSENT!';
@@ -209,13 +207,13 @@ function populateTile(tile, obj) {
 }
 function createTileFromJSON(obj) {
     var template = document.getElementById('toolbox').querySelector('.tile.' + obj.type);
-    var newTile = template.cloneNode();
+    var newTile = template.cloneNode(true);
     newTile.style.position = 'static';
     populateTile(newTile, obj);
     return newTile;
 }
 function createChunkFromJSON(chunk) {
-    var tiles = Array.map(chunk.body, createTileFromJSON);
+    var tiles = Array.prototype.map.call(chunk.body, createTileFromJSON);
     for (var i=1; i<tiles.length; i++) {
         tiles[i].prev = tiles[i-1];
     }
@@ -233,8 +231,8 @@ function createChunkFromJSON(chunk) {
 }
 function loadJSON(str) {
     var obj = JSON.parse(str);
-    Array.forEach(obj.chunks, createChunkFromJSON);
-    Array.forEach(codearea.getElementsByTagName('input'),
+    Array.prototype.forEach.call(obj.chunks, createChunkFromJSON);
+    Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
             function(el) {
                     el.size = el.value.length;
                     if (el.classList.contains('variable-name')) {
@@ -242,6 +240,6 @@ function loadJSON(str) {
                         el.oldName = el.value;
                     }
             });
-    Array.forEach(tiles, attachTileBehaviour);
+    Array.prototype.forEach.call(tiles, attachTileBehaviour);
     generateCode();
 }

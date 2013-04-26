@@ -469,7 +469,7 @@ function attachHoleBehaviour(n) {
 }
 function attachToolboxBehaviour(n) {
     n.addEventListener('mousedown', function(ev) {
-        var cl = this.cloneNode();
+        var cl = this.cloneNode(true);
         codearea.appendChild(cl);
         cl.style.position = 'absolute';
         cl.style.top = (this.offsetTop - toolbox.offsetTop) + 'px';
