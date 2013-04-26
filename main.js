@@ -391,6 +391,34 @@ function renameVar(oldValue, newValue) {
         }
     }
 }
+function shrink() {
+    codearea.classList.add('shrink');
+    for (var i=0; i<codearea.children.length; i++) {
+        var child = codearea.children[i];
+        if (child.prev != false)
+            continue;
+        var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
+        while (child) {
+            child.style.top = runningTop + 'px';
+            runningTop += child.offsetHeight;
+            child = child.next;
+        }
+    }
+}
+function grow() {
+    codearea.classList.remove('shrink');
+    for (var i=0; i<codearea.children.length; i++) {
+        var child = codearea.children[i];
+        if (child.prev != false)
+            continue;
+        var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
+        while (child) {
+            child.style.top = runningTop + 'px';
+            runningTop += child.offsetHeight;
+            child = child.next;
+        }
+    }
+}
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
     if (!n.next)
