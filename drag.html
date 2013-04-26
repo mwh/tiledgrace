@@ -52,12 +52,22 @@
            border: 2px outset #008;
            flex-direction: column;
            align-items: flex-start;
+           -webkit-flex-direction: column;
+           -webkit-align-items: flex-start;
         }
         .tile.while {
            background: #88c;
            border: 2px outset #008;
            flex-direction: column;
            align-items: flex-start;
+           -webkit-flex-direction: column;
+           -webkit-align-items: flex-start;
+        }
+        .tile.if > div, .tile.while > div {
+            display: inline-flex;
+            display: -webkit-inline-flex;
+            align-items: center;
+            -webkit-align-items: center;
         }
         .tile.print {
            background: #cc8;
@@ -68,11 +78,17 @@
            width: auto;
            height: auto;
            display: inline-flex;
+           display: -webkit-inline-flex;
            float: left;
            position: absolute;
            white-space: nowrap;
            align-items: center;
+           -webkit-align-items: center;
            transition: opacity 0.5s;
+        }
+        .tile span {
+            display: inline-flex;
+            display: -webkit-inline-flex;
         }
         .tile input {
            border: none;
@@ -90,6 +106,7 @@
            padding: 1px;
            background: #aaa;
            display: inline-flex;
+           display: -webkit-inline-flex;
            width: auto;
            min-height: 12px;
         }
@@ -105,6 +122,7 @@
         }
         .tile .op, .tile .cmpop {
             display:inline-flex;
+            display: -webkit-inline-flex;
             padding-left: 4px;
             padding-right: 4px;
             font-weight: bold;
@@ -120,8 +138,10 @@
         }
         .hole.multi {
            flex-direction: column;
+           -webkit-flex-direction: column;
            align-items: flex-start;
            display: flex;
+           display: -webkit-flex;
         }
         #bin {
             position: absolute;
@@ -153,10 +173,10 @@
          <div class="tile comparison-operator"><div class="hole number"></div><div class="cmpop">==</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="3" ></div>
          <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
-         <div class="tile request"><div class="hole"></div><span style="display:inline-flex;">.</span><input type="text" size="5"></div>
-         <div class="tile if"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
-         <div class="tile if else if-else"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">if (</span><div class="hole"></div><span style="display:inline-flex;">) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
-         <div class="tile while"><div style="display: inline-flex; align-items: center;"><span style="display: inline-flex;">while {</span><div class="hole"></div><span style="display:inline-flex;">} do {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
+         <div class="tile request"><div class="hole"></div><span>.</span><input type="text" size="5"></div>
+         <div class="tile if"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
+         <div class="tile if else if-else"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
+         <div class="tile while"><div><span>while {</span><div class="hole"></div><span>} do {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
      </div>
      <textarea id="gracecode"></textarea><br />
