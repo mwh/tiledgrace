@@ -1,3 +1,7 @@
+@font-face {
+    font-family: entypo;
+    src: url('entypo.woff');
+}
 #codearea {
     width: 500px;
     height: 500px;
@@ -142,9 +146,11 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 50px;
-    height: 50px;
-    background: red;
+    font-family: entypo;
+    font-size: 80px;
+    color: #444;
+    line-height: 70%;
+    cursor: default;
 }
 .tile.over-bin {
     opacity: 0.25;
@@ -167,4 +173,6 @@
     background: none;
     border: none;
 }
-
+#acknowledgements {
+    font-size: 10px;
+}
