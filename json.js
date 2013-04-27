@@ -3,12 +3,12 @@ function generateNodeJSON(n) {
     if (n == null)
         return null;
     if (typeof n == 'undefined' || typeof n == 'boolean')
-        return '!ABSENT!';
+        return null;
     if (n.classList.contains('hole')) {
         if (n.childNodes.length)
             return generateNodeJSON(n.childNodes[0]);
         else
-            return '!ABSENT!';
+            return null;
     }
     if (n.classList.contains('number')) {
         return {type: 'number',
