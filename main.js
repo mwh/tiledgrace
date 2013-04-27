@@ -123,6 +123,13 @@ function dragstart(ev) {
     this.style.left = xy.left + 'px';
     var tmp = this;
     var runningTop = xy.top;
+    if (ev.shiftKey) {
+        if (tmp.prev)
+            tmp.prev.next = tmp.next;
+        if (tmp.next)
+            tmp.next.prev = tmp.prev;
+        tmp.next = false;
+    }
     while (tmp && tmp.parentNode != d) {
         tmp.parentNode.removeChild(tmp);
         d.appendChild(tmp);
