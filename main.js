@@ -160,7 +160,7 @@ function dragstart(ev) {
                 originalHole.style.height = 'auto';
             }
             reflow();
-            history.pushState(generateJSObject(), "", window.location);
+            checkpointSave();
             return;
         }
         var tmp = obj;
@@ -254,7 +254,7 @@ function dragstart(ev) {
         }
         reflow();
         generateCode();
-        history.pushState(generateJSObject(), "", window.location);
+        checkpointSave();
     }
     d.addEventListener('mousemove', dragcontinue)
     d.addEventListener('mouseup', dragend)
@@ -441,6 +441,23 @@ function renameVar(oldValue, newValue) {
         }
     }
 }
+function generateHash(obj) {
+    return '#' + btoa(encodeURIComponent(JSON.stringify(obj)));
+}
+function checkpointSave() {
+    var obj = generateJSObject();
+    var progHash = generateHash(obj);
+    history.pushState(obj, "", progHash);
+}
+function loadSave() {
+    if (!localStorage.getItem("autosave-json")) {
+        alert("You have no saved program.");
+        return;
+    }
+    var obj = loadJSON(localStorage.getItem("autosave-json"));
+    var progHash = generateHash(obj);
+    history.pushState(JSON.parse(localStorage.getItem("autosave-json")), "", progHash);
+}
 function shrink() {
     codearea.classList.add('shrink');
     for (var i=0; i<codearea.children.length; i++) {
@@ -493,6 +510,7 @@ function attachTileBehaviour(n) {
                 el.addEventListener('blur', function(ev) {
                     this.size = this.value.length;
                     generateCode();
+                    checkpointSave();
                 });
                 if (el.classList.contains('variable-name')) {
                     el.oldName = '---none---';
@@ -522,6 +540,7 @@ function attachTileBehaviour(n) {
                             this.innerHTML = '*';
                     }
                     generateCode();
+                    checkpointSave();
                 });
             });
     Array.prototype.forEach.call(n.getElementsByClassName('cmpop'),
@@ -538,6 +557,7 @@ function attachTileBehaviour(n) {
                             this.innerHTML = '==';
                     }
                     generateCode();
+                    checkpointSave();
                 });
             });
 }
@@ -561,9 +581,5 @@ Array.prototype.forEach.call(codearea.getElementsByClassName('tile'),
 Array.prototype.forEach.call(toolbox.getElementsByClassName('tile'),
         attachToolboxBehaviour);
 window.addEventListener('popstate', function(ev) {
-    var bin = document.getElementById('bin');
-    while (codearea.hasChildNodes())
-        codearea.removeChild(codearea.lastChild);
-    codearea.appendChild(bin);
     loadJSON(JSON.stringify(ev.state));
 });

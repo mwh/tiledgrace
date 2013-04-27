@@ -257,6 +257,10 @@ function createChunkFromJSON(chunk) {
     }
 }
 function loadJSON(str) {
+    var bin = document.getElementById('bin');
+    while (codearea.hasChildNodes())
+        codearea.removeChild(codearea.lastChild);
+    codearea.appendChild(bin);
     var obj = JSON.parse(str);
     Array.prototype.forEach.call(obj.chunks, createChunkFromJSON);
     Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
@@ -269,4 +273,5 @@ function loadJSON(str) {
             });
     Array.prototype.forEach.call(tiles, attachTileBehaviour);
     generateCode();
+    return obj;
 }

@@ -24,7 +24,7 @@
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
      </div>
      <textarea id="gracecode"></textarea><br />
-     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea><input type="button" onclick="go()" value="Run"><input type="button" onclick="generateJSON()" value="Save">
+     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea><input type="button" onclick="go()" value="Run"><input type="button" onclick="generateJSON()" value="Save"><input type="button" onclick="loadSave()" value="Load">
      <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea>
      <script type="text/javascript" src="main.js"></script>
      <script type="text/javascript" src="json.js"></script>
@@ -54,9 +54,12 @@
             minigrace.modname = "main";
             minigrace.compilerun(getCode());
         }
-        if (localStorage.getItem("autosave-json")) {
-            loadJSON(localStorage.getItem("autosave-json"));
-            history.replaceState(JSON.parse(localStorage.getItem("autosave-json")), "", window.location);
+        if (window.location.hash) {
+            var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
+            history.replaceState(obj, "", generateHash(obj));
+        } else if (localStorage.getItem("autosave-json")) {
+            var obj = loadJSON(localStorage.getItem("autosave-json"));
+            history.replaceState(obj, "", generateHash(obj));
         }
     </script>
     <div id="acknowledgements"><a href="https://github.com/mwh/minigrace">Minigrace</a> is distributed under the GNU GPL version 3. <a href="http://www.entypo.com/">Entypo</a> pictograms by Daniel Bruce.</div>
