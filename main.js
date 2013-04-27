@@ -211,11 +211,14 @@ function dragstart(ev) {
                 obj.prev = ch;
                 var pe = ch.parentElement;
                 var tmp = ch;
+                var after = ch.nextSibling;
                 while (tmp.next) {
                     var last = tmp;
                     tmp = tmp.next;
+                    if (tmp == after)
+                        break;
                     tmp.parentElement.removeChild(tmp);
-                    pe.appendChild(tmp);
+                    pe.insertBefore(tmp, after);
                     if (pe.classList.contains('multi')) {
                         tmp.style.position = "static";
                         tmp.style.left = "";
@@ -223,6 +226,10 @@ function dragstart(ev) {
                     }
                     tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
                     tmp.style.left = last.offsetLeft + 'px';
+                }
+                if (after) {
+                    last.next = after;
+                    after.prev = last;
                 }
                 break;
             }
