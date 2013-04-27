@@ -232,7 +232,7 @@ function dragstart(ev) {
                     tmp.style.top = (last.offsetTop + last.offsetHeight) + 'px';
                     tmp.style.left = last.offsetLeft + 'px';
                 }
-                if (after) {
+                if (after && pe != codearea) {
                     last.next = after;
                     after.prev = last;
                 }
