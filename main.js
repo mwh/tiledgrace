@@ -19,6 +19,12 @@ function isBottomTarget(ch, obj) {
             return false;
         }
     }
+    var p = ch.parentNode;
+    while (p != codearea) {
+        if (p.classList.contains('locked'))
+            return false;
+        p = p.parentNode;
+    }
     var chXY = findOffsetTopLeft(ch);
     var objXY = findOffsetTopLeft(obj);
     var t = chXY.top + ch.offsetHeight;
@@ -41,6 +47,8 @@ function isOverBin(ev) {
     return false;
 }
 function dragstart(ev) {
+    if (ev.button != 0)
+        return;
     var xy = findOffsetTopLeft(this);
     var offsetY = ev.clientY - xy.top;
     var offsetX = ev.clientX - xy.left;
@@ -130,6 +138,8 @@ function dragstart(ev) {
             tmp.next.prev = tmp.prev;
         tmp.next = false;
         tmp.prev = false;
+    } else if (tmp.prev) {
+        tmp.prev.next = false;
     }
     while (tmp && tmp.parentNode != d) {
         tmp.parentNode.removeChild(tmp);
@@ -488,6 +498,24 @@ function grow() {
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
+    n.addEventListener('contextmenu', function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (this.classList.contains('locked')) {
+            this.classList.remove('locked');
+            var tiles = this.getElementsByClassName('tile');
+            for (var i=0; i<tiles.length; i++) {
+                tiles[i].addEventListener('mousedown', dragstart);
+            }
+        } else {
+            this.classList.add('locked');
+            var tiles = this.getElementsByClassName('tile');
+            for (var i=0; i<tiles.length; i++) {
+                tiles[i].removeEventListener('mousedown', dragstart);
+            }
+        }
+        reflow();
+    });
     if (!n.next)
         n.next = false;
     if (!n.prev)

@@ -85,6 +85,11 @@
     -webkit-align-items: center;
     transition: opacity 0.5s;
 }
+.tile.locked::after {
+    content: "\01F512";
+    font-family: entypo;
+    float: right;
+}
 .tile span {
     display: inline-flex;
     display: -webkit-inline-flex;
