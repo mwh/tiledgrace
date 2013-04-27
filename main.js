@@ -231,6 +231,7 @@ function dragstart(ev) {
             originalHole.style.width = 'auto';
             originalHole.style.height = 'auto';
         }
+        reflow();
         generateCode();
     }
     d.addEventListener('mousemove', dragcontinue)
@@ -246,6 +247,23 @@ function dragstart(ev) {
         this.prev = false;
     }
     ev.stopPropagation();
+}
+function reflow() {
+    for (var i=0; i<tiles.length; i++) {
+        if (tiles[i].parentNode != codearea)
+            continue;
+        if (tiles[i].prev)
+            continue;
+        var tmp = tiles[i];
+        var runningTop = +tmp.style.top.substring(0, tmp.style.top.length - 2);
+        var left = tmp.style.left;
+        while (tmp) {
+            tmp.style.top = runningTop + 'px';
+            runningTop += tmp.offsetHeight;
+            tmp.style.left = left;
+            tmp = tmp.next;
+        }
+    }
 }
 var blockIndent = 0;
 function generateNodeCode(n) {

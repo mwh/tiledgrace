@@ -100,7 +100,7 @@
     display: inline-flex;
     display: -webkit-inline-flex;
     width: auto;
-    min-height: 12px;
+    min-height: 14px;
 }
 .hole:empty {
     min-width: 2em;
