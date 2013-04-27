@@ -1,4 +1,7 @@
+"use strict"
 function generateNodeJSON(n) {
+    if (n == null)
+        return null;
     if (typeof n == 'undefined' || typeof n == 'boolean')
         return '!ABSENT!';
     if (n.classList.contains('hole')) {
@@ -137,10 +140,15 @@ function generateJSON() {
     localStorage.setItem('autosave-json', json);
     return json;
 }
+function appendChildFromJSON(par, obj) {
+    if (obj == null)
+        return;
+    par.appendChild(createTileFromJSON(obj));
+}
 function populateTile(tile, obj) {
     switch(obj.type) {
         case "print":
-            tile.childNodes[1].appendChild(createTileFromJSON(obj.value));
+            appendChildFromJSON(tile.childNodes[1], obj.value);
             break;
         case "string":
             tile.getElementsByTagName('input')[0].value = obj.value;
@@ -150,49 +158,49 @@ function populateTile(tile, obj) {
             break;
         case "vardec":
             tile.childNodes[1].value = obj.name;
-            tile.childNodes[3].appendChild(createTileFromJSON(obj.value));
+            appendChildFromJSON(tile.childNodes[3], obj.value);
             break;
         case "request":
-            tile.childNodes[0].appendChild(createTileFromJSON(obj.receiver));
+            appendChildFromJSON(tile.childNodes[0], obj.receiver);
             tile.childNodes[2].value = obj.name;
             break;
         case "operator":
         case "comparison-operator":
-            tile.childNodes[0].appendChild(createTileFromJSON(obj.left));
+            appendChildFromJSON(tile.childNodes[0], obj.left);
             tile.childNodes[1].innerHTML = obj.operator;
-            tile.childNodes[2].appendChild(createTileFromJSON(obj.right));
+            appendChildFromJSON(tile.childNodes[2], obj.right);
             break;
         case "assign":
-            tile.childNodes[0].appendChild(createTileFromJSON(obj.left));
-            tile.childNodes[2].appendChild(createTileFromJSON(obj.right));
+            appendChildFromJSON(tile.childNodes[0], obj.left);
+            appendChildFromJSON(tile.childNodes[2], obj.right);
             break;
         case "while":
-            var cond = tile.children[0].children[1].appendChild(createTileFromJSON(obj.condition));
+            appendChildFromJSON(tile.children[0].children[1], obj.condition);
             var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
-                bodyHole.appendChild(createTileFromJSON(ch));
+                appendChildFromJSON(bodyHole, ch);
             }
             break;
         case "if":
-            tile.children[0].children[1].appendChild(createTileFromJSON(obj.condition));
+            appendChildFromJSON(tile.children[0].children[1], obj.condition);
             var bodyHole = n.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
-                bodyHole.appendChild(creatTileFromJSON(ch));
+                appendChildFromJSON(bodyHole, ch);
             }
             break;
         case "if-else":
-            tile.children[0].children[1].appendChild(createTileFromJSON(obj.condition));
+            appendChildFromJSON(tile.children[0].children[1], obj.condition);
             var bodyHole = n.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
-                bodyHole.appendChild(creatTileFromJSON(ch));
+                appendChildFromJSON(bodyHole, ch);
             }
             var elseHole = n.children[3].children[0];
             for (var i=0; i<obj.elseBody.length; i++) {
                 var ch = obj.elseBody[i];
-                elseHole.appendChild(creatTileFromJSON(ch));
+                appendChildFromJSON(elseHole, ch);
             }
             break;
         case "var":
