@@ -507,11 +507,19 @@ function attachTileBehaviour(n) {
             for (var i=0; i<tiles.length; i++) {
                 tiles[i].addEventListener('mousedown', dragstart);
             }
+            var inputs = this.getElementsByTagName('input');
+            for (var i=0; i<inputs.length; i++) {
+                inputs[i].readOnly = false;
+            }
         } else {
             this.classList.add('locked');
             var tiles = this.getElementsByClassName('tile');
             for (var i=0; i<tiles.length; i++) {
                 tiles[i].removeEventListener('mousedown', dragstart);
+            }
+            var inputs = this.getElementsByTagName('input');
+            for (var i=0; i<inputs.length; i++) {
+                inputs[i].readOnly = true;
             }
         }
         reflow();
