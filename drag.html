@@ -102,13 +102,15 @@
            cursor: default;
         }
         .hole {
-           min-width: 2em;
            padding: 1px;
            background: #aaa;
            display: inline-flex;
            display: -webkit-inline-flex;
            width: auto;
            min-height: 12px;
+        }
+        .hole:empty {
+            min-width: 2em;
         }
         #toolbox {
             background: #ccf;
@@ -158,6 +160,19 @@
         .tile.over-bin, .over-bin .tile, .over-bin .hole {
             background: red;
             border-color: red;
+        }
+        #codearea.shrink {
+            background: white;
+        }
+        .shrink .tile, .shrink .hole {
+            padding: 0;
+            border: 0 !important;
+            background: none;
+            min-width: 0;
+        }
+        .shrink input, .shrink select {
+            background: none;
+            border: none;
         }
      </style>
  </head>
