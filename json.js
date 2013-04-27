@@ -120,7 +120,7 @@ function generateNodeJSON(n) {
             body: body};
     }
 }
-function generateJSON() {
+function generateJSObject() {
     var tb = document.getElementById('gracecode');
     var chunks = [];
     for (var i=0; i<codearea.children.length; i++) {
@@ -136,6 +136,10 @@ function generateJSON() {
         }
         chunks.push({type: 'chunk', x: x, y: y, body: elements});
     }
+    return {chunks: chunks};
+}
+function generateJSON() {
+    var obj = generateJSObject();
     var json = JSON.stringify({chunks: chunks}, null, 2);
     localStorage.setItem('autosave-json', json);
     return json;

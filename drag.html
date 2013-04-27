@@ -56,6 +56,7 @@
         }
         if (localStorage.getItem("autosave-json")) {
             loadJSON(localStorage.getItem("autosave-json"));
+            history.replaceState(JSON.parse(localStorage.getItem("autosave-json")), "", window.location);
         }
     </script>
     <div id="acknowledgements"><a href="https://github.com/mwh/minigrace">Minigrace</a> is distributed under the GNU GPL version 3. <a href="http://www.entypo.com/">Entypo</a> pictograms by Daniel Bruce.</div>

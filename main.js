@@ -129,6 +129,7 @@ function dragstart(ev) {
         if (tmp.next)
             tmp.next.prev = tmp.prev;
         tmp.next = false;
+        tmp.prev = false;
     }
     while (tmp && tmp.parentNode != d) {
         tmp.parentNode.removeChild(tmp);
@@ -252,6 +253,7 @@ function dragstart(ev) {
         }
         reflow();
         generateCode();
+        history.pushState(generateJSObject(), "", window.location);
     }
     d.addEventListener('mousemove', dragcontinue)
     d.addEventListener('mouseup', dragend)
@@ -557,3 +559,10 @@ Array.prototype.forEach.call(codearea.getElementsByClassName('tile'),
         attachTileBehaviour);
 Array.prototype.forEach.call(toolbox.getElementsByClassName('tile'),
         attachToolboxBehaviour);
+window.addEventListener('popstate', function(ev) {
+    var bin = document.getElementById('bin');
+    while (codearea.hasChildNodes())
+        codearea.removeChild(codearea.lastChild);
+    codearea.appendChild(bin);
+    loadJSON(JSON.stringify(ev.state));
+});
