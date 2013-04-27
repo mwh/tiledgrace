@@ -158,6 +158,7 @@ function fillNextPrev(hole) {
         hole.childNodes[i].next = hole.childNodes[i+1];
         prev = hole.childNodes[i];
     }
+    hole.childNodes[i].prev = prev;
     hole.childNodes[i].next = false;
 }
 function populateTile(tile, obj) {
