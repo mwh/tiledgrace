@@ -147,6 +147,11 @@ function dragstart(ev) {
                 tmp = tmp.next;
             }
             generateCode();
+            if (originalHole != null) {
+                originalHole.style.width = 'auto';
+                originalHole.style.height = 'auto';
+            }
+            reflow();
             return;
         }
         var tmp = obj;
