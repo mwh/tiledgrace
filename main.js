@@ -160,6 +160,7 @@ function dragstart(ev) {
                 originalHole.style.height = 'auto';
             }
             reflow();
+            history.pushState(generateJSObject(), "", window.location);
             return;
         }
         var tmp = obj;

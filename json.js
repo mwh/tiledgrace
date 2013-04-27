@@ -151,6 +151,8 @@ function appendChildFromJSON(par, obj) {
 }
 function fillNextPrev(hole) {
     var prev = false;
+    if (hole.childNodes.length == 0)
+        return;
     for (var i=0; i<hole.childNodes.length - 1; i++) {
         hole.childNodes[i].prev = prev;
         hole.childNodes[i].next = hole.childNodes[i+1];
@@ -198,7 +200,7 @@ function populateTile(tile, obj) {
             break;
         case "if":
             appendChildFromJSON(tile.children[0].children[1], obj.condition);
-            var bodyHole = n.children[1].children[0];
+            var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
                 appendChildFromJSON(bodyHole, ch);
@@ -207,12 +209,12 @@ function populateTile(tile, obj) {
             break;
         case "if-else":
             appendChildFromJSON(tile.children[0].children[1], obj.condition);
-            var bodyHole = n.children[1].children[0];
+            var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
                 appendChildFromJSON(bodyHole, ch);
             }
-            var elseHole = n.children[3].children[0];
+            var elseHole = tile.children[3].children[0];
             for (var i=0; i<obj.elseBody.length; i++) {
                 var ch = obj.elseBody[i];
                 appendChildFromJSON(elseHole, ch);
