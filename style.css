@@ -96,7 +96,6 @@
     cursor: default;
 }
 .hole {
-    padding: 1px;
     background: #aaa;
     display: inline-flex;
     display: -webkit-inline-flex;

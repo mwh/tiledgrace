@@ -112,6 +112,12 @@ function dragstart(ev) {
         }
     }
     var d = document.getElementById('codearea');
+    var originalHole = null;
+    if (this.parentNode != d) {
+        originalHole = this.parentNode;
+        originalHole.style.width = originalHole.offsetWidth + 'px';
+        originalHole.style.height = originalHole.offsetHeight + 'px';
+    }
     this.style.position = 'absolute';
     this.style.top = xy.top + 'px';
     this.style.left = xy.left + 'px';
@@ -220,6 +226,10 @@ function dragstart(ev) {
                 }
                 break;
             }
+        }
+        if (originalHole != null) {
+            originalHole.style.width = 'auto';
+            originalHole.style.height = 'auto';
         }
         generateCode();
     }
