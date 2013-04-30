@@ -208,4 +208,5 @@
 }
 #toolbox.in-dialect-logo .tile.only-dialect-logo {
     display: inline-flex;
+    display: -webkit-inline-flex;
 }
