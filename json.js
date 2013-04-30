@@ -320,7 +320,7 @@ function loadJSON(str) {
             dialect.selectedIndex = i;
     }
     if (obj.dialect)
-        document.getElementById('toolbox').classList.add(obj.dialect);
+        document.getElementById('toolbox').classList.add('in-dialect-' + obj.dialect);
     Array.prototype.forEach.call(obj.chunks, createChunkFromJSON);
     Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
             function(el) {

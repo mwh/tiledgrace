@@ -505,8 +505,13 @@ function loadSave() {
 }
 
 function changeDialect() {
-    document.getElementById('toolbox').classList.add(document.getElementById('dialect').value);
+    var cl = document.getElementById('toolbox').classList;
+    for (var i=0; i<cl.length; i++)
+        if (cl[i].substring(0, 11) == 'in-dialect-')
+            cl.remove(cl[i]);
+    cl.add('in-dialect-' + document.getElementById('dialect').value);
     generateCode();
+    checkpointSave();
 }
 
 function shrink() {
@@ -573,6 +578,10 @@ function attachTileBehaviour(n) {
             function(el) {
                 el.addEventListener('mousedown', function(ev) {
                     ev.stopPropagation();
+                });
+                el.addEventListener('change', function(ev) {
+                    generateCode();
+                    checkpointSave();
                 });
             });
     Array.prototype.forEach.call(n.getElementsByTagName('input'),

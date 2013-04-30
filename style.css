@@ -202,6 +202,6 @@
 #toolbox .tile.some-dialects {
     display: none;
 }
-#toolbox.logo .tile.only-dialect-logo {
+#toolbox.in-dialect-logo .tile.only-dialect-logo {
     display: inline-flex;
 }
