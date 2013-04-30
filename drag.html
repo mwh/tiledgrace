@@ -22,13 +22,30 @@
          <div class="tile if else if-else"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
          <div class="tile while"><div><span>while {</span><div class="hole"></div><span>} do {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
+         <div class="tile forward dialect-request some-dialects only-dialect-logo"><span style="margin-right: 4px;">forward</span><div class="hole"></div></div>
+         <div class="tile turnRight dialect-request some-dialects only-dialect-logo"><span style="margin-right: 4px;">turnRight</span><div class="hole"></div></div>
+         <div class="tile turnLeft some-dialects only-dialect-logo dialect-request"><span style="margin-right: 4px;">turnLeft</span><div class="hole"></div></div>
+         <div class="tile method"><div><span style="margin-right: 4px; color: blue;">method</span><input type="text" value="" size="5" />(<input type="text" value="" size="1" class="variable-name" />) {</div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div>}</div></div>
+         <div class="tile selfcall"><input type="text" size="5" />(<div class="hole"></div>)</div>
      </div>
-     <textarea id="gracecode"></textarea><br />
-     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea><input type="button" onclick="go()" value="Run"><input type="button" onclick="generateJSON()" value="Save"><input type="button" onclick="loadSave()" value="Load">
-     <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea>
+     <canvas id="standard-canvas" width="250" height="500"></canvas>
+     <br />
+     <select id="dialect" onchange="changeDialect()">
+         <option value="">Standard
+         <option value="logo">Turtle graphics
+     </select>
+     <input type="button" onclick="go()" value="Run">
+     <input type="button" onclick="generateJSON()" value="Save">
+     <input type="button" onclick="loadSave()" value="Load">
+     <br />
+     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea>
+     <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea><br />
+     <textarea id="gracecode" cols="100" rows="10"></textarea><br />
      <script type="text/javascript" src="main.js"></script>
      <script type="text/javascript" src="json.js"></script>
      <script type="text/javascript" src="minigrace.js"></script>
+     <script type="text/javascript" src="turtle.js"></script>
+     <script type="text/javascript" src="logo.js"></script>
      <script type="text/javascript">
         var getCode = function() {
             return document.getElementById('gracecode').value;
@@ -49,6 +66,7 @@
         };
 
         function go() {
+            generateCode();
             document.getElementById('stderr_txt').value = "";
             document.getElementById('stdout_txt').value = "";
             minigrace.modname = "main";
@@ -61,6 +79,9 @@
             var obj = loadJSON(localStorage.getItem("autosave-json"));
             history.replaceState(obj, "", generateHash(obj));
         }
+var gctCache = {
+    'logo': "modules:\n StandardPrelude\npath:\n logo\nclasses:\npublic:\n red\n green\n blue\n black\n lineWidth\n lineWidth:=\n lineColor\n lineColor:=\n angle\n angle:=\n forward\n turnRight\n turnLeft\n atModuleEnd\nconfidential:\nfresh-methods:\n"
+};
     </script>
     <div id="acknowledgements"><a href="https://github.com/mwh/minigrace">Minigrace</a> is distributed under the GNU GPL version 3. <a href="http://www.entypo.com/">Entypo</a> pictograms by Daniel Bruce.</div>
  </body>

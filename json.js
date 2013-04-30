@@ -30,6 +30,36 @@ function generateNodeJSON(n) {
         var arg = n.children[1].children[0];
         return {type: 'print', value: generateNodeJSON(arg)};
     }
+    if (n.classList.contains('dialect-request')) {
+        var arg = n.children[1].children[0];
+        return {type: 'dialect-request',
+            value: generateNodeJSON(arg),
+            name: n.children[0].innerHTML
+        };
+    }
+    if (n.classList.contains('selfcall')) {
+        var name = n.children[0].value;
+        var arg = n.children[1].children[0];
+        return {type: 'selfcall',
+            argument: generateNodeJSON(arg),
+            name: name
+        };
+    }
+    if (n.classList.contains('method')) {
+        var name = n.childNodes[0].childNodes[1].value;
+        var arg = n.childNodes[0].childNodes[3].value;
+        var bodyHole = n.children[1].children[0];
+        var body = [];
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body.push(generateNodeJSON(ch));
+        }
+        return {type: 'method',
+            name: name,
+            arg: arg,
+            body: body
+        };
+    }
     if (n.classList.contains('request')) {
         return {type: 'request',
             receiver: generateNodeJSON(n.children[0].children[0]),
@@ -136,11 +166,12 @@ function generateJSObject() {
         }
         chunks.push({type: 'chunk', x: x, y: y, body: elements});
     }
-    return {chunks: chunks};
+    var dialect = document.getElementById('dialect').value;
+    return {chunks: chunks, dialect: dialect};
 }
 function generateJSON() {
     var obj = generateJSObject();
-    var json = JSON.stringify({chunks: chunks}, null, 2);
+    var json = JSON.stringify(obj, null, 2);
     localStorage.setItem('autosave-json', json);
     return json;
 }
@@ -166,6 +197,10 @@ function populateTile(tile, obj) {
         case "print":
             appendChildFromJSON(tile.childNodes[1], obj.value);
             break;
+        case "dialect-request":
+            appendChildFromJSON(tile.childNodes[1], obj.value);
+            tile.childNodes[0].innerHTML = obj.name;
+            break;
         case "string":
             tile.getElementsByTagName('input')[0].value = obj.value;
             break;
@@ -180,6 +215,10 @@ function populateTile(tile, obj) {
             appendChildFromJSON(tile.childNodes[0], obj.receiver);
             tile.childNodes[2].value = obj.name;
             break;
+        case "selfcall":
+            tile.childNodes[0].value = obj.name;
+            appendChildFromJSON(tile.childNodes[2], obj.argument);
+            break;
         case "operator":
         case "comparison-operator":
             appendChildFromJSON(tile.childNodes[0], obj.left);
@@ -189,6 +228,16 @@ function populateTile(tile, obj) {
         case "assign":
             appendChildFromJSON(tile.childNodes[0], obj.left);
             appendChildFromJSON(tile.childNodes[2], obj.right);
+            break;
+        case "method":
+            tile.childNodes[0].childNodes[1].value = obj.name;
+            tile.childNodes[0].childNodes[3].value = obj.arg;
+            var bodyHole = tile.children[1].children[0];
+            for (var i=0; i<obj.body.length; i++) {
+                var ch = obj.body[i];
+                appendChildFromJSON(bodyHole, ch);
+            }
+            fillNextPrev(bodyHole);
             break;
         case "while":
             appendChildFromJSON(tile.children[0].children[1], obj.condition);
@@ -241,6 +290,8 @@ function createTileFromJSON(obj) {
     return newTile;
 }
 function createChunkFromJSON(chunk) {
+    if (chunk.body[0] == null)
+        return;
     var tiles = Array.prototype.map.call(chunk.body, createTileFromJSON);
     for (var i=1; i<tiles.length; i++) {
         tiles[i].prev = tiles[i-1];
@@ -263,10 +314,18 @@ function loadJSON(str) {
         codearea.removeChild(codearea.lastChild);
     codearea.appendChild(bin);
     var obj = JSON.parse(str);
+    var dialect = document.getElementById('dialect');
+    for (var i=0; i<dialect.options.length; i++) {
+        if (dialect.options[i].value == obj.dialect)
+            dialect.selectedIndex = i;
+    }
+    if (obj.dialect)
+        document.getElementById('toolbox').classList.add(obj.dialect);
     Array.prototype.forEach.call(obj.chunks, createChunkFromJSON);
     Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
             function(el) {
-                    el.size = el.value.length;
+                    if (el.value.length > 0)
+                        el.size = el.value.length;
                     if (el.classList.contains('variable-name')) {
                         renameVar(el.value, el.value);
                         el.oldName = el.value;

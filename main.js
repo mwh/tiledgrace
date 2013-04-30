@@ -334,6 +334,22 @@ function generateNodeCode(n) {
             return 'print(' + generateNodeCode(arg) + ')';
         }
     }
+    if (n.classList.contains('dialect-request')) {
+        var arg = n.children[1].children[0];
+        var name = n.children[0].innerHTML;
+        if (!arg)
+            return name + '(!ABSENT!)'
+        if (arg.classList.contains('string')) {
+            return name + ' ' + generateNodeCode(arg);
+        } else if (arg.classList.contains('operator')) {
+            return name + generateNodeCode(arg);
+        } else {
+            return name + '(' + generateNodeCode(arg) + ')';
+        }
+    }
+    if (n.classList.contains('selfcall')) {
+        return n.children[0].value + '(' + generateNodeCode(n.children[1]) + ')';
+    }
     if (n.classList.contains('request')) {
         return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
     }
@@ -416,10 +432,29 @@ function generateNodeCode(n) {
         blockIndent--;
         return 'while {' + generateNodeCode(cond) + '} do {\n' + body + indent + '}';
     }
+    if (n.classList.contains('method')) {
+        var name = n.childNodes[0].childNodes[1].value;
+        var arg = n.childNodes[0].childNodes[3].value;
+        var bodyHole = n.children[1].children[0];
+        var indent = '';
+        for (var i=0; i<blockIndent; i++)
+            indent += '    ';
+        blockIndent++;
+        var body = '';
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body = body + indent + '    ' + generateNodeCode(ch) + '\n';
+        }
+        blockIndent--;
+        return 'method ' + name + '(' + arg + ') {\n' + body + indent + '}'
+    }
 }
 function generateCode() {
     var tb = document.getElementById('gracecode');
     tb.value = '';
+    var dialect = document.getElementById('dialect').value;
+    if (dialect)
+        tb.value = 'dialect "' + dialect + '"\n';
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
@@ -468,6 +503,12 @@ function loadSave() {
     var progHash = generateHash(obj);
     history.pushState(JSON.parse(localStorage.getItem("autosave-json")), "", progHash);
 }
+
+function changeDialect() {
+    document.getElementById('toolbox').classList.add(document.getElementById('dialect').value);
+    generateCode();
+}
+
 function shrink() {
     codearea.classList.add('shrink');
     for (var i=0; i<codearea.children.length; i++) {
@@ -606,7 +647,7 @@ function attachToolboxBehaviour(n) {
         var cl = this.cloneNode(true);
         codearea.appendChild(cl);
         cl.style.position = 'absolute';
-        cl.style.top = (this.offsetTop - toolbox.offsetTop) + 'px';
+        cl.style.top = (this.offsetTop - toolbox.offsetTop - toolbox.scrollTop) + 'px';
         cl.style.left = '500px';
         attachTileBehaviour(cl);
         dragstart.call(cl, ev);
