@@ -278,7 +278,7 @@ function populateTile(tile, obj) {
             opt.value = obj.value;
             opt.appendChild(document.createTextNode(obj.value));
             sel.appendChild(opt);
-            sel.selectedIndex = 0;
+            sel.selectedIndex = sel.options.length - 1;
             break;
     }
 }
