@@ -45,6 +45,9 @@ function generateNodeJSON(n) {
             name: name
         };
     }
+    if (n.classList.contains('constant')) {
+        return {type: 'constant', name: n.dataset.name};
+    }
     if (n.classList.contains('method')) {
         var name = n.childNodes[0].childNodes[1].value;
         var arg = n.childNodes[0].childNodes[3].value;
@@ -206,6 +209,10 @@ function populateTile(tile, obj) {
             break;
         case "number":
             tile.getElementsByTagName('input')[0].value = obj.value;
+            break;
+        case "constant":
+            tile.innerHTML = obj.name;
+            tile.dataset.name = obj.name;
             break;
         case "vardec":
             tile.childNodes[1].value = obj.name;

@@ -347,6 +347,9 @@ function generateNodeCode(n) {
             return name + '(' + generateNodeCode(arg) + ')';
         }
     }
+    if (n.classList.contains('constant')) {
+        return n.dataset.name;
+    }
     if (n.classList.contains('selfcall')) {
         return n.children[0].value + '(' + generateNodeCode(n.children[1]) + ')';
     }
