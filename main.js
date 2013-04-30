@@ -670,5 +670,6 @@ Array.prototype.forEach.call(codearea.getElementsByClassName('tile'),
 Array.prototype.forEach.call(toolbox.getElementsByClassName('tile'),
         attachToolboxBehaviour);
 window.addEventListener('popstate', function(ev) {
-    loadJSON(JSON.stringify(ev.state));
+    if (ev.state != null)
+        loadJSON(JSON.stringify(ev.state));
 });
