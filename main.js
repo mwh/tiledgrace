@@ -659,7 +659,7 @@ function attachToolboxBehaviour(n) {
         var cl = this.cloneNode(true);
         codearea.appendChild(cl);
         cl.style.position = 'absolute';
-        cl.style.top = (this.offsetTop - toolbox.offsetTop - toolbox.scrollTop) + 'px';
+        cl.style.top = (this.offsetTop - toolbox.offsetTop - toolbox.scrollTop + codearea.scrollTop) + 'px';
         cl.style.left = '500px';
         attachTileBehaviour(cl);
         dragstart.call(cl, ev);
