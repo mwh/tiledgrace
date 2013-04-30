@@ -62,7 +62,7 @@
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
 }
-.tile.if > div, .tile.while > div {
+.tile.if > div, .tile.while > div, .tile.method > div {
     display: inline-flex;
     display: -webkit-inline-flex;
     align-items: center;
