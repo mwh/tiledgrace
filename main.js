@@ -537,32 +537,28 @@ function shrink() {
             continue;
         starts.push(child);
         continue;
-        var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
-        while (child) {
-            child.style.top = runningTop + 'px';
-            runningTop += child.offsetHeight;
-            child = child.next;
-        }
-    }
-    var runningTop = 19;
-    for (var i=0; i<starts.length; i++) {
-        starts[i].oldTop = starts[i].style.top;
-        starts[i].oldLeft = starts[i].style.left;
-        starts[i].style.left = '49px';
-        starts[i].style.top = runningTop + 'px';
-        runningTop += +starts[i].offsetHeight;
-        var child = starts[i].next;
-        while (child) {
-            child.style.left = '49px';
-            child.style.top = runningTop + 'px';
-            runningTop += +child.offsetHeight;
-            child = child.next;
-        }
     }
     setTimeout(function() {
-        ctr.style.visibility = 'visible';
-        codearea.style.visibility = 'hidden';
-    }, 1100);
+        var runningTop = 19;
+        for (var i=0; i<starts.length; i++) {
+            starts[i].oldTop = starts[i].style.top;
+            starts[i].oldLeft = starts[i].style.left;
+            starts[i].style.left = '49px';
+            starts[i].style.top = runningTop + 'px';
+            runningTop += +starts[i].offsetHeight;
+            var child = starts[i].next;
+            while (child) {
+                child.style.left = '49px';
+                child.style.top = runningTop + 'px';
+                runningTop += +child.offsetHeight;
+                child = child.next;
+            }
+        }
+        setTimeout(function() {
+            ctr.style.visibility = 'visible';
+            codearea.style.visibility = 'hidden';
+        }, 1100);
+    }, 300);
 }
 function grow() {
     ctr.style.visibility = 'hidden';
@@ -575,22 +571,24 @@ function grow() {
         sel.parentNode.removeChild(sel.parentNode.lastChild);
         sel.style.display = 'inline';
     }
-    for (var i=0; i<codearea.children.length; i++) {
-        var child = codearea.children[i];
-        if (child.prev != false)
-            continue;
-        child.style.top = child.oldTop;
-        child.style.left = child.oldLeft;
-        var leftEdge = child.oldLeft;
-        var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
-        while (child) {
-            child.style.top = runningTop + 'px';
-            child.style.left = leftEdge;
-            runningTop += child.offsetHeight;
-            child = child.next;
+    setTimeout(function() {
+        for (var i=0; i<codearea.children.length; i++) {
+            var child = codearea.children[i];
+            if (child.prev != false)
+                continue;
+            child.style.top = child.oldTop;
+            child.style.left = child.oldLeft;
+            var leftEdge = child.oldLeft;
+            var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
+            while (child) {
+                child.style.top = runningTop + 'px';
+                child.style.left = leftEdge;
+                runningTop += child.offsetHeight;
+                child = child.next;
+            }
         }
-    }
-    setTimeout(function() {codearea.classList.remove('growing');}, 1500);
+        setTimeout(function() {codearea.classList.remove('growing');}, 1500);
+    }, 200);
 }
 function toggleShrink() {
     if (codearea.classList.contains('shrink'))
