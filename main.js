@@ -577,6 +577,7 @@ function grow() {
             }
         }
         setTimeout(function() {
+            codearea.classList.add('growing');
             codearea.classList.remove('shrink');
             var selects = codearea.getElementsByTagName('select');
             for (var i=0; i<selects.length; i++) {
@@ -584,6 +585,7 @@ function grow() {
                 sel.parentNode.removeChild(sel.parentNode.lastChild);
                 sel.style.display = 'inline';
             }
+            setTimeout(function() {codearea.classList.remove('growing');}, 1000);
         }, 1100);
     }, 300);
 }
