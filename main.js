@@ -566,14 +566,6 @@ function grow() {
     ctr.style.visibility = 'hidden';
     codearea.style.visibility = 'visible';
     setTimeout(function() {
-        codearea.classList.remove('shrink');
-        codearea.classList.add('growing');
-        var selects = codearea.getElementsByTagName('select');
-        for (var i=0; i<selects.length; i++) {
-            var sel = selects[i];
-            sel.parentNode.removeChild(sel.parentNode.lastChild);
-            sel.style.display = 'inline';
-        }
         for (var i=0; i<codearea.children.length; i++) {
             var child = codearea.children[i];
             if (child.prev != false)
@@ -584,7 +576,15 @@ function grow() {
                 child = child.next;
             }
         }
-        setTimeout(function() {codearea.classList.remove('growing');}, 1100);
+        setTimeout(function() {
+            codearea.classList.remove('shrink');
+            var selects = codearea.getElementsByTagName('select');
+            for (var i=0; i<selects.length; i++) {
+                var sel = selects[i];
+                sel.parentNode.removeChild(sel.parentNode.lastChild);
+                sel.style.display = 'inline';
+            }
+        }, 1100);
     }, 300);
 }
 function toggleShrink() {
