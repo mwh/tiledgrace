@@ -123,6 +123,9 @@ html, body {
 .tile input[type=text] {
     font-family: monospace;
 }
+.tile.number input {
+    color: blue;
+}
 .selected {
     z-index: 999;
     opacity: 0.5;
@@ -155,6 +158,7 @@ html, body {
     padding-left: 4px;
     padding-right: 4px;
     font-weight: bold;
+    color: #687687;
 }
 #gracecode {
     //float: left;
@@ -193,15 +197,18 @@ html, body {
 .indent {
     padding-left: 2ex;
 }
-#codearea.shrink {
+#codearea.shrink, #codearea.growing {
     background: white;
+}
+.tile {
+    transition: background-color 0.5s, padding 0.5s, border-width 0.5s;
 }
 .shrink .tile, .shrink .hole {
     padding: 0;
     border: 0 !important;
     background: none;
     min-width: 0;
-    transition: left 1s, top 1s;
+    transition: left 1s, top 1s, background-color 0.5s, padding 0.5s, border-width 0.5s;
     font-family: 'Monaco','Menlo','Ubuntu Mono','Droid Sans Mono','Consolas',monospace;
 }
 .shrink .indent {
@@ -213,12 +220,13 @@ html, body {
     font-weight: normal;
 }
 .growing .tile {
-    transition: left 1s, top 1s;
+    transition: left 1s, top 1s, background-color 1s, padding 1s, border-width 0.5s;
 }
 .shrink input, .shrink select {
     background: none;
     border: none;
     padding: 0;
+    margin: 0;
     font-size: 16px;
 }
 #acknowledgements {

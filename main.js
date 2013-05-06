@@ -548,6 +548,8 @@ function shrink() {
             runningTop += +starts[i].offsetHeight;
             var child = starts[i].next;
             while (child) {
+                child.oldTop = child.style.top;
+                child.oldLeft = child.style.left;
                 child.style.left = '49px';
                 child.style.top = runningTop + 'px';
                 runningTop += +child.offsetHeight;
@@ -558,37 +560,32 @@ function shrink() {
             ctr.style.visibility = 'visible';
             codearea.style.visibility = 'hidden';
         }, 1100);
-    }, 300);
+    }, 700);
 }
 function grow() {
     ctr.style.visibility = 'hidden';
     codearea.style.visibility = 'visible';
-    codearea.classList.remove('shrink');
-    codearea.classList.add('growing');
-    var selects = codearea.getElementsByTagName('select');
-    for (var i=0; i<selects.length; i++) {
-        var sel = selects[i];
-        sel.parentNode.removeChild(sel.parentNode.lastChild);
-        sel.style.display = 'inline';
-    }
     setTimeout(function() {
+        codearea.classList.remove('shrink');
+        codearea.classList.add('growing');
+        var selects = codearea.getElementsByTagName('select');
+        for (var i=0; i<selects.length; i++) {
+            var sel = selects[i];
+            sel.parentNode.removeChild(sel.parentNode.lastChild);
+            sel.style.display = 'inline';
+        }
         for (var i=0; i<codearea.children.length; i++) {
             var child = codearea.children[i];
             if (child.prev != false)
                 continue;
-            child.style.top = child.oldTop;
-            child.style.left = child.oldLeft;
-            var leftEdge = child.oldLeft;
-            var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
             while (child) {
-                child.style.top = runningTop + 'px';
-                child.style.left = leftEdge;
-                runningTop += child.offsetHeight;
+                child.style.top = child.oldTop;
+                child.style.left = child.oldLeft;
                 child = child.next;
             }
         }
-        setTimeout(function() {codearea.classList.remove('growing');}, 1500);
-    }, 200);
+        setTimeout(function() {codearea.classList.remove('growing');}, 1100);
+    }, 300);
 }
 function toggleShrink() {
     if (codearea.classList.contains('shrink'))
