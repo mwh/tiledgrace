@@ -18,9 +18,9 @@
          <div class="tile number"><input type="text" value="0" size="3" ></div>
          <div class="tile string">"<input type="text" value="Hello, world!" size="13" >"</div>
          <div class="tile request"><div class="hole"></div><span>.</span><input type="text" size="5"></div>
-         <div class="tile if"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
-         <div class="tile if else if-else"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span>}</span></div></div>
-         <div class="tile while"><div><span>while {</span><div class="hole"></div><span>} do {</span></div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
+         <div class="tile if"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div class="indent"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
+         <div class="tile if else if-else"><div><span>if (</span><div class="hole"></div><span>) then {</span></div><div class="indent"><div class="hole multi"></div></div><div><span style="display:inline;">} else {</span></div><div class="indent"><div class="hole multi"></div></div><div><span>}</span></div></div>
+         <div class="tile while"><div><span>while {</span><div class="hole"></div><span>} do {</span></div><div class="indent"><div class="hole multi"></div></div><div><span style="display:inline;">}</span></div></div>
          <div class="tile print"><span style="margin-right: 4px;">print </span><div class="hole"></div></div>
          <div class="tile forward dialect-request some-dialects only-dialect-logo"><span style="margin-right: 4px;">forward</span><div class="hole"></div></div>
          <div class="tile turnRight dialect-request some-dialects only-dialect-logo"><span style="margin-right: 4px;">turnRight</span><div class="hole"></div></div>
@@ -30,7 +30,7 @@
          <div class="tile some-dialects only-dialect-logo constant" data-name="red">red</div>
          <div class="tile some-dialects only-dialect-logo constant" data-name="green">green</div>
          <div class="tile some-dialects only-dialect-logo constant" data-name="black">black</div>
-         <div class="tile method"><div><span style="margin-right: 4px; color: blue;">method</span><input type="text" value="" size="5" />(<input type="text" value="" size="1" class="variable-name" />) {</div><div style="padding-left: 2ex;"><div class="hole multi"></div></div><div>}</div></div>
+         <div class="tile method"><div><span style="margin-right: 4px; color: blue;">method</span><input type="text" value="" size="5" />(<input type="text" value="" size="1" class="variable-name" />) {</div><div class="indent"><div class="hole multi"></div></div><div>}</div></div>
          <div class="tile selfcall"><input type="text" size="5" />(<div class="hole"></div>)</div>
      </div>
      <canvas id="standard-canvas" width="250" height="500"></canvas>
@@ -42,6 +42,7 @@
      <input type="button" onclick="go()" value="Run">
      <input type="button" onclick="generateJSON()" value="Save">
      <input type="button" onclick="loadSave()" value="Load">
+     <input type="button" onclick="toggleShrink()" value="Code View">
      <br />
      <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea>
      <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea><br />
@@ -87,6 +88,37 @@
 var gctCache = {
     'logo': "modules:\n StandardPrelude\npath:\n logo\nclasses:\npublic:\n red\n green\n blue\n black\n lineWidth\n lineWidth:=\n lineColor\n lineColor:=\n angle\n angle:=\n forward\n turnRight\n turnLeft\n atModuleEnd\nconfidential:\nfresh-methods:\n"
 };
+    </script>
+    <div id="code_txt_real"></div>
+    <script src="ace/ace.js"></script>
+    <script src="ace/mode-grace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        if (ace) {
+           document.getElementById('code_txt_real').style.display = 'block';
+           var editor = ace.edit("code_txt_real");
+           var GraceMode = require("ace/mode/grace").Mode;
+           editor.getSession().setMode(new GraceMode());
+           editor.setBehavioursEnabled(false);
+           editor.setHighlightActiveLine(true);
+           editor.setShowFoldWidgets(false);
+           editor.setShowPrintMargin(false);
+           editor.getSession().setUseSoftTabs(true);
+           editor.getSession().setTabSize(4);
+           editor.setFontSize('12pt');
+           editor.setReadOnly(true);
+           editor.commands.bindKeys({"ctrl-l":null, "ctrl-shift-r":null, "ctrl-r":null, "ctrl-t":null})
+           var ctr = document.getElementById('code_txt_real');
+           ctr.style.height = document.getElementById('codearea').clientHeight + 'px';
+           ctr.style.width = (document.getElementById('codearea').clientWidth) + 'px';
+           ctr.style.position = 'absolute';
+           ctr.style.top = codearea.offsetTop + 'px';
+           ctr.style.left = codearea.offsetLeft + 'px';
+           ctr.style.visibility = 'hidden';
+           // Get code from ace editor.
+           //var getCode = function() {
+           //    return editor.getValue();
+           //}
+        }
     </script>
     <div id="acknowledgements"><a href="https://github.com/mwh/minigrace">Minigrace</a> is distributed under the GNU GPL version 3. <a href="http://www.entypo.com/">Entypo</a> pictograms by Daniel Bruce.</div>
  </body>

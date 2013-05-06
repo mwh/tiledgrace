@@ -187,6 +187,9 @@
     background: red;
     border-color: red;
 }
+.indent {
+    padding-left: 2ex;
+}
 #codearea.shrink {
     background: white;
 }
@@ -195,6 +198,14 @@
     border: 0 !important;
     background: none;
     min-width: 0;
+    transition: left 1s, top 1s;
+    font-family: 'Monaco','Menlo','Ubuntu Mono','Droid Sans Mono','Consolas',monospace;
+}
+.shrink .indent {
+    padding-left: 4ex;
+}
+.growing .tile {
+    transition: left 1s, top 1s;
 }
 .shrink input, .shrink select {
     background: none;

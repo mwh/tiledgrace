@@ -518,11 +518,15 @@ function changeDialect() {
 }
 
 function shrink() {
+    editor.setValue(document.getElementById('gracecode').value, -1);
     codearea.classList.add('shrink');
+    var starts = [];
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
             continue;
+        starts.push(child);
+        continue;
         var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
         while (child) {
             child.style.top = runningTop + 'px';
@@ -530,20 +534,53 @@ function shrink() {
             child = child.next;
         }
     }
+    var runningTop = 19;
+    for (var i=0; i<starts.length; i++) {
+        starts[i].oldTop = starts[i].style.top;
+        starts[i].oldLeft = starts[i].style.left;
+        starts[i].style.left = '49px';
+        starts[i].style.top = runningTop + 'px';
+        runningTop += +starts[i].offsetHeight;
+        var child = starts[i].next;
+        while (child) {
+            child.style.left = '49px';
+            child.style.top = runningTop + 'px';
+            runningTop += +child.offsetHeight;
+            child = child.next;
+        }
+    }
+    setTimeout(function() {
+        ctr.style.visibility = 'visible';
+        codearea.style.visibility = 'hidden';
+    }, 1100);
 }
 function grow() {
+    ctr.style.visibility = 'hidden';
+    codearea.style.visibility = 'visible';
     codearea.classList.remove('shrink');
+    codearea.classList.add('growing');
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
             continue;
+        child.style.top = child.oldTop;
+        child.style.left = child.oldLeft;
+        var leftEdge = child.oldLeft;
         var runningTop = +child.style.top.substring(0, child.style.top.length - 2);
         while (child) {
             child.style.top = runningTop + 'px';
+            child.style.left = leftEdge;
             runningTop += child.offsetHeight;
             child = child.next;
         }
     }
+    setTimeout(function() {codearea.classList.remove('growing');}, 1500);
+}
+function toggleShrink() {
+    if (codearea.classList.contains('shrink'))
+        grow();
+    else
+        shrink();
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
