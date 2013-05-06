@@ -298,12 +298,12 @@ function reflow() {
     }
 }
 var blockIndent = 0;
-function generateNodeCode(n) {
+function generateNodeCode(n, loc) {
     if (typeof n == 'undefined' || typeof n == 'boolean')
         return '!ABSENT!';
     if (n.classList.contains('hole')) {
         if (n.childNodes.length)
-            return generateNodeCode(n.childNodes[0]);
+            return generateNodeCode(n.childNodes[0], loc);
         else
             return '!ABSENT!';
     }
@@ -320,7 +320,7 @@ function generateNodeCode(n) {
         var name = n.childNodes[1].value;
         if (!name)
             name = "!UNNAMED!";
-        return 'var ' + name + ' := ' + generateNodeCode(n.childNodes[3]);
+        return 'var ' + name + ' := ' + generateNodeCode(n.childNodes[3], 'assignment');
     }
     if (n.classList.contains('print')) {
         var arg = n.children[1].children[0];
@@ -335,10 +335,12 @@ function generateNodeCode(n) {
         }
     }
     if (n.classList.contains('dialect-request')) {
-        var arg = n.children[1].children[0];
-        var name = n.children[0].innerHTML;
+        var arg = n.getElementsByClassName('hole')[0].children[0]
+        var name = n.getElementsByClassName('method-name')[0].innerHTML;
         if (!arg)
             return name + '(!ABSENT!)'
+        if (name.substring(name.length -2) == ":=")
+                return name + ' ' + generateNodeCode(arg);
         if (arg.classList.contains('string')) {
             return name + ' ' + generateNodeCode(arg);
         } else if (arg.classList.contains('operator')) {
@@ -374,6 +376,8 @@ function generateNodeCode(n) {
                 op = c.childNodes[0].data;
             }
         }
+        if (loc == 'assignment')
+            return generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r);
         return '(' + generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r) + ')';
     }
     if (n.classList.contains('assign')) {
@@ -391,7 +395,7 @@ function generateNodeCode(n) {
                 }
             }
         }
-        return generateNodeCode(l) + ' := ' + generateNodeCode(r);
+        return generateNodeCode(l) + ' := ' + generateNodeCode(r, 'assignment');
     }
     if (n.classList.contains('if')) {
         var cond = n.children[0].children[1].children[0];
@@ -521,6 +525,12 @@ function shrink() {
     editor.setValue(document.getElementById('gracecode').value, -1);
     codearea.classList.add('shrink');
     var starts = [];
+    var selects = codearea.getElementsByTagName('select');
+    for (var i=0; i<selects.length; i++) {
+        var sel = selects[i];
+        sel.parentNode.appendChild(document.createTextNode(sel.value));
+        sel.style.display = 'none';
+    }
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
@@ -559,6 +569,12 @@ function grow() {
     codearea.style.visibility = 'visible';
     codearea.classList.remove('shrink');
     codearea.classList.add('growing');
+    var selects = codearea.getElementsByTagName('select');
+    for (var i=0; i<selects.length; i++) {
+        var sel = selects[i];
+        sel.parentNode.removeChild(sel.parentNode.lastChild);
+        sel.style.display = 'inline';
+    }
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)

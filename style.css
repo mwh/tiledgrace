@@ -204,12 +204,19 @@
 .shrink .indent {
     padding-left: 4ex;
 }
+.shrink .tile .op, .shrink .tile .cmpop {
+    padding-left: 1ex;
+    padding-right: 1ex;
+    font-weight: normal;
+}
 .growing .tile {
     transition: left 1s, top 1s;
 }
 .shrink input, .shrink select {
     background: none;
     border: none;
+    padding: 0;
+    font-size: 12pt;
 }
 #acknowledgements {
     font-size: 10px;

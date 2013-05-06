@@ -31,10 +31,11 @@ function generateNodeJSON(n) {
         return {type: 'print', value: generateNodeJSON(arg)};
     }
     if (n.classList.contains('dialect-request')) {
-        var arg = n.children[1].children[0];
+        var arg = n.getElementsByClassName('hole')[0].children[0]
+        var name = n.getElementsByClassName('method-name')[0].innerHTML;
         return {type: 'dialect-request',
             value: generateNodeJSON(arg),
-            name: n.children[0].innerHTML
+            name: name
         };
     }
     if (n.classList.contains('selfcall')) {
@@ -201,8 +202,18 @@ function populateTile(tile, obj) {
             appendChildFromJSON(tile.childNodes[1], obj.value);
             break;
         case "dialect-request":
-            appendChildFromJSON(tile.childNodes[1], obj.value);
+            var argHole = tile.getElementsByClassName('hole')[0];
+            appendChildFromJSON(argHole, obj.value);
             tile.childNodes[0].innerHTML = obj.name;
+            if (obj.name.substring(obj.name.length - 2) == ":=") {
+                tile.childNodes[0].style.marginRight = '1ex';
+                for (var i=0; i<tile.childNodes.length; i++) {
+                    if (tile.childNodes[i].nodeType == 3) {
+                        tile.removeChild(tile.childNodes[i]);
+                        i--;
+                    }
+                }
+            }
             break;
         case "string":
             tile.getElementsByTagName('input')[0].value = obj.value;
