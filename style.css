@@ -201,6 +201,9 @@ html, body {
 #codearea.shrink, #codearea.growing {
     background: white;
 }
+#codearea.shrink #bin, #codearea.growing #bin {
+    display: none;
+}
 .tile {
     transition: background-color 0.5s, padding 0.5s, border-width 0.5s;
 }
