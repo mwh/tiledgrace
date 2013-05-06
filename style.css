@@ -196,6 +196,7 @@ html, body {
 }
 .indent {
     padding-left: 2ex;
+    transition: padding 0.5s;
 }
 #codearea.shrink, #codearea.growing {
     background: white;
@@ -212,7 +213,7 @@ html, body {
     font-family: 'Monaco','Menlo','Ubuntu Mono','Droid Sans Mono','Consolas',monospace;
 }
 .shrink .indent {
-    padding-left: 4ex;
+    padding-left: calc(4ex + 4px);
 }
 .shrink .tile .op, .shrink .tile .cmpop {
     padding-left: 1ex;
