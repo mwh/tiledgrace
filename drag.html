@@ -108,6 +108,15 @@ var gctCache = {
            editor.setFontSize('16px');
            editor.setReadOnly(true);
            editor.commands.bindKeys({"ctrl-l":null, "ctrl-shift-r":null, "ctrl-r":null, "ctrl-t":null})
+           editor.on('mousemove', function(e) {
+               var position = e.getDocumentPosition();
+               var token = editor.session.getTokenAt(position.row, position.column);
+               if (token.type == 'identifier') {
+                   drawVarLinesOverText(e);
+               } else {
+                   document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+               }
+           });
            var ctr = document.getElementById('code_txt_real');
            ctr.style.height = document.getElementById('codearea').clientHeight + 'px';
            ctr.style.width = (document.getElementById('codearea').clientWidth) + 'px';

@@ -774,6 +774,29 @@ function drawVarRefLines(el) {
         drawLineBetweenElements(defInput, vars[i], "red");
     }
 }
+function drawVarLinesOverText(e) {
+    var y = e.clientY;
+    var x = e.clientX;
+    var vars = codearea.getElementsByClassName('var');
+    document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+    for (var i=0; i<vars.length; i++) {
+        var xy = findOffsetTopLeft(vars[i]);
+        if (y >= xy.top && y <= xy.top + vars[i].clientHeight
+                && x >= xy.left && x <= xy.left + vars[i].clientWidth) {
+            drawVarRefLines(vars[i]);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        }
+    }
+    vars = codearea.getElementsByClassName('vardec');
+    for (var i=0; i<vars.length; i++) {
+        var xy = findOffsetTopLeft(vars[i]);
+        if (y >= xy.top && y <= xy.top + vars[i].clientHeight
+                && x >= xy.left && x <= xy.left + vars[i].clientWidth) {
+            drawVardecLines(vars[i]);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        }
+    }
+}
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
     n.addEventListener('contextmenu', function(ev) {
