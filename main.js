@@ -66,6 +66,8 @@ function dragstart(ev) {
         var left = (ev2.clientX - offsetX);
         obj.style.top = top + 'px';
         obj.style.left = left + 'px';
+        top += codearea.scrollTop;
+        left += codearea.scrollLeft;
         ev2.preventDefault();
         var tmp = obj;
         var overBin = isOverBin(ev2);
@@ -162,6 +164,8 @@ function dragstart(ev) {
         var left = (ev.clientX - offsetX);
         obj.style.top = top + 'px';
         obj.style.left = left + 'px';
+        top += codearea.scrollTop;
+        left += codearea.scrollLeft;
         d.removeEventListener('mousemove', dragcontinue);
         d.removeEventListener('mouseup', dragend);
         obj.classList.remove('selected');
