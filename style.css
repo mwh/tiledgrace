@@ -240,7 +240,7 @@ html, body {
 .growing .hole.multi .tile {
     transition: left 1s, top 1s, background-color 1s, padding 0.5s, border-width 0.5s;
 }
-.shrink input, .shrink select {
+.shrink input {
     background: none;
     border: none;
     padding: 0;

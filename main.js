@@ -55,7 +55,8 @@ function dragstart(ev) {
     var obj = this;
     ev.preventDefault();
     if (ev.target.classList.contains('var-name')
-            && offsetX > ev.target.offsetWidth) {
+            && offsetX > ev.target.offsetWidth
+            && ev.target.innerHTML) {
         popupVarMenu(ev);
         return;
     }
@@ -628,7 +629,25 @@ function popupVarMenu(ev) {
         });
         menu.appendChild(opt);
     }
+    if (vars.length == 0) {
+        var opt = document.createElement('li');
+        opt.innerHTML = '--none--';
+        opt.title = "There are no reachable variables from this point in the code.";
+        opt.addEventListener("click", function(ev) {
+            codearea.removeChild(menu);
+            alert("There are no reachable variables from this point in the code.");
+        });
+        menu.appendChild(opt);
+    }
     codearea.appendChild(menu);
+    if (menu.offsetLeft + menu.offsetWidth > codearea.offsetWidth) {
+        menu.style.left = '';
+        menu.style.right = '0px';
+    }
+    if (menu.offsetTop + menu.offsetHeight - codearea.scrollTop > codearea.offsetHeight) {
+        menu.style.top = '';
+        menu.style.bottom = (codearea.offsetHeight - xy.top - codearea.offsetTop - 25) + 'px';
+    }
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
