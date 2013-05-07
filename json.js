@@ -293,6 +293,7 @@ function populateTile(tile, obj) {
         case "var":
             var sel = tile.getElementsByClassName('var-name')[0];
             sel.innerHTML = obj.value;
+            sel.oldName = obj.value;
             break;
     }
 }

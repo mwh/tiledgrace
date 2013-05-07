@@ -485,11 +485,10 @@ function generateCode() {
     }
 }
 function renameVar(oldValue, newValue) {
-    var vars = document.getElementsByClassName('var');
+    var vars = document.getElementsByClassName('var-name');
     for (var i=0; i<vars.length; i++) {
-        var sel = vars[i].childNodes[0];
-        if (sel.innerHTML == oldValue)
-            sel.innerHTML = newValue;
+        if (vars[i].innerHTML == oldValue)
+            vars[i].innerHTML = newValue;
     }
 }
 function generateHash(obj) {
@@ -674,7 +673,6 @@ function attachTileBehaviour(n) {
                     checkpointSave();
                 });
                 if (el.classList.contains('variable-name')) {
-                    el.oldName = '---none---';
                     el.addEventListener('blur', function(ev) {
                         renameVar(el.oldName, el.value);
                         el.oldName = el.value;
