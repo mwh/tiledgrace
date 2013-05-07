@@ -258,7 +258,7 @@ html, body {
     display: -webkit-inline-flex;
 }
 ul.popup-menu {
-    border: 2px outset blue;
+    border: 2px outset gray;
     background: white;
     position: absolute;
     list-style-type: none;

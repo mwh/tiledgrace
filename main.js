@@ -272,6 +272,8 @@ function dragstart(ev) {
         reflow();
         if (!hadDragContinue && ev.target.classList.contains('var-name')) {
             popupVarMenu(ev);
+            // So codearea click doesn't remove it
+            ev.stopPropagation();
         }
         generateCode();
         checkpointSave();
@@ -608,7 +610,7 @@ function popupVarMenu(ev) {
     var menu = document.createElement("ul");
     menu.classList.add("popup-menu");
     var xy = findOffsetTopLeft(el);
-    menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop) + 'px';
+    menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop - 4) + 'px';
     menu.style.left = xy.left + 'px';
     var vars = [];
     findVarsInScope(el, vars);
@@ -739,6 +741,19 @@ Array.prototype.forEach.call(codearea.getElementsByClassName('tile'),
         attachTileBehaviour);
 Array.prototype.forEach.call(toolbox.getElementsByClassName('tile'),
         attachToolboxBehaviour);
+codearea.addEventListener('click', function(ev) {
+    // Two cases according to whether the event target is considered the
+    // span itself or the text node inside it.
+    if (ev.target.classList && ev.target.classList.contains('var-name'))
+        return;
+    if (ev.target.parentNode.classList
+        && ev.target.parentNode.classList.contains('var-name'))
+        return;
+    var menus = codearea.getElementsByClassName('popup-menu');
+    for (var i=0; i<menus.length; i++)
+        codearea.removeChild(menus[i]);
+    return;
+});
 window.addEventListener('popstate', function(ev) {
     if (ev.state != null)
         loadJSON(JSON.stringify(ev.state));
