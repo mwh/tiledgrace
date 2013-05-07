@@ -123,6 +123,17 @@ html, body {
 .tile input[type=text] {
     font-family: monospace;
 }
+.var-name::after {
+    content: "\e760";
+    content: "\25be";
+    margin-top: 2px;
+    font-family: entypo;
+    font-size: 200%;
+    line-height: 16px;
+}
+.shrink .var-name::after {
+    display: none;
+}
 .tile.number input {
     color: blue;
 }
@@ -245,4 +256,20 @@ html, body {
 #toolbox.in-dialect-logo .tile.only-dialect-logo {
     display: inline-flex;
     display: -webkit-inline-flex;
+}
+ul.popup-menu {
+    border: 2px outset blue;
+    background: white;
+    position: absolute;
+    list-style-type: none;
+    padding-left: 0;
+}
+ul.popup-menu li {
+    display: block;
+    padding-left: 1ex;
+    padding-right: 1ex;
+}
+ul.popup-menu li:hover {
+    background: #008;
+    color: white;
 }

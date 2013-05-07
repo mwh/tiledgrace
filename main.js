@@ -314,7 +314,7 @@ function generateNodeCode(n, loc) {
         return '"' + n.getElementsByTagName('input')[0].value + '"';
     }
     if (n.classList.contains('var')) {
-        return n.getElementsByTagName('select')[0].value;
+        return n.getElementsByClassName('var-name')[0].innerHTML;
     }
     if (n.classList.contains('vardec')) {
         var name = n.childNodes[1].value;
@@ -476,21 +476,8 @@ function renameVar(oldValue, newValue) {
     var vars = document.getElementsByClassName('var');
     for (var i=0; i<vars.length; i++) {
         var sel = vars[i].childNodes[0];
-        var found = false;
-        for (var j=0; j<sel.childNodes.length; j++) {
-            if (sel.childNodes[j].value == oldValue) {
-                sel.childNodes[j].value = newValue;
-                sel.childNodes[j].innerHTML = newValue;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            var opt = document.createElement('option');
-            opt.value = newValue;
-            opt.appendChild(document.createTextNode(newValue));
-            sel.appendChild(opt);
-        }
+        if (sel.innerHTML == oldValue)
+            sel.innerHTML = newValue;
     }
 }
 function generateHash(obj) {
@@ -525,12 +512,6 @@ function shrink() {
     editor.setValue(document.getElementById('gracecode').value, -1);
     codearea.classList.add('shrink');
     var starts = [];
-    var selects = codearea.getElementsByTagName('select');
-    for (var i=0; i<selects.length; i++) {
-        var sel = selects[i];
-        sel.parentNode.appendChild(document.createTextNode(sel.value));
-        sel.style.display = 'none';
-    }
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
@@ -579,12 +560,6 @@ function grow() {
         setTimeout(function() {
             codearea.classList.add('growing');
             codearea.classList.remove('shrink');
-            var selects = codearea.getElementsByTagName('select');
-            for (var i=0; i<selects.length; i++) {
-                var sel = selects[i];
-                sel.parentNode.removeChild(sel.parentNode.lastChild);
-                sel.style.display = 'inline';
-            }
             setTimeout(function() {codearea.classList.remove('growing');}, 1000);
         }, 1100);
     }, 300);
@@ -594,6 +569,32 @@ function toggleShrink() {
         grow();
     else
         shrink();
+}
+function popupVarMenu(el) {
+    var menus = codearea.getElementsByClassName('popup-menu');
+    if (menus.length) {
+        for (var i=0; i<menus.length; i++)
+            codearea.removeChild(menus[i]);
+        return;
+    }
+    var menu = document.createElement("ul");
+    menu.classList.add("popup-menu");
+    var xy = findOffsetTopLeft(el);
+    menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop) + 'px';
+    menu.style.left = xy.left + 'px';
+    var vars = codearea.getElementsByClassName('variable-name');
+    for (var i=0; i<vars.length; i++) {
+        var opt = document.createElement('li');
+        opt.innerHTML = vars[i].value;
+        opt.addEventListener("click", function(ev) {
+            el.innerHTML = ev.target.innerHTML;
+            codearea.removeChild(menu);
+            generateCode();
+            checkpointSave();
+        });
+        menu.appendChild(opt);
+    }
+    codearea.appendChild(menu);
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
@@ -627,16 +628,6 @@ function attachTileBehaviour(n) {
         n.next = false;
     if (!n.prev)
         n.prev = false;
-    Array.prototype.forEach.call(n.getElementsByTagName('select'),
-            function(el) {
-                el.addEventListener('mousedown', function(ev) {
-                    ev.stopPropagation();
-                });
-                el.addEventListener('change', function(ev) {
-                    generateCode();
-                    checkpointSave();
-                });
-            });
     Array.prototype.forEach.call(n.getElementsByTagName('input'),
             function(el) {
                 el.addEventListener('mousedown', function(ev) {
@@ -697,6 +688,12 @@ function attachTileBehaviour(n) {
                     }
                     generateCode();
                     checkpointSave();
+                });
+            });
+    Array.prototype.forEach.call(n.getElementsByClassName('var-name'),
+            function(el) {
+                el.addEventListener('click', function(ev) {
+                    popupVarMenu(el);
                 });
             });
 }

@@ -19,7 +19,7 @@ function generateNodeJSON(n) {
             value: n.getElementsByTagName('input')[0].value};
     }
     if (n.classList.contains('var')) {
-        return {type: 'var', value: n.getElementsByTagName('select')[0].value};
+        return {type: 'var', value: n.getElementsByClassName('var-name')[0].innerHTML};
     }
     if (n.classList.contains('vardec')) {
         return {type: 'vardec',
@@ -291,12 +291,8 @@ function populateTile(tile, obj) {
             fillNextPrev(elseHole);
             break;
         case "var":
-            var sel = tile.getElementsByTagName('select')[0];
-            var opt = document.createElement('option');
-            opt.value = obj.value;
-            opt.appendChild(document.createTextNode(obj.value));
-            sel.appendChild(opt);
-            sel.selectedIndex = sel.options.length - 1;
+            var sel = tile.getElementsByClassName('var-name')[0];
+            sel.innerHTML = obj.value;
             break;
     }
 }
