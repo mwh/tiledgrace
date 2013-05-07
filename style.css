@@ -273,3 +273,13 @@ ul.popup-menu li:hover {
     background: #008;
     color: white;
 }
+#overlay-canvas {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    display: none;
+    pointer-events: none;
+}

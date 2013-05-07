@@ -586,21 +586,63 @@ function toggleShrink() {
     else
         shrink();
 }
-function findVarsInScope(el, accum) {
+function findVarAssignsInScope(varname, el, accum) {
+    var e = el;
+    var check = function(t) {
+        var hole = t.getElementsByClassName('hole')[0];
+        if (hole.childNodes.length == 0)
+            return;
+        if (!hole.childNodes[0].classList.contains('var'))
+            return;
+        var sel = hole.getElementsByClassName('var-name')[0];
+        if (sel.innerHTML == varname)
+            accum.push(t);
+    }
+    while (e) {
+        if (e.classList.contains('assign'))
+            check(e);
+        var refs = e.getElementsByClassName('assign');
+        for (var i=0; i<refs.length; i++) {
+            check(refs[i]);
+        }
+        e = e.next;
+    }
+}
+function findVarRefsInScope(varname, el, accum) {
+    var e = el;
+    while (e) {
+        var refs = e.getElementsByClassName('var');
+        for (var i=0; i<refs.length; i++) {
+            if (refs[i].childNodes[0].innerHTML == varname) {
+                if (refs[i].parentNode.parentNode.classList.contains('assign')) {
+                    var assign = refs[i].parentNode.parentNode;
+                    var hole = assign.getElementsByClassName('hole')[0];
+                    if (hole.childNodes.length > 0 && hole.childNodes[0] == refs[i])
+                    continue;
+                }
+                accum.push(refs[i]);
+            }
+        }
+        e = e.next;
+    }
+}
+function findVarsInScope(el, accum, elAccum) {
     // First go up
     var e = el;
     while (e) {
         if (e.classList.contains('vardec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
+            elAccum.push(e);
         }
         if (e.classList.contains('method')) {
             accum.push(e.getElementsByTagName('input')[1].value);
+            elAccum.push(e);
         }
         e = e.prev;
     }
     // Then go out
     if (el.parentNode != codearea)
-        findVarsInScope(el.parentNode, accum);
+        findVarsInScope(el.parentNode, accum, elAccum);
 }
 function popupVarMenu(ev) {
     var el = ev.target;
@@ -617,7 +659,7 @@ function popupVarMenu(ev) {
     menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop - 4) + 'px';
     menu.style.left = xy.left + 'px';
     var vars = [];
-    findVarsInScope(el, vars);
+    findVarsInScope(el, vars, []);
     for (var i=0; i<vars.length; i++) {
         var opt = document.createElement('li');
         opt.innerHTML = vars[i];
@@ -649,34 +691,125 @@ function popupVarMenu(ev) {
         menu.style.bottom = (codearea.offsetHeight - xy.top - codearea.offsetTop - 25) + 'px';
     }
 }
+function drawLineBetweenElements(el1, el2, colour) {
+    var c = document.getElementById('overlay-canvas');
+    var ctx = c.getContext('2d');
+    var xy = findOffsetTopLeft(el1);
+    var xy2 = findOffsetTopLeft(el2);
+    var c1 = [
+        [xy.left, xy.top + el1.offsetHeight / 2],
+        [xy.left + el1.offsetWidth, xy.top + el1.offsetHeight / 2],
+        [xy.left + el1.offsetWidth / 2, xy.top],
+        [xy.left + el1.offsetWidth / 2, xy.top + el1.offsetHeight]
+        ];
+    var c2 = [
+        [xy2.left, xy2.top + el2.offsetHeight / 2],
+        [xy2.left + el2.offsetWidth, xy2.top + el2.offsetHeight / 2],
+        [xy2.left + el2.offsetWidth / 2, xy2.top],
+        [xy2.left + el2.offsetWidth / 2, xy2.top + el2.offsetHeight]
+        ];
+    var x1, x2, y1, y2;
+    var dist = 1000000;
+    for (var i=0; i<4; i++) {
+        for (var j=0; j<4; j++) {
+            var dx = c1[i][0] - c2[j][0];
+            var dy = c1[i][1] - c2[j][1];
+            var d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            if (d < dist) {
+                dist = d;
+                x1 = c1[i][0];
+                x2 = c2[j][0];
+                y1 = c1[i][1];
+                y2 = c2[j][1];
+            }
+        }
+    }
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = colour;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+}
+function showOverlay() {
+    var c = document.getElementById('overlay-canvas');
+    var ctx = c.getContext('2d');
+    c.style.display = 'block';
+    setTimeout(function() {
+        ctx.clearRect(0, 0, 500, 500);
+        c.style.display = 'none';
+    }, 1000);
+}
+function drawVardecLines(el) {
+    var vars = [];
+    var myInput = el.getElementsByTagName('input')[0];
+    var myName = myInput.value;
+    findVarRefsInScope(myName, el, vars);
+    for (var i=0; i<vars.length; i++) {
+        drawLineBetweenElements(myInput, vars[i], "blue");
+    }
+    vars = [];
+    findVarAssignsInScope(myName, el, vars);
+    for (var i=0; i<vars.length; i++) {
+        drawLineBetweenElements(myInput, vars[i], "red");
+    }
+}
+function drawVarRefLines(el) {
+    var varNames = [];
+    var vars = [];
+    findVarsInScope(el, varNames, vars);
+    var myName = el.childNodes[0].innerHTML;
+    var defEl = false;
+    for (var i=0; i<vars.length; i++) {
+        if (varNames[i] == myName) {
+            defEl = vars[i];
+            break;
+        }
+    }
+    var defInput = defEl.getElementsByTagName('input')[0];
+    drawLineBetweenElements(el, defInput, "blue");
+    vars = [];
+    findVarAssignsInScope(myName, defEl, vars);
+    for (var i=0; i<vars.length; i++) {
+        drawLineBetweenElements(defInput, vars[i], "red");
+    }
+}
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
     n.addEventListener('contextmenu', function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        if (this.classList.contains('locked')) {
-            this.classList.remove('locked');
-            var tiles = this.getElementsByClassName('tile');
-            for (var i=0; i<tiles.length; i++) {
-                tiles[i].addEventListener('mousedown', dragstart);
-            }
-            var inputs = this.getElementsByTagName('input');
-            for (var i=0; i<inputs.length; i++) {
-                inputs[i].readOnly = false;
-            }
-        } else {
-            this.classList.add('locked');
-            var tiles = this.getElementsByClassName('tile');
-            for (var i=0; i<tiles.length; i++) {
-                tiles[i].removeEventListener('mousedown', dragstart);
-            }
-            var inputs = this.getElementsByTagName('input');
-            for (var i=0; i<inputs.length; i++) {
-                inputs[i].readOnly = true;
-            }
+        if (this.classList.contains('var')) {
+            drawVarRefLines(this);
+            showOverlay();
+            return;
         }
-        reflow();
+        if (this.classList.contains('vardec')) {
+            drawVardecLines(this);
+            showOverlay();
+            return;
+        }
     });
+    if (n.classList.contains('vardec') && n.style.pointerEvents != undefined) {
+        n.addEventListener('mouseover', function(ev) {
+            drawVardecLines(this);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        n.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+    }
+    if (n.classList.contains('var') && n.style.pointerEvents != undefined) {
+        n.addEventListener('mouseover', function(ev) {
+            drawVarRefLines(this);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        n.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+    }
     if (!n.next)
         n.next = false;
     if (!n.prev)
@@ -773,7 +906,6 @@ codearea.addEventListener('click', function(ev) {
     var menus = codearea.getElementsByClassName('popup-menu');
     for (var i=0; i<menus.length; i++)
         codearea.removeChild(menus[i]);
-    return;
 });
 window.addEventListener('popstate', function(ev) {
     if (ev.state != null)
