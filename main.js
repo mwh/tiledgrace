@@ -54,7 +54,14 @@ function dragstart(ev) {
     var offsetX = ev.clientX - xy.left;
     var obj = this;
     ev.preventDefault();
+    if (ev.target.classList.contains('var-name')
+            && offsetX > ev.target.offsetWidth) {
+        popupVarMenu(ev);
+        return;
+    }
+    var hadDragContinue = false;
     var dragcontinue = function(ev2) {
+        hadDragContinue = true;
         var top = (ev2.clientY - offsetY);
         var left = (ev2.clientX - offsetX);
         obj.style.top = top + 'px';
@@ -263,6 +270,9 @@ function dragstart(ev) {
             originalHole.style.height = 'auto';
         }
         reflow();
+        if (!hadDragContinue && ev.target.classList.contains('var-name')) {
+            popupVarMenu(ev);
+        }
         generateCode();
         checkpointSave();
     }
@@ -570,7 +580,25 @@ function toggleShrink() {
     else
         shrink();
 }
-function popupVarMenu(el) {
+function findVarsInScope(el, accum) {
+    // First go up
+    var e = el;
+    while (e) {
+        if (e.classList.contains('vardec')) {
+            accum.push(e.getElementsByClassName('variable-name')[0].value);
+        }
+        if (e.classList.contains('method')) {
+            accum.push(e.getElementsByTagName('input')[1].value);
+        }
+        e = e.prev;
+    }
+    // Then go out
+    if (el.parentNode != codearea)
+        findVarsInScope(el.parentNode, accum);
+}
+function popupVarMenu(ev) {
+    var el = ev.target;
+    ev.stopImmediatePropagation();
     var menus = codearea.getElementsByClassName('popup-menu');
     if (menus.length) {
         for (var i=0; i<menus.length; i++)
@@ -582,10 +610,11 @@ function popupVarMenu(el) {
     var xy = findOffsetTopLeft(el);
     menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop) + 'px';
     menu.style.left = xy.left + 'px';
-    var vars = codearea.getElementsByClassName('variable-name');
+    var vars = [];
+    findVarsInScope(el, vars);
     for (var i=0; i<vars.length; i++) {
         var opt = document.createElement('li');
-        opt.innerHTML = vars[i].value;
+        opt.innerHTML = vars[i];
         opt.addEventListener("click", function(ev) {
             el.innerHTML = ev.target.innerHTML;
             codearea.removeChild(menu);
@@ -688,12 +717,6 @@ function attachTileBehaviour(n) {
                     }
                     generateCode();
                     checkpointSave();
-                });
-            });
-    Array.prototype.forEach.call(n.getElementsByClassName('var-name'),
-            function(el) {
-                el.addEventListener('click', function(ev) {
-                    popupVarMenu(el);
                 });
             });
 }
