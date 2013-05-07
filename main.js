@@ -779,10 +779,17 @@ function drawVarLinesOverText(e) {
     var x = e.clientX;
     var vars = codearea.getElementsByClassName('var');
     document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+    var position = e.getDocumentPosition();
+    var token = editor.session.getTokenAt(position.row, position.column);
     for (var i=0; i<vars.length; i++) {
         var xy = findOffsetTopLeft(vars[i]);
-        if (y >= xy.top && y <= xy.top + vars[i].clientHeight
-                && x >= xy.left && x <= xy.left + vars[i].clientWidth) {
+        if (y >= xy.top - vars[i].clientHeight / 2
+                && y <= xy.top + vars[i].clientHeight * 1.5
+                && x >= xy.left - vars[i].clientWidth / 2
+                && x <= xy.left + vars[i].clientWidth * 1.5) {
+            if (token.value != vars[i].getElementsByClassName('var-name')[0].innerHTML) {
+                continue;
+            }
             drawVarRefLines(vars[i]);
             document.getElementById('overlay-canvas').style.display = 'block';
         }
@@ -790,8 +797,13 @@ function drawVarLinesOverText(e) {
     vars = codearea.getElementsByClassName('vardec');
     for (var i=0; i<vars.length; i++) {
         var xy = findOffsetTopLeft(vars[i]);
-        if (y >= xy.top && y <= xy.top + vars[i].clientHeight
-                && x >= xy.left && x <= xy.left + vars[i].clientWidth) {
+        if (y >= xy.top - vars[i].clientHeight / 2
+                && y <= xy.top + vars[i].clientHeight * 1.5
+                && x >= xy.left - vars[i].clientWidth / 2
+                && x <= xy.left + vars[i].clientWidth * 1.5) {
+            if (token.value != vars[i].getElementsByClassName('variable-name')[0].value) {
+                continue;
+            }
             drawVardecLines(vars[i]);
             document.getElementById('overlay-canvas').style.display = 'block';
         }
