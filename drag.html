@@ -111,7 +111,7 @@ var gctCache = {
            editor.on('mousemove', function(e) {
                var position = e.getDocumentPosition();
                var token = editor.session.getTokenAt(position.row, position.column);
-               if (token.type == 'identifier') {
+               if (token && token.type == 'identifier') {
                    drawVarLinesOverText(e);
                } else {
                    document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);

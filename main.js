@@ -740,6 +740,28 @@ function showOverlay() {
         c.style.display = 'none';
     }, 1000);
 }
+function drawMethodRequestLines(el) {
+    var vars = [];
+    var myInput = el.getElementsByTagName('input')[0];
+    var myName = myInput.value;
+    var meths = codearea.getElementsByClassName("method");
+    for (var i=0; i<meths.length; i++) {
+        var methInput = meths[i].getElementsByTagName('input')[0];
+        if (myName == methInput.value)
+            drawLineBetweenElements(myInput, methInput, "blue");
+    }
+}
+function drawMethodDefinitionLines(el) {
+    var vars = [];
+    var myInput = el.getElementsByTagName('input')[0];
+    var myName = myInput.value;
+    var meths = codearea.getElementsByClassName("selfcall");
+    for (var i=0; i<meths.length; i++) {
+        var methInput = meths[i].getElementsByTagName('input')[0];
+        if (myName == methInput.value)
+            drawLineBetweenElements(myInput, methInput, "blue");
+    }
+}
 function drawVardecLines(el) {
     var vars = [];
     var myInput = el.getElementsByTagName('input')[0];
@@ -767,6 +789,8 @@ function drawVarRefLines(el) {
         }
     }
     var defInput = defEl.getElementsByTagName('input')[0];
+    if (defEl.classList.contains('method'))
+        defInput = defEl.getElementsByTagName('input')[1];
     drawLineBetweenElements(el, defInput, "blue");
     vars = [];
     findVarAssignsInScope(myName, defEl, vars);
@@ -808,6 +832,34 @@ function drawVarLinesOverText(e) {
             document.getElementById('overlay-canvas').style.display = 'block';
         }
     }
+    vars = codearea.getElementsByClassName('selfcall');
+    for (var i=0; i<vars.length; i++) {
+        var xy = findOffsetTopLeft(vars[i]);
+        if (y >= xy.top - vars[i].clientHeight / 2
+                && y <= xy.top + vars[i].clientHeight * 1.5
+                && x >= xy.left - vars[i].clientWidth / 2
+                && x <= xy.left + vars[i].clientWidth * 1.5) {
+            if (token.value != vars[i].getElementsByTagName('input')[0].value) {
+                continue;
+            }
+            drawMethodRequestLines(vars[i]);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        }
+    }
+    vars = codearea.getElementsByClassName('method');
+    for (var i=0; i<vars.length; i++) {
+        var xy = findOffsetTopLeft(vars[i]);
+        if (y >= xy.top - vars[i].clientHeight / 2
+                && y <= xy.top + vars[i].clientHeight * 1.5
+                && x >= xy.left - vars[i].clientWidth / 2
+                && x <= xy.left + vars[i].clientWidth * 1.5) {
+            if (token.value != vars[i].getElementsByTagName('input')[0].value) {
+                continue;
+            }
+            drawMethodDefinitionLines(vars[i]);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        }
+    }
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
@@ -821,6 +873,11 @@ function attachTileBehaviour(n) {
         }
         if (this.classList.contains('vardec')) {
             drawVardecLines(this);
+            showOverlay();
+            return;
+        }
+        if (this.classList.contains('selfcall')) {
+            drawMethodRequestLines(this);
             showOverlay();
             return;
         }
@@ -841,6 +898,36 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+    }
+    if (n.classList.contains('selfcall') && n.style.pointerEvents != undefined) {
+        n.addEventListener('mouseover', function(ev) {
+            drawMethodRequestLines(this);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        n.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+    }
+    if (n.classList.contains('method') && n.style.pointerEvents != undefined) {
+        var nInput = n.getElementsByTagName('input')[0];
+        var nKeyword = n.getElementsByTagName('span')[0];
+        nInput.addEventListener('mouseover', function(ev) {
+            drawMethodDefinitionLines(n);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        nInput.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+        nKeyword.addEventListener('mouseover', function(ev) {
+            drawMethodDefinitionLines(n);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        nKeyword.addEventListener('mouseout', function(ev) {
             document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
