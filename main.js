@@ -694,6 +694,8 @@ function popupVarMenu(ev) {
 function drawLineBetweenElements(el1, el2, colour) {
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');
+    ctx.save();
+    ctx.translate(0, -codearea.scrollTop);
     var xy = findOffsetTopLeft(el1);
     var xy2 = findOffsetTopLeft(el2);
     var c1 = [
@@ -730,6 +732,7 @@ function drawLineBetweenElements(el1, el2, colour) {
     ctx.strokeStyle = colour;
     ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.restore();
 }
 function showOverlay() {
     var c = document.getElementById('overlay-canvas');
@@ -746,34 +749,40 @@ function drawConstantLines(el) {
     var xy = findOffsetTopLeft(el);
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');
+    ctx.save();
+    ctx.translate(0, -codearea.scrollTop);
     ctx.beginPath();
     if (codearea.style.visibility == 'hidden') {
         ctx.moveTo(xy.left + el.offsetWidth / 2, xy.top);
-        ctx.lineTo(149, 19);
+        ctx.lineTo(149, 19 - codearea.scrollTop);
     } else {
         ctx.moveTo(xy.left + el.offsetWidth / 2, xy.top + el.offsetHeight);
-        ctx.lineTo(50, 500);
+        ctx.lineTo(50, codearea.scrollTop + 500);
     }
     ctx.strokeStyle = "green";
     ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.restore();
 }
 function drawDialectRequestLines(el) {
     var mn = el.getElementsByClassName('method-name')[0];
     var xy = findOffsetTopLeft(mn);
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');
+    ctx.save();
+    ctx.translate(0, -codearea.scrollTop);
     ctx.beginPath();
     if (codearea.style.visibility == 'hidden') {
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top);
-        ctx.lineTo(149, 19);
+        ctx.lineTo(149, 19 - codearea.scrollTop);
     } else {
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
-        ctx.lineTo(50, 500);
+        ctx.lineTo(50, codearea.scrollTop + 500);
     }
     ctx.strokeStyle = "green";
     ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.restore();
 }
 function drawMethodRequestLines(el) {
     var vars = [];
