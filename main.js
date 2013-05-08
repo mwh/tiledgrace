@@ -740,6 +740,24 @@ function showOverlay() {
         c.style.display = 'none';
     }, 1000);
 }
+function drawConstantLines(el) {
+    if (!el.dataset.dialect)
+        return;
+    var xy = findOffsetTopLeft(el);
+    var c = document.getElementById('overlay-canvas');
+    var ctx = c.getContext('2d');
+    ctx.beginPath();
+    if (codearea.style.visibility == 'hidden') {
+        ctx.moveTo(xy.left + el.offsetWidth / 2, xy.top);
+        ctx.lineTo(149, 19);
+    } else {
+        ctx.moveTo(xy.left + el.offsetWidth / 2, xy.top + el.offsetHeight);
+        ctx.lineTo(50, 500);
+    }
+    ctx.strokeStyle = "green";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+}
 function drawDialectRequestLines(el) {
     var mn = el.getElementsByClassName('method-name')[0];
     var xy = findOffsetTopLeft(mn);
@@ -884,10 +902,25 @@ function drawVarLinesOverText(e) {
                 && y <= xy.top + vars[i].clientHeight * 1.5
                 && x >= xy.left - vars[i].clientWidth / 2
                 && x <= xy.left + vars[i].clientWidth * 1.5) {
-            if (token.value != vars[i].getElementsByClassName('method-name')[0].innerHTML) {
+            if (token.value + ' :=' == vars[i].childNodes[0].innerHTML) {
+            } else if (token.value != vars[i].childNodes[0].innerHTML) {
                 continue;
             }
             drawDialectRequestLines(vars[i]);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        }
+    }
+    vars = codearea.getElementsByClassName('constant');
+    for (var i=0; i<vars.length; i++) {
+        var xy = findOffsetTopLeft(vars[i]);
+        if (y >= xy.top - vars[i].clientHeight / 2
+                && y <= xy.top + vars[i].clientHeight * 1.5
+                && x >= xy.left - vars[i].clientWidth / 2
+                && x <= xy.left + vars[i].clientWidth * 1.5) {
+            if (token.value != vars[i].dataset.name) {
+                continue;
+            }
+            drawConstantLines(vars[i]);
             document.getElementById('overlay-canvas').style.display = 'block';
         }
     }
@@ -966,6 +999,16 @@ function attachTileBehaviour(n) {
     if (n.classList.contains('dialect-request') && n.style.pointerEvents != undefined) {
         n.addEventListener('mouseover', function(ev) {
             drawDialectRequestLines(this);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        n.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+    }
+    if (n.classList.contains('constant') && n.style.pointerEvents != undefined) {
+        n.addEventListener('mouseover', function(ev) {
+            drawConstantLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {

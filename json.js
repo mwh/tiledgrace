@@ -205,6 +205,7 @@ function populateTile(tile, obj) {
             var argHole = tile.getElementsByClassName('hole')[0];
             appendChildFromJSON(argHole, obj.value);
             tile.childNodes[0].innerHTML = obj.name;
+            tile.dataset.name = obj.name;
             if (obj.name.substring(obj.name.length - 2) == ":=") {
                 tile.childNodes[0].style.marginRight = '1ex';
                 for (var i=0; i<tile.childNodes.length; i++) {
