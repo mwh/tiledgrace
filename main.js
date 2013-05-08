@@ -740,6 +740,23 @@ function showOverlay() {
         c.style.display = 'none';
     }, 1000);
 }
+function drawDialectRequestLines(el) {
+    var mn = el.getElementsByClassName('method-name')[0];
+    var xy = findOffsetTopLeft(mn);
+    var c = document.getElementById('overlay-canvas');
+    var ctx = c.getContext('2d');
+    ctx.beginPath();
+    if (codearea.style.visibility == 'hidden') {
+        ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top);
+        ctx.lineTo(149, 19);
+    } else {
+        ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
+        ctx.lineTo(50, 500);
+    }
+    ctx.strokeStyle = "green";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+}
 function drawMethodRequestLines(el) {
     var vars = [];
     var myInput = el.getElementsByTagName('input')[0];
@@ -860,6 +877,20 @@ function drawVarLinesOverText(e) {
             document.getElementById('overlay-canvas').style.display = 'block';
         }
     }
+    vars = codearea.getElementsByClassName('dialect-request');
+    for (var i=0; i<vars.length; i++) {
+        var xy = findOffsetTopLeft(vars[i]);
+        if (y >= xy.top - vars[i].clientHeight / 2
+                && y <= xy.top + vars[i].clientHeight * 1.5
+                && x >= xy.left - vars[i].clientWidth / 2
+                && x <= xy.left + vars[i].clientWidth * 1.5) {
+            if (token.value != vars[i].getElementsByClassName('method-name')[0].innerHTML) {
+                continue;
+            }
+            drawDialectRequestLines(vars[i]);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        }
+    }
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
@@ -928,6 +959,16 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         nKeyword.addEventListener('mouseout', function(ev) {
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').style.display = 'none';
+        });
+    }
+    if (n.classList.contains('dialect-request') && n.style.pointerEvents != undefined) {
+        n.addEventListener('mouseover', function(ev) {
+            drawDialectRequestLines(this);
+            document.getElementById('overlay-canvas').style.display = 'block';
+        });
+        n.addEventListener('mouseout', function(ev) {
             document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
