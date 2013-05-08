@@ -1126,3 +1126,38 @@ window.addEventListener('popstate', function(ev) {
     if (ev.state != null)
         loadJSON(JSON.stringify(ev.state));
 });
+window.addEventListener('load', function(ev) {
+    var tb = document.getElementById('toolbox');
+    var op = tb.querySelector('.tile.operator');
+    var holes = op.getElementsByClassName('hole');
+    if (holes[0].offsetTop != holes[1].offsetTop) {
+        var obscurer = document.createElement("div");
+        obscurer.style.position = "fixed";
+        obscurer.style.top = '0px';
+        obscurer.style.left = '0px';
+        obscurer.style.bottom = '0px';
+        obscurer.style.right = '0px';
+        obscurer.style.background = 'black';
+        obscurer.style.color = 'white';
+        obscurer.style.fontSize = '100px';
+        obscurer.style.opacity = 0.8;
+        obscurer.style.textAlign = 'center';
+        document.body.appendChild(obscurer);
+        if (navigator.userAgent.indexOf('Firefox') != -1) {
+            obscurer.appendChild(document.createTextNode(
+                    "Go to about:config and set layout.css.flexbox.enabled to true, then reload this page."));
+            alert("It looks like you're using Firefox, but haven't "
+                + "enabled the preference necessary for this tool to "
+                + "use the flexbox layout it requires.\n\nGo to "
+                + "about:config and set layout.css.flexbox.enabled to "
+                + "true, then reload the page.");
+        } else {
+            obscurer.appendChild(document.createTextNode(
+                    "Not usable in this browser. Try a recent version of "
+                    + "Firefox or Chrome."));
+            alert("It looks like your browser doesn't support the "
+                + "flexbox layout used in this tool. Try returning to "
+                + "this page in a recent version of Firefox or Chrome.");
+        }
+    }
+});
