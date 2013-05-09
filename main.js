@@ -370,7 +370,7 @@ function generateNodeCode(n, loc) {
         return n.dataset.name;
     }
     if (n.classList.contains('selfcall')) {
-        return n.children[0].value + '(' + generateNodeCode(n.children[1]) + ')';
+        return n.children[0].value + '(' + generateNodeCode(n.children[1], 'assignment') + ')';
     }
     if (n.classList.contains('request')) {
         return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
