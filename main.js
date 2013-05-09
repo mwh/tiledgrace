@@ -1140,7 +1140,7 @@ window.addEventListener('load', function(ev) {
         obscurer.style.background = 'black';
         obscurer.style.color = 'white';
         obscurer.style.fontSize = '100px';
-        obscurer.style.opacity = 0.8;
+        obscurer.style.opacity = 0.95;
         obscurer.style.textAlign = 'center';
         document.body.appendChild(obscurer);
         if (navigator.userAgent.indexOf('Firefox') != -1) {
