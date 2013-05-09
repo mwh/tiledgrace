@@ -456,6 +456,23 @@ function generateNodeCode(n, loc) {
         blockIndent--;
         return 'while {' + generateNodeCode(cond) + '} do {\n' + body + indent + '}';
     }
+    if (n.classList.contains('for')) {
+        var iterand = n.children[0].children[1].children[0];
+        var varInput = n.querySelector('div > input[type="text"].variable-name');
+        var varName = varInput.value;
+        var bodyHole = n.children[1].children[0];
+        var body = '';
+        var indent = '';
+        for (var i=0; i<blockIndent; i++)
+            indent += '    ';
+        blockIndent++;
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body = body + indent + '    ' + generateNodeCode(ch) + '\n'
+        }
+        blockIndent--;
+        return 'for (' + generateNodeCode(iterand) + ') do {' + varName + '->\n' + body + indent + '}';
+    }
     if (n.classList.contains('method')) {
         var name = n.childNodes[0].childNodes[1].value;
         var arg = n.childNodes[0].childNodes[3].value;
@@ -629,13 +646,18 @@ function findVarRefsInScope(varname, el, accum) {
 function findVarsInScope(el, accum, elAccum) {
     // First go up
     var e = el;
+    if (e.classList.contains('method')) {
+        accum.push(e.getElementsByTagName('input')[1].value);
+        elAccum.push(e);
+    }
+    if (e.classList.contains('for')) {
+        var varInput = e.querySelector('div > input[type="text"].variable-name');
+        accum.push(varInput.value);
+        elAccum.push(e);
+    }
     while (e) {
         if (e.classList.contains('vardec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
-            elAccum.push(e);
-        }
-        if (e.classList.contains('method')) {
-            accum.push(e.getElementsByTagName('input')[1].value);
             elAccum.push(e);
         }
         e = e.prev;
@@ -832,6 +854,8 @@ function drawVarRefLines(el) {
             break;
         }
     }
+    if (!defEl)
+        return;
     var defInput = defEl.getElementsByTagName('input')[0];
     if (defEl.classList.contains('method'))
         defInput = defEl.getElementsByTagName('input')[1];

@@ -65,7 +65,15 @@ html, body {
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
 }
-.tile.if > div, .tile.while > div, .tile.method > div {
+.tile.for {
+    background: #88c;
+    border: 2px outset #008;
+    flex-direction: column;
+    align-items: flex-start;
+    -webkit-flex-direction: column;
+    -webkit-align-items: flex-start;
+}
+.tile.if > div, .tile.while > div, .tile.method > div, .tile.for > div {
     display: inline-flex;
     display: -webkit-inline-flex;
     align-items: center;
@@ -172,9 +180,6 @@ html, body {
     color: #687687;
 }
 #gracecode {
-    //float: left;
-    //width: 200px;
-    //height: 500px;
 }
 .tile.bottom-join-target {
     border-bottom-color: yellow;

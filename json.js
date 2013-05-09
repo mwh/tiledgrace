@@ -153,6 +153,20 @@ function generateNodeJSON(n) {
             condition: generateNodeJSON(cond),
             body: body};
     }
+    if (n.classList.contains('for')) {
+        var iterand = n.children[0].children[1].children[0];
+        var varInput = n.querySelector('div > input[type="text"].variable-name');
+        var bodyHole = n.children[1].children[0];
+        var body = [];
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body.push(generateNodeJSON(ch));
+        }
+        return {type: 'for',
+            iterand: generateNodeJSON(iterand),
+            loopvar: varInput.value,
+            body: body};
+    }
 }
 function generateJSObject() {
     var tb = document.getElementById('gracecode');
@@ -260,6 +274,16 @@ function populateTile(tile, obj) {
             break;
         case "while":
             appendChildFromJSON(tile.children[0].children[1], obj.condition);
+            var bodyHole = tile.children[1].children[0];
+            for (var i=0; i<obj.body.length; i++) {
+                var ch = obj.body[i];
+                appendChildFromJSON(bodyHole, ch);
+            }
+            fillNextPrev(bodyHole);
+            break;
+        case "for":
+            appendChildFromJSON(tile.children[0].children[1], obj.iterand);
+            tile.childNodes[0].childNodes[3].value = obj.loopvar;
             var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
