@@ -471,7 +471,7 @@ function generateNodeCode(n, loc) {
             body = body + indent + '    ' + generateNodeCode(ch) + '\n'
         }
         blockIndent--;
-        return 'for (' + generateNodeCode(iterand) + ') do {' + varName + '->\n' + body + indent + '}';
+        return 'for (' + generateNodeCode(iterand, 'assignment') + ') do {' + varName + '->\n' + body + indent + '}';
     }
     if (n.classList.contains('method')) {
         var name = n.childNodes[0].childNodes[1].value;
@@ -1076,6 +1076,8 @@ function attachTileBehaviour(n) {
             });
     Array.prototype.forEach.call(n.getElementsByClassName('op'),
             function(el) {
+                if (el.parentNode.classList.contains('iterable'))
+                    return;
                 el.addEventListener('dblclick', function(ev) {
                     switch(this.innerHTML) {
                         case "*":
