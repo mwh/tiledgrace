@@ -859,6 +859,8 @@ function drawVarRefLines(el) {
     var defInput = defEl.getElementsByTagName('input')[0];
     if (defEl.classList.contains('method'))
         defInput = defEl.getElementsByTagName('input')[1];
+    if (defEl.classList.contains('for'))
+        defInput = defEl.getElementsByClassName('variable-name')[0];
     drawLineBetweenElements(el, defInput, "blue");
     vars = [];
     findVarAssignsInScope(myName, defEl, vars);
