@@ -505,6 +505,8 @@ function generateCode() {
             child = child.next;
         }
     }
+    var blob = new Blob([tb.value], {type: "text/x-grace;charset=utf-8"});
+    document.getElementById('downloadlink').href = URL.createObjectURL(blob);
 }
 function renameVar(oldValue, newValue) {
     var vars = document.getElementsByClassName('var-name');
