@@ -375,3 +375,15 @@ function loadJSON(str) {
     generateCode();
     return obj;
 }
+function loadFile() {
+    var userfile = document.getElementById('userfile');
+    var reader = new FileReader();
+    reader.readAsText(userfile.files[0]);
+    reader.addEventListener("load", function() {
+        minigrace.mode = "json";
+        minigrace.compile(reader.result);
+        minigrace.mode = "js";
+        loadJSON(minigrace.generated_output);
+        checkpointSave();
+    });
+}
