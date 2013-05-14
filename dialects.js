@@ -56,6 +56,51 @@ var StandardGrace = {
             returns: "Done",
             multiline: true,
         },
+        {
+            name: "if()then",
+            parts: [
+                {
+                    name: 'if',
+                    args: ["Boolean"],
+                },
+                {
+                    name: 'then',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                }
+            ],
+            returns: "Done",
+            multiline: true,
+        },
+        {
+            name: "if()then()else",
+            parts: [
+                {
+                    name: 'if',
+                    args: ["Boolean"],
+                },
+                {
+                    name: 'then',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                },
+                {
+                    name: 'else',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                }
+            ],
+            returns: "Done",
+            multiline: true,
+        },
+        {
+            name: "true",
+            parts: [{ name: "true", args: [] }],
+            returns: "Boolean"
+        }
     ],
 };
 
@@ -133,7 +178,7 @@ function createDialectRequestTile(req) {
                 line.appendChild(createHole(arg.returns));
                 line.appendChild(document.createTextNode("}"));
             } else {
-                line.appendChild(document.createTextNode("("));
+                ps.appendChild(document.createTextNode(" ("));
                 line.appendChild(createHole(arg));
                 line.appendChild(document.createTextNode(")"));
             }
@@ -195,11 +240,11 @@ function codeSerialiser(n) {
             } else if (arg.type == "Block") {
                 out += " {" + generateNodeCode(holes[ho]) + "}";
             } else {
-                out += "(" + generateNodeCode(holes[ho]) + ")";
+                out += " (" + generateNodeCode(holes[ho]) + ")";
             }
             ho++;
         } else {
-            out += "(";
+            out += " (";
             for (var j=0; j<part.args.length; j++) {
                 if (j > 0)
                     out += ", ";
