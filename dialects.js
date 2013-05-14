@@ -57,6 +57,28 @@ var StandardGrace = {
             multiline: true,
         },
         {
+            name: "for()do",
+            parts: [
+                {
+                    name: 'for',
+                    args: ["Any"],
+                },
+                {
+                    name: 'do',
+                    args: [
+                        {
+                            type: 'Block',
+                            returns: 'Any',
+                            multiline: true,
+                            params: 1
+                        }
+                    ],
+                }
+            ],
+            returns: "Done",
+            multiline: true,
+        },
+        {
             name: "if()then",
             parts: [
                 {
@@ -160,6 +182,18 @@ function createDialectRequestTile(req) {
             var arg = req.parts[i].args[j];
             if (arg.type == "Block" && arg.multiline) {
                 ps.appendChild(document.createTextNode(" {"));
+                if (arg.params) {
+                    for (var k=0; k<arg.params; k++) {
+                        if (k > 0)
+                            line.appendChild(document.createTextNode(", "));
+                        var inp = document.createElement("input");
+                        inp.type = "text";
+                        inp.size = 1;
+                        inp.classList.add("variable-name");
+                        line.appendChild(inp);
+                    }
+                    line.appendChild(document.createTextNode(" ->"));
+                }
                 line = document.createElement("div");
                 line.classList.add("line");
                 tile.appendChild(line);
@@ -206,6 +240,16 @@ function getHoles(n) {
             holes.push(n.childNodes[i]);
     return holes;
 }
+function getVarInputs(n) {
+    var vars = [];
+    if (n.classList.contains("multiline"))
+        n = n.childNodes[0];
+    for (var i=0; i<n.childNodes.length; i++)
+        if (n.childNodes[i].classList
+                && n.childNodes[i].classList.contains("variable-name"))
+            vars.push(n.childNodes[i]);
+    return vars;
+}
 function codeSerialiser(n) {
     var req = serialisers[n.dataset.serialiserIndex];
     var out = "";
@@ -223,7 +267,17 @@ function codeSerialiser(n) {
         if (part.args.length == 1) {
             var arg = part.args[0];
             if (arg.type == "Block" && arg.multiline) {
-                out += " {\n";
+                out += " {";
+                if (arg.params) {
+                    var vars = getVarInputs(n);
+                    for (var j=0; j<vars.length; j++) {
+                        if (j > 0)
+                            out += ", ";
+                        out += vars[j].value;
+                    }
+                    out += " ->";
+                }
+                out += "\n";
                 var indent = "";
                 for (var j=0; i<blockIndent; j++)
                     indent += '    ';
@@ -283,6 +337,12 @@ function jsonSerialiser(n) {
                     body: []
                 };
                 opart.push(block);
+                if (arg.params) {
+                    var vars = getVarInputs(line);
+                    for (var j=0; j<vars.length; j++) {
+                        block.params.push(vars[j].value);
+                    }
+                }
                 if (arg.multiline) {
                     line = line.nextSibling;
                     var hole = line.childNodes[0].childNodes[0];
@@ -329,7 +389,14 @@ function jsonDeserialiser(obj) {
         for (var j=0; j<part.args.length; j++) {
             var param = part.args[j];
             var arg = obj.parts[i][0];
-            if (arg.type == "block") {
+            if (!arg) {
+            } else if (arg.type == "block") {
+                if (arg.params) {
+                    var vars = getVarInputs(line);
+                    for (var k=0; k<vars.length; k++) {
+                        vars[k].value = arg.params[k];
+                    }
+                }
                 var hole;
                 if (param.multiline) {
                     line = line.nextSibling;

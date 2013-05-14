@@ -662,6 +662,13 @@ function findVarsInScope(el, accum, elAccum) {
         accum.push(varInput.value);
         elAccum.push(e);
     }
+    if (e.classList.contains('dialect-method')) {
+        var varInputs = getVarInputs(e);
+        for (var i=0; i<varInputs.length; i++)
+            accum.push(varInputs[i].value);
+        if (varInputs.length)
+            elAccum.push(e);
+    }
     while (e) {
         if (e.classList.contains('vardec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
@@ -867,6 +874,8 @@ function drawVarRefLines(el) {
     if (defEl.classList.contains('method'))
         defInput = defEl.getElementsByTagName('input')[1];
     if (defEl.classList.contains('for'))
+        defInput = defEl.getElementsByClassName('variable-name')[0];
+    if (defEl.classList.contains('dialect-method'))
         defInput = defEl.getElementsByClassName('variable-name')[0];
     drawLineBetweenElements(el, defInput, "blue");
     vars = [];
