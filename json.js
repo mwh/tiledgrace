@@ -4,6 +4,8 @@ function generateNodeJSON(n) {
         return null;
     if (typeof n == 'undefined' || typeof n == 'boolean')
         return null;
+    if (n.dataset.serialiserIndex !== undefined)
+        return jsonSerialiser(n);
     if (n.classList.contains('hole')) {
         if (n.childNodes.length)
             return generateNodeJSON(n.childNodes[0]);
@@ -323,6 +325,8 @@ function populateTile(tile, obj) {
     }
 }
 function createTileFromJSON(obj) {
+    if (obj.type == "dialect-method")
+        return jsonDeserialiser(obj);
     var template = document.getElementById('toolbox').querySelector('.tile.' + obj.type);
     var newTile = template.cloneNode(true);
     newTile.style.position = 'static';

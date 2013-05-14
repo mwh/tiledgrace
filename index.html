@@ -13,7 +13,7 @@
          <div class="tile vardec"><span style="margin-right: 1ex; color: blue;">var</span><input type="text" value="" size="1" class="variable-name"><span style="margin-left: 1ex; margin-right: 1ex; color: #687687;">:=</span><div class="hole"></div></div>
          <div class="tile var"><span class="var-name"></span></div>
          <div class="tile assign"><div class="hole"></div><span style="margin-left: 1ex; margin-right: 1ex; color: #687687;">:=</span><div class="hole"></div></div>
-         <div class="tile operator"><div class="hole number"></div><div class="op">+</div><div class="hole number"></div></div>
+         <div class="tile operator"><div class="hole number"></div><div class="op" data-operators="+ * - /">+</div><div class="hole number"></div></div>
          <div class="tile comparison-operator"><div class="hole number"></div><div class="cmpop">==</div><div class="hole number"></div></div>
          <div class="tile number"><input type="text" value="0" size="3" ></div>
          <div class="tile operator iterable"><div class="hole number"></div><div class="op">..</div><div class="hole number"></div></div>
@@ -54,6 +54,7 @@
      <canvas id="overlay-canvas" width="500" height="500"></canvas>
      <script type="text/javascript" src="main.js"></script>
      <script type="text/javascript" src="json.js"></script>
+     <script type="text/javascript" src="dialects.js"></script>
      <script type="text/javascript" src="minigrace.js"></script>
      <script type="text/javascript" src="turtle.js"></script>
      <script type="text/javascript" src="logo.js"></script>

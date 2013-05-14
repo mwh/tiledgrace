@@ -324,6 +324,9 @@ function generateNodeCode(n, loc) {
         else
             return '!ABSENT!';
     }
+    if (n.dataset.serialiserIndex !== undefined) {
+        return codeSerialiser(n);
+    }
     if (n.classList.contains('number')) {
         return n.getElementsByTagName('input')[0].value;
     }
@@ -506,6 +509,8 @@ function generateCode() {
         }
     }
     var blob = new Blob([tb.value], {type: "text/x-grace;charset=utf-8"});
+    if (document.getElementById('downloadlink').href)
+        URL.revokeObjectURL(document.getElementById('downloadlink').href);
     document.getElementById('downloadlink').href = URL.createObjectURL(blob);
 }
 function renameVar(oldValue, newValue) {
@@ -1080,25 +1085,23 @@ function attachTileBehaviour(n) {
             });
     Array.prototype.forEach.call(n.getElementsByClassName('op'),
             function(el) {
-                if (el.parentNode.classList.contains('iterable'))
-                    return;
                 el.addEventListener('dblclick', function(ev) {
-                    switch(this.innerHTML) {
-                        case "*":
-                            this.innerHTML = '-';
+                    if (!this.dataset.operators)
+                        return;
+                    var cur = this.childNodes[0].data;
+                    var ops = this.dataset.operators.split(" ");
+                    var nxt = cur;
+                    for (var i=0; i<ops.length; i++) {
+                        if (cur == ops[i]) {
+                            if (i < ops.length - 1)
+                                nxt = ops[i + 1];
+                            else
+                                nxt = ops[0];
                             break;
-                        case "-":
-                            this.innerHTML = '/';
-                            break;
-                        case "/":
-                            this.innerHTML = '++';
-                            break;
-                        case "++":
-                            this.innerHTML = '+';
-                            break;
-                        default:
-                            this.innerHTML = '*';
+                        }
                     }
+                    this.removeChild(this.childNodes[0]);
+                    this.appendChild(document.createTextNode(nxt));
                     generateCode();
                     checkpointSave();
                 });

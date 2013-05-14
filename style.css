@@ -57,6 +57,12 @@ html, body {
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
 }
+.tile.multiline {
+    flex-direction: column;
+    align-items: flex-start;
+    -webkit-flex-direction: column;
+    -webkit-align-items: flex-start;
+}
 .tile.while {
     background: #88c;
     border: 2px outset #008;
@@ -73,7 +79,7 @@ html, body {
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
 }
-.tile.if > div, .tile.while > div, .tile.method > div, .tile.for > div {
+.tile.if > div, .tile.while > div, .tile.method > div, .tile.for > div, .tile.multiline > div.line {
     display: inline-flex;
     display: -webkit-inline-flex;
     align-items: center;
@@ -90,6 +96,10 @@ html, body {
 .tile.print {
     background: #cc8;
     border: 2px outset #880;
+}
+.tile.dialect-method {
+    background: #c3c;
+    border: 2px outset #707;
 }
 .tile.dialect-request {
     background: #d4d;
