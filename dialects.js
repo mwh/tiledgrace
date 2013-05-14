@@ -26,8 +26,8 @@ var StandardGrace = {
             operators: ["++"]
         }
     ],
-    methods: [
-        {
+    methods: {
+        "print": {
             name: "print",
             parts: [
                 {
@@ -37,7 +37,7 @@ var StandardGrace = {
             ],
             returns: "Done"
         },
-        {
+        "while()do": {
             name: "while()do",
             parts: [
                 {
@@ -56,7 +56,7 @@ var StandardGrace = {
             returns: "Done",
             multiline: true,
         },
-        {
+        "for()do": {
             name: "for()do",
             parts: [
                 {
@@ -78,7 +78,7 @@ var StandardGrace = {
             returns: "Done",
             multiline: true,
         },
-        {
+        "if()then": {
             name: "if()then",
             parts: [
                 {
@@ -95,7 +95,7 @@ var StandardGrace = {
             returns: "Done",
             multiline: true,
         },
-        {
+        "if()then()else": {
             name: "if()then()else",
             parts: [
                 {
@@ -118,13 +118,65 @@ var StandardGrace = {
             returns: "Done",
             multiline: true,
         },
-        {
+        "true": {
             name: "true",
             parts: [{ name: "true", args: [] }],
             returns: "Boolean"
         }
-    ],
+    },
 };
+var currentDialect = StandardGrace;
+var dialects = {
+    "StandardGrace": StandardGrace,
+    "": StandardGrace
+};
+function extendDialect(sub, sup) {
+    sub = dialects[sub];
+    sup = dialects[sup];
+    if (!sub.operators)
+        sub.operators = sup.operators;
+    else {
+        for (var k in sup.operators) {
+            if (!sub.operators[k])
+                sub.operators[k] = sup.operators[k];
+        }
+    }
+    if (!sub.methods)
+        sub.methods = sup.methods;
+    else {
+        for (var k in sup.methods) {
+            if (!sub.methods[k])
+                sub.methods[k] = sup.methods[k];
+        }
+    }
+}
+dialects.logo = {
+    methods: {
+        "forward": {
+            name: "forward",
+            parts: [{name: "forward", args: ["Number"]}]
+        },
+        "turnRight": {
+            name: "turnRight",
+            parts: [{name: "turnRight", args: ["Number"]}]
+        },
+        "turnLeft": {
+            name: "turnLeft",
+            parts: [{name: "turnLeft", args: ["Number"]}]
+        },
+        "lineColor:=": {
+            name: "lineColor:=",
+            parts: [{name: "turnLeft", args: ["Number"]}]
+        },
+        "blue": {name: "blue", parts: [{name: "blue", args: []}]},
+        "red": {name: "red", parts: [{name: "red", args: []}]},
+        "green": {name: "green", parts: [{name: "green", args: []}]},
+        "black": {name: "black", parts: [{name: "black", args: []}]},
+    }
+};
+
+extendDialect("logo", "StandardGrace");
+
 
 function createOperatorTile(op) {
     var tile = document.createElement("div");
@@ -368,13 +420,7 @@ function jsonSerialiser(n) {
 }
 
 function jsonDeserialiser(obj) {
-    var req;
-    for (var i=0; i<StandardGrace.methods.length; i++) {
-        if (StandardGrace.methods[i].name == obj.name) {
-            req = StandardGrace.methods[i];
-            break
-        }
-    }
+    var req = currentDialect.methods[obj.name];
     if (!req)
         return null;
     var tile = createDialectRequestTile(req);
@@ -419,11 +465,19 @@ function jsonDeserialiser(obj) {
     }
     return tile;
 }
-window.addEventListener("load", function() {
+function addDialectMethods(dialect) {
     var tb = document.getElementById('toolbox');
-    for (var i=0; i<StandardGrace.methods.length; i++) {
-        var tile = createDialectRequestTile(StandardGrace.methods[i]);
+    var di = dialects[dialect];
+    currentDialect = di;
+    console.log("Adding methods for " + dialect);
+    for (var k in di.methods) {
+        console.log("trying " + k);
+        var tile = createDialectRequestTile(di.methods[k]);
         tb.appendChild(tile);
         attachToolboxBehaviour(tile);
+        console.log("done " + k);
     }
+}
+window.addEventListener("load", function() {
+    addDialectMethods("StandardGrace");
 });

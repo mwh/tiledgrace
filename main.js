@@ -539,11 +539,12 @@ function loadSave() {
 }
 
 function changeDialect() {
-    var cl = document.getElementById('toolbox').classList;
-    for (var i=0; i<cl.length; i++)
-        if (cl[i].substring(0, 11) == 'in-dialect-')
-            cl.remove(cl[i]);
-    cl.add('in-dialect-' + document.getElementById('dialect').value);
+    var tb = document.getElementById('toolbox');
+    var dialectMethods = tb.getElementsByClassName("dialect-method");
+    while (dialectMethods.length) {
+        tb.removeChild(dialectMethods[0]);
+    }
+    addDialectMethods(document.getElementById('dialect').value);
     generateCode();
     checkpointSave();
 }
