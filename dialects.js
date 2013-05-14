@@ -35,6 +35,7 @@ var StandardGrace = {
                     args: ["Any"]
                 },
             ],
+            category: "Input/Output",
             returns: "Done"
         },
         "while()do": {
@@ -53,6 +54,7 @@ var StandardGrace = {
                     ],
                 }
             ],
+            category: "Control",
             returns: "Done",
             multiline: true,
         },
@@ -75,6 +77,7 @@ var StandardGrace = {
                     ],
                 }
             ],
+            category: "Control",
             returns: "Done",
             multiline: true,
         },
@@ -92,6 +95,7 @@ var StandardGrace = {
                     ],
                 }
             ],
+            category: "Control",
             returns: "Done",
             multiline: true,
         },
@@ -115,14 +119,10 @@ var StandardGrace = {
                     ],
                 }
             ],
+            category: "Control",
             returns: "Done",
             multiline: true,
         },
-        "true": {
-            name: "true",
-            parts: [{ name: "true", args: [] }],
-            returns: "Boolean"
-        }
     },
 };
 var currentDialect = StandardGrace;
@@ -174,7 +174,8 @@ dialects.logo = {
         "black": {name: "black", parts: [{name: "black", args: []}]},
     }
 };
-
+for (var k in dialects.logo.methods)
+    dialects.logo.methods[k].category = "Turtle";
 extendDialect("logo", "StandardGrace");
 
 
@@ -469,15 +470,22 @@ function addDialectMethods(dialect) {
     var tb = document.getElementById('toolbox');
     var di = dialects[dialect];
     currentDialect = di;
-    console.log("Adding methods for " + dialect);
+    var categories = {
+        "Control": "Control",
+        "Variables": "Variables",
+        "Numbers and Strings": "Numbers-and-Strings"
+    };
     for (var k in di.methods) {
-        console.log("trying " + k);
         var tile = createDialectRequestTile(di.methods[k]);
         tb.appendChild(tile);
         attachToolboxBehaviour(tile);
-        console.log("done " + k);
+        if (di.methods[k].category) {
+            var cat = di.methods[k].category;
+            categories[cat] = true;
+            tile.dataset.category = cat;
+        }
     }
 }
 window.addEventListener("load", function() {
-    addDialectMethods("StandardGrace");
+    changeDialect();
 });

@@ -181,6 +181,23 @@ html, body {
     position: static;
     clear: both;
 }
+#category-bar {
+    background: #ccf;
+    position: absolute;
+    left: 708px;
+    top: -16px;
+    transform-origin: 0% 100%;
+    transform: rotate(0.25turn);
+    width: 500px;
+    height: 24px;
+    font-size: 0;
+}
+#category-bar input {
+    height: 100%;
+}
+#standard-canvas {
+    margin-left: 24px;
+}
 .tile .op, .tile .cmpop {
     display:inline-flex;
     display: -webkit-inline-flex;

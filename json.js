@@ -331,6 +331,7 @@ function createTileFromJSON(obj) {
     var newTile = template.cloneNode(true);
     newTile.style.position = 'static';
     populateTile(newTile, obj);
+    newTile.style.display = '';
     return newTile;
 }
 function createChunkFromJSON(chunk) {

@@ -545,6 +545,26 @@ function changeDialect() {
         tb.removeChild(dialectMethods[0]);
     }
     addDialectMethods(document.getElementById('dialect').value);
+    var cb = document.getElementById('category-bar');
+    while (cb.childNodes.length > 0)
+        cb.removeChild(cb.lastChild);
+    var cats = {};
+    for (var i=0; i<tb.childNodes.length; i++) {
+        if (!tb.childNodes[i].dataset)
+            continue;
+        var cat = tb.childNodes[i].dataset.category;
+        if (cats[cat])
+            continue;
+        cats[cat] = true;
+        var but = document.createElement("input");
+        but.type = "button";
+        but.value = cat;
+        but.addEventListener("click", function(ev) {
+            switchPane(this.value);
+        });
+        cb.appendChild(but);
+    }
+    switchPane("Variables");
     generateCode();
     checkpointSave();
 }
@@ -854,7 +874,7 @@ function drawVardecLines(el) {
     vars = [];
     findVarAssignsInScope(myName, el, vars);
     for (var i=0; i<vars.length; i++) {
-        drawLineBetweenElements(myInput, vars[i], "red");
+        drawLineBetweenElements(myInput, vars[i].childNodes[0], "red");
     }
 }
 function drawVarRefLines(el) {
@@ -882,7 +902,7 @@ function drawVarRefLines(el) {
     vars = [];
     findVarAssignsInScope(myName, defEl, vars);
     for (var i=0; i<vars.length; i++) {
-        drawLineBetweenElements(defInput, vars[i], "red");
+        drawLineBetweenElements(defInput, vars[i].childNodes[0], "red");
     }
 }
 function drawVarLinesOverText(e) {
@@ -976,6 +996,15 @@ function drawVarLinesOverText(e) {
             document.getElementById('overlay-canvas').style.display = 'block';
         }
     }
+}
+function switchPane(category) {
+    var tb = document.getElementById("toolbox");
+    for (var i=0; i<tb.childNodes.length; i++)
+        if (tb.childNodes[i].dataset && tb.childNodes[i].dataset.category
+                && tb.childNodes[i].dataset.category != category)
+            tb.childNodes[i].style.display = "none";
+        else if (tb.childNodes[i].style)
+            tb.childNodes[i].style.display = "";
 }
 function attachTileBehaviour(n) {
     n.addEventListener('mousedown', dragstart);
