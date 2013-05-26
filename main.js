@@ -585,14 +585,14 @@ function shrink() {
         for (var i=0; i<starts.length; i++) {
             starts[i].oldTop = starts[i].style.top;
             starts[i].oldLeft = starts[i].style.left;
-            starts[i].style.left = '49px';
+            starts[i].style.left = '44px';
             starts[i].style.top = runningTop + 'px';
             runningTop += +starts[i].offsetHeight;
             var child = starts[i].next;
             while (child) {
                 child.oldTop = child.style.top;
                 child.oldLeft = child.style.left;
-                child.style.left = '49px';
+                child.style.left = '44px';
                 child.style.top = runningTop + 'px';
                 runningTop += +child.offsetHeight;
                 child = child.next;
