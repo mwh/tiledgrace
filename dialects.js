@@ -458,9 +458,9 @@ function codeSerialiser(n) {
                 line = line.nextSibling;
                 holes = getHoles(line);
             } else if (arg.type == "Block") {
-                out += " {" + generateNodeCode(holes[ho]) + "}";
+                out += " {" + generateNodeCode(holes[ho], 'assignment') + "}";
             } else {
-                out += " (" + generateNodeCode(holes[ho]) + ")";
+                out += " (" + generateNodeCode(holes[ho], 'assignment') + ")";
             }
             ho++;
         } else {
