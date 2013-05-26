@@ -177,6 +177,119 @@ dialects.logo = {
 for (var k in dialects.logo.methods)
     dialects.logo.methods[k].category = "Turtle";
 extendDialect("logo", "StandardGrace");
+dialects.loopinvariant = {
+    methods: {
+        "print": {
+            name: "print",
+            parts: [
+                {
+                    name: 'print',
+                    args: ["Any"]
+                },
+            ],
+            category: "Input/Output",
+            returns: "Done"
+        },
+        "while()invariant()do": {
+            name: "while()invariant()do",
+            parts: [
+                {
+                    name: 'while',
+                    args: [
+                        {type: 'Block', returns: 'Boolean', multiline: false}
+                    ],
+                },
+                {
+                    name: 'invariant',
+                    args: [
+                        {type: 'Block', returns: 'Boolean', multiline: false}
+                    ],
+                },
+                {
+                    name: 'do',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                }
+            ],
+            category: "Control",
+            returns: "Done",
+            multiline: true,
+        },
+        "for()invariant()do": {
+            name: "for()invariant()do",
+            parts: [
+                {
+                    name: 'for',
+                    args: ["Any"],
+                },
+                {
+                    name: 'invariant',
+                    args: [
+                        {type: 'Block', returns: 'Boolean', multiline: false}
+                    ],
+                },
+                {
+                    name: 'do',
+                    args: [
+                        {
+                            type: 'Block',
+                            returns: 'Any',
+                            multiline: true,
+                            params: 1
+                        }
+                    ],
+                }
+            ],
+            category: "Control",
+            returns: "Done",
+            multiline: true,
+        },
+        "if()then": {
+            name: "if()then",
+            parts: [
+                {
+                    name: 'if',
+                    args: ["Boolean"],
+                },
+                {
+                    name: 'then',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                }
+            ],
+            category: "Control",
+            returns: "Done",
+            multiline: true,
+        },
+        "if()then()else": {
+            name: "if()then()else",
+            parts: [
+                {
+                    name: 'if',
+                    args: ["Boolean"],
+                },
+                {
+                    name: 'then',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                },
+                {
+                    name: 'else',
+                    args: [
+                        {type: 'Block', returns: 'Any', multiline: true}
+                    ],
+                }
+            ],
+            category: "Control",
+            returns: "Done",
+            multiline: true,
+        },
+    },
+    operators: StandardGrace.operators
+};
 
 
 function createOperatorTile(op) {

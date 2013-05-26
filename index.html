@@ -34,6 +34,7 @@
      <select id="dialect" onchange="changeDialect()">
          <option value="">Standard
          <option value="logo">Turtle graphics
+         <option value="loopinvariant">Loop invariants
      </select>
      <input type="button" onclick="go()" value="Run">
      <input type="button" onclick="generateJSON()" value="Save">
@@ -52,6 +53,7 @@
      <script type="text/javascript" src="minigrace.js"></script>
      <script type="text/javascript" src="turtle.js"></script>
      <script type="text/javascript" src="logo.js"></script>
+     <script type="text/javascript" src="loopinvariant.js"></script>
      <script type="text/javascript">
         var getCode = function() {
             return document.getElementById('gracecode').value;
@@ -86,7 +88,8 @@
             history.replaceState(obj, "", generateHash(obj));
         }
 var gctCache = {
-    'logo': "modules:\n StandardPrelude\npath:\n logo\nclasses:\npublic:\n red\n green\n blue\n black\n lineWidth\n lineWidth:=\n lineColor\n lineColor:=\n angle\n angle:=\n forward\n turnRight\n turnLeft\n atModuleEnd\nconfidential:\nfresh-methods:\n"
+    'logo': "modules:\n StandardPrelude\npath:\n logo\nclasses:\npublic:\n red\n green\n blue\n black\n lineWidth\n lineWidth:=\n lineColor\n lineColor:=\n angle\n angle:=\n forward\n turnRight\n turnLeft\n atModuleEnd\nconfidential:\nfresh-methods:\n",
+    'loopinvariant': "modules:\n StandardPrelude\npath:\n logo\nclasses:\npublic:\n if()then()else\n if()then\n for()invariant()do\n while()invariant()do\nconfidential:\nfresh-methods:\n"
 };
     </script>
     <div id="code_txt_real"></div>
