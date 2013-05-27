@@ -499,16 +499,19 @@ function generateCode() {
     var dialect = document.getElementById('dialect').value;
     if (dialect)
         tb.value = 'dialect "' + dialect + '"\n';
+    var chunkLine = "// chunks:";
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
             continue;
+        chunkLine += " " + child.style.left + "," + child.style.top;
         while (child) {
             tb.value = tb.value + generateNodeCode(child) + '\n';
             child = child.next;
         }
+        tb.value = tb.value + "\n";
     }
-    var blob = new Blob([tb.value], {type: "text/x-grace;charset=utf-8"});
+    var blob = new Blob([tb.value + chunkLine], {type: "text/x-grace;charset=utf-8"});
     if (document.getElementById('downloadlink').href)
         URL.revokeObjectURL(document.getElementById('downloadlink').href);
     document.getElementById('downloadlink').href = URL.createObjectURL(blob);
@@ -582,7 +585,9 @@ function shrink() {
     }
     var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 4) + 'px';
     setTimeout(function() {
-        var runningTop = 19;
+        var runningTop = 0;
+        if (document.getElementById('dialect').value)
+            runningTop = 19;
         for (var i=0; i<starts.length; i++) {
             starts[i].oldTop = starts[i].style.top;
             starts[i].oldLeft = starts[i].style.left;
@@ -598,6 +603,7 @@ function shrink() {
                 runningTop += +child.offsetHeight;
                 child = child.next;
             }
+            runningTop += 19;
         }
         setTimeout(function() {
             ctr.style.visibility = 'visible';
