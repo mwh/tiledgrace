@@ -823,7 +823,7 @@ function drawConstantLines(el) {
     ctx.restore();
 }
 function drawDialectRequestLines(el) {
-    var mn = el.getElementsByClassName('method-name')[0];
+    var mn = el.childNodes[0];
     var xy = findOffsetTopLeft(mn);
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');
@@ -968,7 +968,7 @@ function drawVarLinesOverText(e) {
             document.getElementById('overlay-canvas').style.display = 'block';
         }
     }
-    vars = codearea.getElementsByClassName('dialect-request');
+    vars = codearea.getElementsByClassName('dialect-method');
     for (var i=0; i<vars.length; i++) {
         var xy = findOffsetTopLeft(vars[i]);
         if (y >= xy.top - vars[i].clientHeight / 2
@@ -1078,7 +1078,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
-    if (n.classList.contains('dialect-request') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('dialect-method') && n.style.pointerEvents != undefined) {
         n.addEventListener('mouseover', function(ev) {
             drawDialectRequestLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
