@@ -1,3 +1,4 @@
+"use strict"
 var serialisers = [];
 var StandardGrace = {
     'operators': [
@@ -452,7 +453,7 @@ function codeSerialiser(n) {
                 }
                 out += "\n";
                 var indent = "";
-                for (var j=0; i<blockIndent; j++)
+                for (var j=0; j<blockIndent; j++)
                     indent += '    ';
                 blockIndent++;
                 line = line.nextSibling;
