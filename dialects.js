@@ -166,7 +166,7 @@ dialects.logo = {
         },
         "lineColor:=": {
             name: "lineColor:=",
-            parts: [{name: "turnLeft", args: ["Number"]}]
+            parts: [{name: "lineColor:=", args: ["Any"]}]
         },
         "blue": {name: "blue", parts: [{name: "blue", args: []}]},
         "red": {name: "red", parts: [{name: "red", args: []}]},

@@ -325,8 +325,12 @@ function populateTile(tile, obj) {
     }
 }
 function createTileFromJSON(obj) {
-    if (obj.type == "dialect-method")
-        return jsonDeserialiser(obj);
+    if (obj.type == "dialect-method") {
+        var tile = jsonDeserialiser(obj);
+        tile.style.position = 'static';
+        tile.style.display = '';
+        return tile;
+    }
     var template = document.getElementById('toolbox').querySelector('.tile.' + obj.type);
     var newTile = template.cloneNode(true);
     newTile.style.position = 'static';
