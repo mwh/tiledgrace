@@ -126,6 +126,9 @@ html, body {
     -webkit-align-items: center;
     transition: opacity 0.5s;
 }
+.no-transition .tile, .no-transition .indent, .no-transition.hole {
+    transition: none !important;
+}
 .tile.locked::after {
     content: "\01F512";
     font-family: entypo;

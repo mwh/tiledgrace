@@ -571,15 +571,17 @@ function changeDialect() {
     generateCode();
     checkpointSave();
 }
-
+var chunkLine;
 function shrink() {
     editor.setValue(document.getElementById('gracecode').value, -1);
     codearea.classList.add('shrink');
     var starts = [];
+    chunkLine = "\n// chunks:";
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
         if (child.prev != false)
             continue;
+        chunkLine += " " + child.style.left + "," + child.style.top;
         starts.push(child);
         continue;
     }
@@ -612,6 +614,54 @@ function shrink() {
     }, 700);
 }
 function grow() {
+    if (editor.getValue() != document.getElementById('gracecode').value) {
+        minigrace.modname = "main";
+        minigrace.mode = "json";
+        minigrace.compile(editor.getValue() + chunkLine);
+        minigrace.mode = "js";
+        if (minigrace.compileError) {
+            if (confirm("This code did not compile. Do you want to revert to the previous version?")) {
+                editor.setValue(document.getElementById('gracecode').value, -1);
+                return;
+            }
+            return;
+        }
+        codearea.classList.add("no-transition");
+        codearea.classList.remove('shrink');
+        loadJSON(minigrace.generated_output);
+        checkpointSave();
+        var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 4) + 'px';
+        var runningTop = 0;
+        if (document.getElementById('dialect').value)
+            runningTop = 19;
+        var starts = [];
+        for (var i=0; i<codearea.children.length; i++) {
+            var child = codearea.children[i];
+            if (child.prev != false)
+                continue;
+            starts.push(child);
+            continue;
+        }
+        codearea.classList.add('shrink');
+        for (var i=0; i<starts.length; i++) {
+            starts[i].oldTop = starts[i].style.top;
+            starts[i].oldLeft = starts[i].style.left;
+            starts[i].style.left = leftEdge;
+            starts[i].style.top = runningTop + 'px';
+            runningTop += +starts[i].offsetHeight;
+            var child = starts[i].next;
+            while (child) {
+                child.oldTop = child.style.top;
+                child.oldLeft = child.style.left;
+                child.style.left = leftEdge;
+                child.style.top = runningTop + 'px';
+                runningTop += +child.offsetHeight;
+                child = child.next;
+            }
+            runningTop += 19;
+        }
+        codearea.classList.remove("no-transition");
+    }
     ctr.style.visibility = 'hidden';
     codearea.style.visibility = 'visible';
     setTimeout(function() {
