@@ -982,6 +982,7 @@ function drawVarLinesOverText(e) {
                 && x >= xy.left - vars[i].clientWidth / 2
                 && x <= xy.left + vars[i].clientWidth * 1.5) {
             if (token.value + ' :=' == vars[i].childNodes[0].innerHTML) {
+            } else if (token.value + " (" == vars[i].childNodes[0].innerHTML) {
             } else if (token.value != vars[i].childNodes[0].innerHTML) {
                 continue;
             }
