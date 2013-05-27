@@ -170,6 +170,9 @@ html, body {
 .hole:empty {
     min-width: 2em;
 }
+.hole:not(:empty) {
+    background: inherit;
+}
 #toolbox {
     background: #ccf;
     float:left;
