@@ -963,7 +963,8 @@ function drawVarRefLines(el) {
     }
 }
 function drawVarLinesOverText(e) {
-    var y = e.clientY;
+    codearea.scrollTop = document.getElementsByClassName('ace_sb')[0].scrollTop;
+    var y = e.clientY + codearea.scrollTop;
     var x = e.clientX;
     var vars = codearea.getElementsByClassName('var');
     document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
