@@ -188,6 +188,8 @@ html, body {
     top: -16px;
     transform-origin: 0% 100%;
     transform: rotate(0.25turn);
+    -webkit-transform-origin: 0% 100%;
+    -webkit-transform: rotate(0.25turn);
     width: 500px;
     height: 24px;
     font-size: 0;
