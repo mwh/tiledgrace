@@ -377,6 +377,12 @@ function createDialectRequestTile(req) {
                 ps.appendChild(document.createTextNode(" {"));
                 line.appendChild(createHole(arg.returns));
                 line.appendChild(document.createTextNode("}"));
+            } else if (req.parts[i].name.substring(req.parts[i].name.length-2)
+                    == ":=") {
+                var pad = document.createElement('span');
+                pad.style.marginLeft = '1ex';
+                ps.appendChild(pad);
+                line.appendChild(createHole(arg));
             } else {
                 ps.appendChild(document.createTextNode(" ("));
                 line.appendChild(createHole(arg));
@@ -430,7 +436,8 @@ function codeSerialiser(n) {
         if (i > 0)
             out += " ";
         out += part.name;
-        if (part.args.length == 1) {
+        if (part.args.length == 0) {
+        } else if (part.args.length == 1) {
             var arg = part.args[0];
             if (arg.type == "Block" && arg.multiline) {
                 out += " {";
@@ -459,6 +466,8 @@ function codeSerialiser(n) {
                 holes = getHoles(line);
             } else if (arg.type == "Block") {
                 out += " {" + generateNodeCode(holes[ho], 'assignment') + "}";
+            } else if (part.name.substring(part.name.length - 2) == ":=") {
+                out += " " + generateNodeCode(holes[ho], 'assignment');
             } else {
                 out += " (" + generateNodeCode(holes[ho], 'assignment') + ")";
             }
