@@ -583,8 +583,8 @@ function shrink() {
         starts.push(child);
         continue;
     }
-    var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 4) + 'px';
     setTimeout(function() {
+        var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 4) + 'px';
         var runningTop = 0;
         if (document.getElementById('dialect').value)
             runningTop = 19;
