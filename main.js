@@ -580,19 +580,20 @@ function shrink() {
         starts.push(child);
         continue;
     }
+    var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 4) + 'px';
     setTimeout(function() {
         var runningTop = 19;
         for (var i=0; i<starts.length; i++) {
             starts[i].oldTop = starts[i].style.top;
             starts[i].oldLeft = starts[i].style.left;
-            starts[i].style.left = '44px';
+            starts[i].style.left = leftEdge;
             starts[i].style.top = runningTop + 'px';
             runningTop += +starts[i].offsetHeight;
             var child = starts[i].next;
             while (child) {
                 child.oldTop = child.style.top;
                 child.oldLeft = child.style.left;
-                child.style.left = '44px';
+                child.style.left = leftEdge;
                 child.style.top = runningTop + 'px';
                 runningTop += +child.offsetHeight;
                 child = child.next;
