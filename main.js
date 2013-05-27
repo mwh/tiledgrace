@@ -574,6 +574,7 @@ function changeDialect() {
 var chunkLine;
 function shrink() {
     editor.setValue(document.getElementById('gracecode').value, -1);
+    editor.getSession().clearAnnotations();
     codearea.classList.add('shrink');
     var starts = [];
     chunkLine = "\n// chunks:";
@@ -615,17 +616,37 @@ function shrink() {
 }
 function grow() {
     if (editor.getValue() != document.getElementById('gracecode').value) {
+        document.getElementById('stderr_txt').value = "";
         minigrace.modname = "main";
         minigrace.mode = "json";
         minigrace.compile(editor.getValue() + chunkLine);
         minigrace.mode = "js";
         if (minigrace.compileError) {
-            if (confirm("This code did not compile. Do you want to revert to the previous version?")) {
+            var lines = document.getElementById('stderr_txt').value.split("\n");
+            var errmsg = "";
+            for (var i=0; i<lines.length; i++) {
+                if (lines[i].substring(0, 10) != 'minigrace:') {
+                    errmsg += lines[i].substring(11) + "\n";
+                    break;
+                }
+            }
+            var bits = errmsg.split(':');
+            editor.moveCursorTo(bits[0] - 1, bits[1] - 1);
+            editor.getSelection().clearSelection();
+            editor.getSession().setAnnotations([{
+                row: bits[0] - 1,
+                column: bits[1] - 1,
+                text: errmsg.substring(bits[0].length + bits[1].length + 3),
+                type: "error"
+            }]);
+            if (confirm("This code did not compile: " + errmsg + "\nDo you want to revert to the previous version?")) {
                 editor.setValue(document.getElementById('gracecode').value, -1);
+                editor.getSession().clearAnnotations();
                 return;
             }
             return;
         }
+        editor.getSession().clearAnnotations();
         codearea.classList.add("no-transition");
         codearea.classList.remove('shrink');
         loadJSON(minigrace.generated_output);
