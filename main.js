@@ -1207,7 +1207,7 @@ window.addEventListener('popstate', function(ev) {
 });
 window.addEventListener('load', function(ev) {
     var tb = document.getElementById('toolbox');
-    var op = tb.querySelector('.tile.operator');
+    var op = tb.querySelector('.tile.assign');
     var holes = op.getElementsByClassName('hole');
     if (holes[0].offsetTop != holes[1].offsetTop) {
         var obscurer = document.createElement("div");
