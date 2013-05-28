@@ -275,8 +275,8 @@ function dragstart(ev) {
             originalHole.style.height = 'auto';
         }
         reflow();
-        var emptyHoles = codearea.querySelectorAll(".hole:empty");
-        if (emptyHoles.length > 0)
+        var errorTiles = findErroneousTiles();
+        if (errorTiles.length > 0)
             document.getElementById('indicator').style.background = 'red';
         else
             document.getElementById('indicator').style.background = 'green';
@@ -1326,6 +1326,32 @@ codearea.addEventListener('click', function(ev) {
     var menus = codearea.getElementsByClassName('popup-menu');
     for (var i=0; i<menus.length; i++)
         codearea.removeChild(menus[i]);
+});
+var indicator = document.getElementById('indicator');
+indicator.addEventListener('mouseover', function(ev) {
+    if (codearea.style.visibility == 'hidden')
+        return;
+    var tiles = findErroneousTiles();
+    if (tiles.length > 0)
+        document.getElementById('overlay-canvas').style.display = 'block';
+    for (var i=0; i<tiles.length; i++) {
+        var mn = tiles[i];
+        var xy = findOffsetTopLeft(mn);
+        var c = document.getElementById('overlay-canvas');
+        var ctx = c.getContext('2d');
+        ctx.save();
+        ctx.translate(0, -codearea.scrollTop);
+        ctx.beginPath();
+        ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
+        ctx.lineTo(indicator.offsetLeft, codearea.scrollTop + 500);
+        ctx.strokeStyle = "pink";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.restore();
+    }
+});
+indicator.addEventListener('mouseout', function(ev) {
+    document.getElementById('overlay-canvas').style.display = 'none';
 });
 window.addEventListener('popstate', function(ev) {
     if (ev.state != null)
