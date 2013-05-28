@@ -682,25 +682,35 @@ function isValidVariableName(varname) {
     }
     return true;
 }
-function findErroneousTiles() {
+function findErroneousTiles(reasons) {
+    if (!reasons)
+        reasons = [];
     var tiles = [];
     var emptyHoles = codearea.querySelectorAll(".hole:empty");
-    for (var i=0; i<emptyHoles.length; i++)
+    for (var i=0; i<emptyHoles.length; i++) {
         tiles.push(emptyHoles[i]);
+        reasons.push("Something needs to go in here");
+    }
     var varNames = codearea.getElementsByClassName("variable-name");
     for (var i=0; i<varNames.length; i++)
-        if (!isValidVariableName(varNames[i].value))
+        if (!isValidVariableName(varNames[i].value)) {
             tiles.push(varNames[i]);
+            reasons.push("The variable name \"" + varNames[i].value + "\"is invalid");
+        }
     var numbers = codearea.querySelectorAll(".tile.number > input");
     for (var i=0; i<numbers.length; i++)
-        if (numbers[i].value == "")
+        if (numbers[i].value == "") {
             tiles.push(numbers[i]);
-        else if (/[^0-9.]/.test(numbers[i].value))
+            reasons.push("You need to write a number here");
+        } else if (/[^0-9.]/.test(numbers[i].value)) {
             tiles.push(numbers[i]);
+            reasons.push("This is not a valid number");
+        }
     var varNames = codearea.getElementsByClassName("var-name");
     for (var i=0; i<varNames.length; i++) {
         if (varNames[i].innerHTML == "") {
             tiles.push(varNames[i]);
+            reasons.push("You need to choose a variable name");
         } else {
             var vars = [];
             findVarsInScope(varNames[i], vars, []);
@@ -708,8 +718,10 @@ function findErroneousTiles() {
             for (var j=0; j<vars.length; j++)
                 if (vars[j] == varNames[i].innerHTML)
                     found = true;
-            if (!found)
+            if (!found) {
                 tiles.push(varNames[i]);
+                reasons.push("The variable \"" + varNames[i].innerHTML + "\" is not in scope");
+            }
         }
     }
     return tiles;
@@ -1273,9 +1285,11 @@ function attachTileBehaviour(n) {
                 });
                 if (el.classList.contains('variable-name')) {
                     el.addEventListener('blur', function(ev) {
-                        updateTileIndicator();
                         renameVar(el.oldName, el.value);
+                        updateTileIndicator();
                         el.oldName = el.value;
+                        generateCode();
+                        checkpointSave();
                     });
                 }
             });
@@ -1355,22 +1369,39 @@ var indicator = document.getElementById('indicator');
 indicator.addEventListener('mouseover', function(ev) {
     if (codearea.style.visibility == 'hidden')
         return;
-    var tiles = findErroneousTiles();
+    var reasons = [];
+    var tiles = findErroneousTiles(reasons);
     if (tiles.length > 0)
         document.getElementById('overlay-canvas').style.display = 'block';
+    var c = document.getElementById('overlay-canvas');
+    var ctx = c.getContext('2d');
+    ctx.font = "9pt sans-serif";
     for (var i=0; i<tiles.length; i++) {
         var mn = tiles[i];
         var xy = findOffsetTopLeft(mn);
-        var c = document.getElementById('overlay-canvas');
-        var ctx = c.getContext('2d');
         ctx.save();
         ctx.translate(0, -codearea.scrollTop);
         ctx.beginPath();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "pink";
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
         ctx.lineTo(indicator.offsetLeft, codearea.scrollTop + 500);
-        ctx.strokeStyle = "pink";
-        ctx.lineWidth = 3;
         ctx.stroke();
+        var textwidth = ctx.measureText(reasons[i]);
+        var textleft = xy.left;
+        var texttop = xy.top + mn.offsetHeight + 4;
+        if (textleft + textwidth.width > 500)
+            textleft = 498 - textwidth.width;
+        ctx.fillStyle = "pink";
+        ctx.fillRect(textleft, texttop + 3, textwidth.width + 1, 14);
+        ctx.fill();
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "hsl(330, 75%, 65%)";
+        ctx.rect(textleft, texttop + 2, textwidth.width + 2, 16);
+        ctx.stroke();
+        ctx.fillText(reasons[i], textleft + 1, texttop + 14);
         ctx.restore();
     }
 });
