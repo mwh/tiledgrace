@@ -275,11 +275,7 @@ function dragstart(ev) {
             originalHole.style.height = 'auto';
         }
         reflow();
-        var errorTiles = findErroneousTiles();
-        if (errorTiles.length > 0)
-            document.getElementById('indicator').style.background = 'red';
-        else
-            document.getElementById('indicator').style.background = 'green';
+        updateTileIndicator();
         if (!hadDragContinue && ev.target.classList.contains('var-name')) {
             popupVarMenu(ev);
             // So codearea click doesn't remove it
@@ -318,6 +314,13 @@ function reflow() {
             tmp = tmp.next;
         }
     }
+}
+function updateTileIndicator() {
+    var errorTiles = findErroneousTiles();
+    if (errorTiles.length > 0)
+        document.getElementById('indicator').style.background = 'red';
+    else
+        document.getElementById('indicator').style.background = 'green';
 }
 var blockIndent = 0;
 function generateNodeCode(n, loc) {
@@ -689,7 +692,9 @@ function findErroneousTiles() {
             tiles.push(varNames[i]);
     var numbers = codearea.querySelectorAll(".tile.number > input");
     for (var i=0; i<numbers.length; i++)
-        if (/[^0-9.]/.test(numbers[i].value))
+        if (numbers[i].value == "")
+            tiles.push(numbers[i]);
+        else if (/[^0-9.]/.test(numbers[i].value))
             tiles.push(numbers[i]);
     return tiles;
 }
@@ -1244,12 +1249,14 @@ function attachTileBehaviour(n) {
                     generateCode();
                 });
                 el.addEventListener('blur', function(ev) {
+                    updateTileIndicator();
                     this.size = this.value.length;
                     generateCode();
                     checkpointSave();
                 });
                 if (el.classList.contains('variable-name')) {
                     el.addEventListener('blur', function(ev) {
+                        updateTileIndicator();
                         renameVar(el.oldName, el.value);
                         el.oldName = el.value;
                     });
