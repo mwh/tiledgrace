@@ -176,6 +176,7 @@ function dragstart(ev) {
                 tmp.parentNode.removeChild(tmp);
                 tmp = tmp.next;
             }
+            updateTileIndicator();
             generateCode();
             if (originalHole != null) {
                 originalHole.style.width = 'auto';
@@ -696,6 +697,21 @@ function findErroneousTiles() {
             tiles.push(numbers[i]);
         else if (/[^0-9.]/.test(numbers[i].value))
             tiles.push(numbers[i]);
+    var varNames = codearea.getElementsByClassName("var-name");
+    for (var i=0; i<varNames.length; i++) {
+        if (varNames[i].innerHTML == "") {
+            tiles.push(varNames[i]);
+        } else {
+            var vars = [];
+            findVarsInScope(varNames[i], vars, []);
+            var found = false;
+            for (var j=0; j<vars.length; j++)
+                if (vars[j] == varNames[i].innerHTML)
+                    found = true;
+            if (!found)
+                tiles.push(varNames[i]);
+        }
+    }
     return tiles;
 }
 function highlightTileErrors() {
@@ -859,6 +875,7 @@ function popupVarMenu(ev) {
         opt.addEventListener("click", function(ev) {
             el.innerHTML = ev.target.innerHTML;
             codearea.removeChild(menu);
+            updateTileIndicator();
             generateCode();
             checkpointSave();
         });

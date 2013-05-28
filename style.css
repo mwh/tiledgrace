@@ -177,35 +177,18 @@ html, body {
     min-width: 2em;
 }
 @keyframes flashbg {
-    from {
-        background: #aaa;
-    }
-    10% {
-        background: pink;
-    }
-    20% {
-        background: #aaa;
-    }
-    30% {
-        background: pink;
-    }
-    40% {
-        background: #aaa;
-    }
     50% {
-        background: pink;
+        background: hsl(330, 75%, 65%);
     }
-    85% {
-        background: pink;
-    }
-    to {
-        background: #aaa;
+}
+@-webkit-keyframes flashbg {
+    50% {
+        background: hsl(330, 75%, 65%);
     }
 }
 .highlight {
-    background: pink;
-    animation-duration: 2s;
-    animation-name: flashbg;
+    animation: flashbg 0.5s 4;
+    -webkit-animation: flashbg 0.5s 4;
 }
 .hole:not(:empty) {
     background: inherit;

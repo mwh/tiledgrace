@@ -382,6 +382,8 @@ function loadJSON(str) {
             });
     Array.prototype.forEach.call(tiles, attachTileBehaviour);
     generateCode();
+    if (!codearea.classList.contains('shrink'))
+        updateTileIndicator();
     return obj;
 }
 function loadFile() {
