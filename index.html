@@ -75,6 +75,10 @@
         };
 
         function go() {
+            if (!codearea.classList.contains('shrink')) {
+                if (highlightEmptyHoles())
+                    return;
+            }
             generateCode();
             document.getElementById('stderr_txt').value = "";
             document.getElementById('stdout_txt').value = "";

@@ -573,6 +573,8 @@ function changeDialect() {
 }
 var chunkLine;
 function shrink() {
+    if (highlightEmptyHoles())
+        return;
     editor.setValue(document.getElementById('gracecode').value, -1);
     editor.getSession().clearAnnotations();
     codearea.classList.add('shrink');
@@ -660,6 +662,21 @@ function toggleShrink() {
         grow();
     else
         shrink();
+}
+function highlightEmptyHoles() {
+    var emptyHoles = codearea.querySelectorAll(".hole:empty");
+    if (emptyHoles.length > 0) {
+        for (var i=0; i<emptyHoles.length; i++) {
+            emptyHoles[i].classList.add('highlight');
+        }
+        setTimeout(function() {
+            for (var i=0; i<emptyHoles.length; i++) {
+                emptyHoles[i].classList.remove('highlight');
+            }
+        }, 2100);
+        return true;
+    }
+    return false;
 }
 function rebuildTilesInBackground(jsonStr) {
     codearea.classList.add("no-transition");

@@ -173,6 +173,33 @@ html, body {
 .hole:empty {
     min-width: 2em;
 }
+@keyframes flashbg {
+    10% {
+        background: pink;
+    }
+    20% {
+        background: #aaa;
+    }
+    30% {
+        background: pink;
+    }
+    40% {
+        background: #aaa;
+    }
+    50% {
+        background: pink;
+    }
+    85% {
+        background: pink;
+    }
+    to {
+        background: #aaa;
+    }
+}
+.hole:empty.highlight {
+    animation-duration: 2s;
+    animation-name: flashbg;
+}
 .hole:not(:empty) {
     background: inherit;
 }
