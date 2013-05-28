@@ -177,6 +177,9 @@ html, body {
     min-width: 2em;
 }
 @keyframes flashbg {
+    from {
+        background: #aaa;
+    }
     10% {
         background: pink;
     }

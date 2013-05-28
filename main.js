@@ -703,7 +703,7 @@ function highlightTileErrors() {
             for (var i=0; i<tiles.length; i++) {
                 tiles[i].classList.remove('highlight');
             }
-        }, 2100);
+        }, 2000);
         return true;
     }
     return false;
