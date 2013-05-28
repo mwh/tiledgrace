@@ -197,6 +197,7 @@ html, body {
     }
 }
 .hole:empty.highlight {
+    background: pink;
     animation-duration: 2s;
     animation-name: flashbg;
 }
