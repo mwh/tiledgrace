@@ -13,6 +13,9 @@ html, body {
     float: left;
     overflow: auto;
 }
+.tile, .hole {
+    border-radius: 5px;
+}
 .tile.operator {
     background: #9b9;
     border: 2px outset #060;
