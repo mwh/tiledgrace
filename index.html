@@ -143,8 +143,11 @@ var gctCache = {
                 lastChange = new Date().getTime();
                 changedSinceLast = false;
                 if (editor.getValue()
-                    == document.getElementById('gracecode').value)
+                    == document.getElementById('gracecode').value) {
+                    document.getElementById('indicator').style.background = 'green';
+                    editor.getSession().clearAnnotations();
                     return;
+                }
                 bgMinigrace.onmessage = function(ev) {
                     if (!ev.data.success) {
                         document.getElementById('indicator').style.background = 'red';
