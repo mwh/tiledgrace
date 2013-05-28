@@ -88,9 +88,6 @@
         if (window.location.hash) {
             var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
             history.replaceState(obj, "", generateHash(obj));
-        } else if (localStorage.getItem("autosave-json")) {
-            var obj = loadJSON(localStorage.getItem("autosave-json"));
-            history.replaceState(obj, "", generateHash(obj));
         }
 var gctCache = {
     'logo': "modules:\n StandardPrelude\npath:\n logo\nclasses:\npublic:\n red\n green\n blue\n black\n lineWidth\n lineWidth:=\n lineColor\n lineColor:=\n angle\n angle:=\n forward\n turnRight\n turnLeft\n atModuleEnd\nconfidential:\nfresh-methods:\n",
