@@ -275,6 +275,11 @@ function dragstart(ev) {
             originalHole.style.height = 'auto';
         }
         reflow();
+        var emptyHoles = codearea.querySelectorAll(".hole:empty");
+        if (emptyHoles.length > 0)
+            document.getElementById('indicator').style.background = 'red';
+        else
+            document.getElementById('indicator').style.background = 'green';
         if (!hadDragContinue && ev.target.classList.contains('var-name')) {
             popupVarMenu(ev);
             // So codearea click doesn't remove it
@@ -636,7 +641,7 @@ function grow() {
         editor.getSession().clearAnnotations();
         rebuildTilesInBackground(minigrace.generated_output);
     }
-    document.getElementById('indicator').style.background = 'white';
+    document.getElementById('indicator').style.background = 'green';
     ctr.style.visibility = 'hidden';
     codearea.style.visibility = 'visible';
     setTimeout(function() {

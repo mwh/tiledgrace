@@ -38,7 +38,7 @@
      </select>
      <input type="button" onclick="go()" value="Run">
      <input type="button" onclick="toggleShrink()" value="Code View">
-     <div id="indicator" style="display: inline-block; width: 16px; height: 16px; background: white;"></div>
+     <div id="indicator" style="display: inline-block; width: 16px; height: 16px; background: green;"></div>
      <a download="myprogram.grace" id="downloadlink">Download</a>
      Load file: <input type="file" id="userfile" onchange="loadFile()" />
      <br />
@@ -153,6 +153,8 @@ var gctCache = {
                     return;
                 }
                 bgMinigrace.onmessage = function(ev) {
+                    if (!codearea.classList.contains("shrink"))
+                        return;
                     if (!ev.data.success) {
                         document.getElementById('indicator').style.background = 'red';
                         showErrorInEditor(ev.data.stderr)
