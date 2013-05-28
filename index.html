@@ -38,6 +38,7 @@
      </select>
      <input type="button" onclick="go()" value="Run">
      <input type="button" onclick="toggleShrink()" value="Code View">
+     <div id="indicator" style="display: inline-block; width: 16px; height: 16px; background: white;"></div>
      <a download="myprogram.grace" id="downloadlink">Download</a>
      Load file: <input type="file" id="userfile" onchange="loadFile()" />
      <br />
@@ -96,6 +97,7 @@ var gctCache = {
     <script src="ace/ace.js"></script>
     <script src="ace/mode-grace.js" type="text/javascript" charset="utf-8"></script>
     <script>
+        var bgMinigrace = new Worker("background.js");
         if (ace) {
            document.getElementById('code_txt_real').style.display = 'block';
            var editor = ace.edit("code_txt_real");
@@ -125,11 +127,52 @@ var gctCache = {
            ctr.style.top = codearea.offsetTop + 'px';
            ctr.style.left = codearea.offsetLeft + 'px';
            ctr.style.visibility = 'hidden';
-           // Get code from ace editor.
-           //var getCode = function() {
-           //    return editor.getValue();
-           //}
+           var lastChange = new Date().getTime();
+           var changedSinceLast = false;
+           editor.on("change", function(ev) {
+               lastChange = new Date().getTime();
+               changedSinceLast = true;
+           });
+           setInterval(function() {
+                if (!changedSinceLast)
+                    return;
+                if (!codearea.classList.contains("shrink"))
+                    return;
+                if (lastChange + 1000 > new Date().getTime())
+                    return;
+                lastChange = new Date().getTime();
+                changedSinceLast = false;
+                if (editor.getValue()
+                    == document.getElementById('gracecode').value)
+                    return;
+                bgMinigrace.onmessage = function(ev) {
+                    if (!ev.data.success) {
+                        document.getElementById('indicator').style.background = 'red';
+                        showErrorInEditor(ev.data.stderr)
+                        return;
+                    }
+                    editor.getSession().clearAnnotations();
+                    rebuildTilesInBackground(ev.data.output);
+                    document.getElementById('gracecode').value = editor.getValue();
+                document.getElementById('indicator').style.background = 'green';
+                }
+                document.getElementById('indicator').style.background = 'orange';
+                bgMinigrace.postMessage({action: "compile", mode: "json",
+                    modname: "main", source: editor.getValue() + chunkLine});
+
+           }, 1000);
         }
+        bgMinigrace.postMessage({action: "importFile", modname: "logo",
+                url: "logo.js"});
+        bgMinigrace.postMessage({action: "importFile", modname: "turtle",
+                url: "turtle.js"});
+        bgMinigrace.postMessage({action: "importFile",
+                modname: "loopinvariant",
+                url: "loopinvariant.js"});
+        bgMinigrace.postMessage({action: "importGCT", modname: "logo",
+            gct: gctCache['logo']});
+        bgMinigrace.postMessage({action: "importGCT", modname: "loopinvariant",
+            gct: gctCache['loopinvariant']});
     </script>
     <div id="acknowledgements"><a href="https://github.com/mwh/minigrace">Minigrace</a> is distributed under the GNU GPL version 3. <a href="http://www.entypo.com/">Entypo</a> pictograms by Daniel Bruce.</div>
  </body>
