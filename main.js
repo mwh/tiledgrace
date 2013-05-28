@@ -578,7 +578,7 @@ function changeDialect() {
 }
 var chunkLine;
 function shrink() {
-    if (highlightEmptyHoles())
+    if (highlightTileErrors())
         return;
     editor.setValue(document.getElementById('gracecode').value, -1);
     editor.getSession().clearAnnotations();
@@ -668,15 +668,40 @@ function toggleShrink() {
     else
         shrink();
 }
-function highlightEmptyHoles() {
+function isValidVariableName(varname) {
+    if (varname == "")
+        return false;
+    if (/[0-9']/.test(varname[0]))
+        return false;
+    if (/[] !@#$%^&*()-+=.,<>?]/.test(varname)) {
+        return false;
+    }
+    return true;
+}
+function findErroneousTiles() {
+    var tiles = [];
     var emptyHoles = codearea.querySelectorAll(".hole:empty");
-    if (emptyHoles.length > 0) {
-        for (var i=0; i<emptyHoles.length; i++) {
-            emptyHoles[i].classList.add('highlight');
+    for (var i=0; i<emptyHoles.length; i++)
+        tiles.push(emptyHoles[i]);
+    var varNames = codearea.getElementsByClassName("variable-name");
+    for (var i=0; i<varNames.length; i++)
+        if (!isValidVariableName(varNames[i].value))
+            tiles.push(varNames[i]);
+    var numbers = codearea.querySelectorAll(".tile.number > input");
+    for (var i=0; i<numbers.length; i++)
+        if (/[^0-9.]/.test(numbers[i].value))
+            tiles.push(numbers[i]);
+    return tiles;
+}
+function highlightTileErrors() {
+    var tiles = findErroneousTiles();
+    if (tiles.length > 0) {
+        for (var i=0; i<tiles.length; i++) {
+            tiles[i].classList.add('highlight');
         }
         setTimeout(function() {
-            for (var i=0; i<emptyHoles.length; i++) {
-                emptyHoles[i].classList.remove('highlight');
+            for (var i=0; i<tiles.length; i++) {
+                tiles[i].classList.remove('highlight');
             }
         }, 2100);
         return true;
