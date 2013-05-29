@@ -1389,6 +1389,14 @@ indicator.addEventListener('mouseover', function(ev) {
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
         ctx.lineTo(indicator.offsetLeft, codearea.scrollTop + 500);
         ctx.stroke();
+        ctx.restore();
+    }
+    for (var i=0; i<tiles.length; i++) {
+        var mn = tiles[i];
+        var xy = findOffsetTopLeft(mn);
+        ctx.save();
+        ctx.translate(0, -codearea.scrollTop);
+        ctx.beginPath();
         var textwidth = ctx.measureText(reasons[i]);
         var textleft = xy.left;
         var texttop = xy.top + mn.offsetHeight + 4;
@@ -1398,7 +1406,6 @@ indicator.addEventListener('mouseover', function(ev) {
         ctx.fillRect(textleft, texttop + 3, textwidth.width + 1, 14);
         ctx.fill();
         ctx.fillStyle = "black";
-        ctx.beginPath();
         ctx.lineWidth = 1;
         ctx.strokeStyle = "hsl(330, 75%, 65%)";
         ctx.rect(textleft, texttop + 2, textwidth.width + 2, 16);
