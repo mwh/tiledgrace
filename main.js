@@ -634,7 +634,7 @@ function grow() {
         minigrace.compile(editor.getValue() + chunkLine);
         minigrace.mode = "js";
         if (minigrace.compileError) {
-            showErrorInEditor(document.getElementById('stderr_txt').value);
+            var errmsg = showErrorInEditor(document.getElementById('stderr_txt').value);
             if (confirm("This code did not compile: " + errmsg + "\nDo you want to revert to the previous version that did?")) {
                 editor.setValue(document.getElementById('gracecode').value, -1);
                 editor.getSession().clearAnnotations();
@@ -788,12 +788,14 @@ function showErrorInEditor(errstr) {
         }
     }
     var bits = errmsg.split(':');
+    var errstr = errmsg.substring(bits[0].length + bits[1].length + 3);
     editor.getSession().setAnnotations([{
         row: bits[0] - 1,
         column: bits[1] - 1,
-        text: errmsg.substring(bits[0].length + bits[1].length + 3),
+        text: errstr,
         type: "error"
     }]);
+    return errstr;
 }
 function findVarAssignsInScope(varname, el, accum) {
     var e = el;
