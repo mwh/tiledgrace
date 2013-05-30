@@ -1412,10 +1412,15 @@ indicator.addEventListener('mouseover', function(ev) {
         ctx.stroke();
         ctx.fillText(reasons[i], textleft + 1, texttop + 14);
         ctx.restore();
+        tiles[i].classList.add('highlight');
     }
 });
 indicator.addEventListener('mouseout', function(ev) {
     document.getElementById('overlay-canvas').style.display = 'none';
+    var tiles = codearea.getElementsByClassName('highlight');
+    while (tiles.length > 0) {
+        tiles[0].classList.remove('highlight');
+    }
 });
 window.addEventListener('popstate', function(ev) {
     if (ev.state != null)
