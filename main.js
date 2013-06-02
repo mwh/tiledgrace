@@ -284,6 +284,7 @@ function dragstart(ev) {
         }
         generateCode();
         checkpointSave();
+        runOnDrop(obj);
     }
     d.addEventListener('mousemove', dragcontinue)
     d.addEventListener('mouseup', dragend)
@@ -298,6 +299,22 @@ function dragstart(ev) {
         this.prev = false;
     }
     ev.stopPropagation();
+}
+function runOnDrop(tile) {
+    if (tile.classList.contains('var')) {
+        var vars = [];
+        findVarsInScope(tile, vars, []);
+        if (vars.length == 1 && tile.childNodes[0].innerHTML == '') {
+            tile.getElementsByClassName('var-name')[0].innerHTML = vars[0];
+        } else if (vars.length != 0) {
+            var curname = tile.childNodes[0].innerHTML;
+            for (var i=0; i<vars.length; i++)
+                if (vars[i] == curname)
+                    return;
+            popupVarMenu({target: tile.childNodes[0],
+                stopImmediatePropagation: function(){}});
+        }
+    }
 }
 function reflow() {
     for (var i=0; i<tiles.length; i++) {
