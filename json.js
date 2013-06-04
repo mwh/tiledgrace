@@ -4,7 +4,7 @@ function generateNodeJSON(n) {
         return null;
     if (typeof n == 'undefined' || typeof n == 'boolean')
         return null;
-    if (n.dataset.serialiserIndex !== undefined)
+    if (n.dataset && n.dataset.serialiserIndex !== undefined)
         return jsonSerialiser(n);
     if (n.classList.contains('hole')) {
         if (n.childNodes.length)

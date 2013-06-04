@@ -59,12 +59,16 @@ html, body {
     align-items: flex-start;
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
+    -ms-flex-direction: column;
+    -ms-flex-align: start;
 }
 .tile.multiline {
     flex-direction: column;
     align-items: flex-start;
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
+    -ms-flex-direction: column;
+    -ms-flex-align: start;
 }
 .tile.while {
     background: #88c;
@@ -73,6 +77,8 @@ html, body {
     align-items: flex-start;
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
+    -ms-flex-direction: column;
+    -ms-flex-align: start;
 }
 .tile.for {
     background: #88c;
@@ -81,10 +87,13 @@ html, body {
     align-items: flex-start;
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
+    -ms-flex-direction: column;
+    -ms-flex-align: start;
 }
 .tile.if > div, .tile.while > div, .tile.method > div, .tile.for > div, .tile.multiline > div.line {
     display: inline-flex;
     display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
     align-items: center;
     -webkit-align-items: center;
 }
@@ -95,6 +104,8 @@ html, body {
     align-items: flex-start;
     -webkit-flex-direction: column;
     -webkit-align-items: flex-start;
+    -ms-flex-direction: column;
+    -ms-flex-align: start;
 }
 .tile.print {
     background: #cc8;
@@ -122,11 +133,13 @@ html, body {
     height: auto;
     display: inline-flex;
     display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
     float: left;
     position: absolute;
     white-space: nowrap;
     align-items: center;
     -webkit-align-items: center;
+    -ms-flex-align: center;
     transition: opacity 0.5s;
 }
 .no-transition .tile, .no-transition .indent, .no-transition.hole {
@@ -140,6 +153,7 @@ html, body {
 .tile span {
     display: inline-flex;
     display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
 }
 .tile input {
     border: none;
@@ -170,6 +184,7 @@ html, body {
     background: #aaa;
     display: inline-flex;
     display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
     width: auto;
     min-height: 14px;
 }
@@ -226,6 +241,7 @@ html, body {
 .tile .op, .tile .cmpop {
     display:inline-flex;
     display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
     padding-left: 4px;
     padding-right: 4px;
     font-weight: bold;
@@ -240,9 +256,11 @@ html, body {
 .hole.multi {
     flex-direction: column;
     -webkit-flex-direction: column;
+    -ms-flex-direction: column;
     align-items: flex-start;
     display: flex;
     display: -webkit-flex;
+    display: -ms-flexbox;
 }
 #bin {
     position: absolute;
@@ -313,6 +331,7 @@ html, body {
 #toolbox.in-dialect-logo .tile.only-dialect-logo {
     display: inline-flex;
     display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
 }
 ul.popup-menu {
     border: 2px outset gray;

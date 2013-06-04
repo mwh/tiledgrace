@@ -319,6 +319,8 @@ function createOperatorTile(op) {
 
 function createDialectRequestTile(req) {
     var tile = document.createElement("div");
+    if (!tile.dataset)
+        tile.dataset = {};
     tile.classList.add("tile");
     tile.classList.add("dialect-method");
     var line = tile;
@@ -399,6 +401,8 @@ function createDialectRequestTile(req) {
 }
 function createHole(arg) {
     var hole = document.createElement("div");
+    if (!hole.dataset)
+        hole.dataset = {};
     hole.classList.add("hole");
     if (typeof arg == "string") {
         hole.dataset.accepts = arg;

@@ -3,6 +3,7 @@ var holes = document.getElementsByClassName('hole');
 var codearea = document.getElementById('codearea');
 var toolbox = document.getElementById('toolbox');
 var tiles = codearea.getElementsByClassName('tile');
+var supportsPointerEvents = false;
 function findOffsetTopLeft(el) {
     var x = el.offsetLeft;
     var y = el.offsetTop;
@@ -350,7 +351,7 @@ function generateNodeCode(n, loc) {
         else
             return '!ABSENT!';
     }
-    if (n.dataset.serialiserIndex !== undefined) {
+    if (n.dataset && n.dataset.serialiserIndex !== undefined) {
         return codeSerialiser(n);
     }
     if (n.classList.contains('number')) {
@@ -555,7 +556,8 @@ function generateHash(obj) {
 function checkpointSave() {
     var obj = generateJSObject();
     var progHash = generateHash(obj);
-    history.pushState(obj, "", progHash);
+    if (navigator.userAgent.indexOf("MSIE") == -1)
+        history.pushState(obj, "", progHash);
 }
 function loadSave() {
     if (!localStorage.getItem("autosave-json")) {
@@ -1213,7 +1215,7 @@ function attachTileBehaviour(n) {
             return;
         }
     });
-    if (n.classList.contains('vardec') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('vardec') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
             drawVardecLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
@@ -1223,7 +1225,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
-    if (n.classList.contains('var') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('var') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
             drawVarRefLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
@@ -1233,7 +1235,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
-    if (n.classList.contains('selfcall') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('selfcall') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
             drawMethodRequestLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
@@ -1243,7 +1245,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
-    if (n.classList.contains('method') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('method') && supportsPointerEvents) {
         var nInput = n.getElementsByTagName('input')[0];
         var nKeyword = n.getElementsByTagName('span')[0];
         nInput.addEventListener('mouseover', function(ev) {
@@ -1263,7 +1265,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
-    if (n.classList.contains('dialect-method') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('dialect-method') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
             drawDialectRequestLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
@@ -1273,7 +1275,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
-    if (n.classList.contains('constant') && n.style.pointerEvents != undefined) {
+    if (n.classList.contains('constant') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
             drawConstantLines(this);
             document.getElementById('overlay-canvas').style.display = 'block';
@@ -1360,6 +1362,11 @@ function attachHoleBehaviour(n) {
 function attachToolboxBehaviour(n) {
     n.addEventListener('mousedown', function(ev) {
         var cl = this.cloneNode(true);
+        if (!cl.dataset) {
+            cl.dataset = {};
+            for (var k in this.dataset)
+                cl.dataset[k] = this.dataset[k];
+        }
         codearea.appendChild(cl);
         cl.style.position = 'absolute';
         cl.style.top = (this.offsetTop - toolbox.offsetTop - toolbox.scrollTop + codearea.scrollTop) + 'px';
@@ -1368,6 +1375,9 @@ function attachToolboxBehaviour(n) {
         dragstart.call(cl, ev);
     });
 }
+var el = document.createElement('div');
+el.style.cssText = 'pointer-events: auto';
+supportsPointerEvents = (el.style.pointerEvents == 'auto');
 Array.prototype.forEach.call(codearea.getElementsByClassName('tile'),
         attachTileBehaviour);
 Array.prototype.forEach.call(toolbox.getElementsByClassName('tile'),
@@ -1445,6 +1455,18 @@ window.addEventListener('popstate', function(ev) {
 });
 window.addEventListener('load', function(ev) {
     var tb = document.getElementById('toolbox');
+    var tiles = tb.getElementsByClassName('tile');
+    for (var i=0; i<tiles.length; i++) {
+        if (!tiles[i].dataset) {
+            tiles[i].dataset = {};
+            for (var j=0; j<tiles[i].attributes.length; j++) {
+                var k = tiles[i].attributes[j].name;
+                if (k.substring(0, 5) == "data-") {
+                    tiles[i].dataset[k.substring(5)] = tiles[i].getAttribute(k);
+                }
+            }
+        }
+    }
     var op = tb.querySelector('.tile.assign');
     var holes = op.getElementsByClassName('hole');
     if (holes[0].offsetTop != holes[1].offsetTop) {
@@ -1474,7 +1496,8 @@ window.addEventListener('load', function(ev) {
                     + "Firefox or Chrome."));
             alert("It looks like your browser doesn't support the "
                 + "flexbox layout used in this tool. Try returning to "
-                + "this page in a recent version of Firefox or Chrome.");
+                + "this page in a recent version of Firefox, Chrome, "
+                + "or Internet Explorer.");
         }
     }
 });
