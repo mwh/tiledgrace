@@ -6,7 +6,7 @@ html, body {
     font-size: 16px;
 }
 #codearea {
-    width: 500px;
+    width: calc(100% - 490px);
     height: 500px;
     background: #ddd;
     position: relative;
@@ -222,7 +222,7 @@ html, body {
 #category-bar {
     background: #ccf;
     position: absolute;
-    left: 708px;
+    left: calc(100% - 300px);
     top: -16px;
     transform-origin: 0% 100%;
     transform: rotate(0.25turn);
@@ -351,7 +351,7 @@ ul.popup-menu li:hover {
 }
 #overlay-canvas {
     position: absolute;
-    width: 500px;
+    width: calc(100% - 490px);
     height: 500px;
     top: 8px;
     left: 8px;

@@ -118,7 +118,7 @@ var gctCache = {
                if (token && token.type == 'identifier') {
                    drawVarLinesOverText(e);
                } else {
-                   document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+                   document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, 500);
                }
            });
            var ctr = document.getElementById('code_txt_real');

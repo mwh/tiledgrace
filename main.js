@@ -1000,7 +1000,7 @@ function drawConstantLines(el) {
         ctx.lineTo(149, 19 - codearea.scrollTop);
     } else {
         ctx.moveTo(xy.left + el.offsetWidth / 2, xy.top + el.offsetHeight);
-        ctx.lineTo(50, codearea.scrollTop + 500);
+        ctx.lineTo(50, codearea.scrollTop + codearea.offsetHeight);
     }
     ctx.strokeStyle = "green";
     ctx.lineWidth = 3;
@@ -1020,7 +1020,7 @@ function drawDialectRequestLines(el) {
         ctx.lineTo(149, 19 - codearea.scrollTop);
     } else {
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
-        ctx.lineTo(50, codearea.scrollTop + 500);
+        ctx.lineTo(50, codearea.scrollTop + codearea.offsetHeight);
     }
     ctx.strokeStyle = "green";
     ctx.lineWidth = 3;
@@ -1370,7 +1370,7 @@ function attachToolboxBehaviour(n) {
         codearea.appendChild(cl);
         cl.style.position = 'absolute';
         cl.style.top = (this.offsetTop - toolbox.offsetTop - toolbox.scrollTop + codearea.scrollTop) + 'px';
-        cl.style.left = '500px';
+        cl.style.left = codearea.offsetWidth + 'px';
         attachTileBehaviour(cl);
         dragstart.call(cl, ev);
     });
@@ -1414,7 +1414,7 @@ indicator.addEventListener('mouseover', function(ev) {
         ctx.lineWidth = 3;
         ctx.strokeStyle = "pink";
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
-        ctx.lineTo(indicator.offsetLeft, codearea.scrollTop + 500);
+        ctx.lineTo(indicator.offsetLeft, codearea.scrollTop + codearea.offsetHeight);
         ctx.stroke();
         ctx.restore();
     }
@@ -1427,8 +1427,8 @@ indicator.addEventListener('mouseover', function(ev) {
         var textwidth = ctx.measureText(reasons[i]);
         var textleft = xy.left;
         var texttop = xy.top + mn.offsetHeight + 4;
-        if (textleft + textwidth.width > 500)
-            textleft = 498 - textwidth.width;
+        if (textleft + textwidth.width > codearea.offsetWidth)
+            textleft = codearea.offsetWidth - 2 - textwidth.width;
         ctx.fillStyle = "pink";
         ctx.fillRect(textleft, texttop + 3, textwidth.width + 1, 14);
         ctx.fill();
