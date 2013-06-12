@@ -1542,3 +1542,13 @@ document.getElementById('category-bar').addEventListener('mouseout',
             }, 300);
         }
 );
+document.addEventListener('keypress', function(ev) {
+    if (ev.keyCode == ev.DOM_VK_F5) {
+        ev.preventDefault();
+        go();
+    }
+    if (ev.charCode == 118 && ev.target == document.body) {// "v"
+        ev.preventDefault();
+        toggleShrink();
+    }
+});
