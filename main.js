@@ -1513,19 +1513,32 @@ window.addEventListener('resize', function(ev) {
     can.width = codearea.offsetWidth;
     can.height = codearea.offsetHeight;
 });
+var hideCategoryBar = false;
 toolbox.addEventListener('mouseover', function(ev) {
     document.getElementById('category-bar').style.display = 'block';
+    if (hideCategoryBar) {
+        clearTimeout(hideCategoryBar);
+        hideCategoryBar = false;
+    }
 });
 toolbox.addEventListener('mouseout', function(ev) {
-    document.getElementById('category-bar').style.display = 'none';
+    hideCategoryBar = setTimeout(function() {
+        document.getElementById('category-bar').style.display = 'none';
+    }, 300);
 });
 document.getElementById('category-bar').addEventListener('mouseover',
         function(ev) {
             document.getElementById('category-bar').style.display = 'block';
+            if (hideCategoryBar) {
+                clearTimeout(hideCategoryBar);
+                hideCategoryBar = false;
+            }
         }
 );
 document.getElementById('category-bar').addEventListener('mouseout',
         function(ev) {
-            document.getElementById('category-bar').style.display = 'none';
+            hideCategoryBar = setTimeout(function() {
+                document.getElementById('category-bar').style.display = 'none';
+            }, 300);
         }
 );
