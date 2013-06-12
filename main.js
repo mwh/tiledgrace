@@ -606,6 +606,7 @@ function shrink() {
     editor.setValue(document.getElementById('gracecode').value, -1);
     editor.getSession().clearAnnotations();
     codearea.classList.add('shrink');
+    toolbox.style.visibility = 'hidden';
     var starts = [];
     chunkLine = "\n// chunks:";
     for (var i=0; i<codearea.children.length; i++) {
@@ -681,7 +682,10 @@ function grow() {
         setTimeout(function() {
             codearea.classList.add('growing');
             codearea.classList.remove('shrink');
-            setTimeout(function() {codearea.classList.remove('growing');}, 1000);
+            setTimeout(function() {
+                codearea.classList.remove('growing');
+                toolbox.style.visibility = 'visible';
+            }, 1000);
         }, 1100);
     }, 300);
 }
@@ -1093,10 +1097,10 @@ function drawVarRefLines(el) {
 }
 function drawVarLinesOverText(e) {
     codearea.scrollTop = document.getElementsByClassName('ace_sb')[0].scrollTop;
-    var y = e.clientY + codearea.scrollTop;
+    var y = e.clientY + codearea.scrollTop - codearea.offsetTop;
     var x = e.clientX;
     var vars = codearea.getElementsByClassName('var');
-    document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+    document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
     var position = e.getDocumentPosition();
     var token = editor.session.getTokenAt(position.row, position.column);
     for (var i=0; i<vars.length; i++) {
@@ -1221,7 +1225,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
@@ -1231,7 +1235,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
@@ -1241,7 +1245,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
@@ -1253,7 +1257,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         nInput.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
         nKeyword.addEventListener('mouseover', function(ev) {
@@ -1261,7 +1265,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         nKeyword.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
@@ -1271,7 +1275,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
@@ -1281,7 +1285,7 @@ function attachTileBehaviour(n) {
             document.getElementById('overlay-canvas').style.display = 'block';
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, 500, 500);
+            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
             document.getElementById('overlay-canvas').style.display = 'none';
         });
     }
@@ -1414,7 +1418,7 @@ indicator.addEventListener('mouseover', function(ev) {
         ctx.lineWidth = 3;
         ctx.strokeStyle = "pink";
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
-        ctx.lineTo(indicator.offsetLeft, codearea.scrollTop + codearea.offsetHeight);
+        ctx.lineTo(indicator.offsetLeft + indicator.offsetWidth / 2, codearea.scrollTop + codearea.offsetHeight);
         ctx.stroke();
         ctx.restore();
     }
@@ -1500,4 +1504,28 @@ window.addEventListener('load', function(ev) {
                 + "or Internet Explorer.");
         }
     }
+    var can = document.getElementById('overlay-canvas');
+    can.width = codearea.offsetWidth;
+    can.height = codearea.offsetHeight;
 });
+window.addEventListener('resize', function(ev) {
+    var can = document.getElementById('overlay-canvas');
+    can.width = codearea.offsetWidth;
+    can.height = codearea.offsetHeight;
+});
+toolbox.addEventListener('mouseover', function(ev) {
+    document.getElementById('category-bar').style.display = 'block';
+});
+toolbox.addEventListener('mouseout', function(ev) {
+    document.getElementById('category-bar').style.display = 'none';
+});
+document.getElementById('category-bar').addEventListener('mouseover',
+        function(ev) {
+            document.getElementById('category-bar').style.display = 'block';
+        }
+);
+document.getElementById('category-bar').addEventListener('mouseout',
+        function(ev) {
+            document.getElementById('category-bar').style.display = 'none';
+        }
+);

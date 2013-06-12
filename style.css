@@ -4,14 +4,61 @@
 }
 html, body {
     font-size: 16px;
+    margin: 1px;
+    padding: 0;
+}
+#wrapper {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+}
+#code_txt_real {
+    width: calc(100% - 260px);
+    height: calc(99vh - 40px);
 }
 #codearea {
-    width: calc(100% - 490px);
-    height: 500px;
+    width: calc(100% - 200px);
+    height: calc(99vh - 40px);
     background: #ddd;
     position: relative;
     float: left;
     overflow: auto;
+    order: 1;
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+}
+#toolbox {
+    background: #ccf;
+    float:left;
+    height: calc(99vh - 40px);
+    width: 200px;
+    overflow: auto;
+    order: 2;
+    -webkit-order: 2;
+    -ms-flex-order: 2;
+}
+#overlay-canvas {
+    position: absolute;
+    height: calc(99vh - 40px);
+    top: 0px;
+    left: 0px;
+    right: 200px;
+    z-index: 100;
+    display: none;
+    pointer-events: none;
+}
+#outputarea {
+    width: 260px;
+    order: 3;
+    -webkit-order: 3;
+    -ms-flex-order: 3;
+}
+#outputarea textarea {
+    height: 240px;
+    width: 240px;
+}
+#standard-canvas {
+    border: 1px solid black;
 }
 .tile, .hole {
     border-radius: 5px;
@@ -208,13 +255,6 @@ html, body {
 .hole:not(:empty) {
     background: inherit;
 }
-#toolbox {
-    background: #ccf;
-    float:left;
-    height: 500px;
-    width: 200px;
-    overflow: auto;
-}
 #toolbox .tile {
     position: static;
     clear: both;
@@ -222,21 +262,21 @@ html, body {
 #category-bar {
     background: #ccf;
     position: absolute;
-    left: calc(100% - 300px);
-    top: -16px;
-    transform-origin: 0% 100%;
+    height: 30px;
+    padding: 2px;
+    font-size: 0;
+    display: none;
+    z-index: 100;
+    right: 254px;
+    bottom: calc(1vh + 38px);
+    transform-origin: 100% 100%;
     transform: rotate(0.25turn);
     -webkit-transform-origin: 0% 100%;
     -webkit-transform: rotate(0.25turn);
-    width: 500px;
-    height: 24px;
-    font-size: 0;
+    width: calc(99vh - 44px);
 }
 #category-bar input {
     height: 100%;
-}
-#standard-canvas {
-    margin-left: 24px;
 }
 .tile .op, .tile .cmpop {
     display:inline-flex;
@@ -248,6 +288,10 @@ html, body {
     color: #687687;
 }
 #gracecode {
+    display: none;
+}
+#stderr_txt {
+    display: none;
 }
 .tile.bottom-join-target {
     border-bottom-color: yellow;
@@ -286,6 +330,7 @@ html, body {
 }
 #codearea.shrink, #codearea.growing {
     background: white;
+    overflow: hidden;
 }
 #codearea.shrink #bin, #codearea.growing #bin {
     display: none;
@@ -348,14 +393,4 @@ ul.popup-menu li {
 ul.popup-menu li:hover {
     background: #008;
     color: white;
-}
-#overlay-canvas {
-    position: absolute;
-    width: calc(100% - 490px);
-    height: 500px;
-    top: 8px;
-    left: 8px;
-    z-index: 100;
-    display: none;
-    pointer-events: none;
 }

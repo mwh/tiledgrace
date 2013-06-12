@@ -6,6 +6,11 @@
      <link rel="stylesheet" type="text/css" href="style.css">
  </head>
  <body>
+     <div id="wrapper">
+     <div id="outputarea">
+         <canvas id="standard-canvas" width="250" height="250"></canvas>
+         <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea>
+     </div>
      <div id="codearea">
          <div id="bin">&#59177;</div>
      </div>
@@ -22,6 +27,7 @@
          <div class="tile method" data-category="Control"><div><span style="margin-right: 1ex; color: blue;">method</span><input type="text" value="" size="5" />(<input type="text" value="" size="1" class="variable-name" />) {</div><div class="indent"><div class="hole multi"></div></div><div>}</div></div>
          <div class="tile selfcall" data-category="Control"><input type="text" size="5" />(<div class="hole"></div>)</div>
      </div>
+     </div> <!--wrapper-->
      <div id="category-bar">
          <input type="button" value="Variables" />
          <input type="button" value="Numbers and Strings" />
@@ -29,8 +35,7 @@
          <input type="button" value="Control" />
          <input type="button" value="Turtle" />
      </div>
-     <canvas id="standard-canvas" width="250" height="500"></canvas>
-     <br />
+     <div style="clear: left;"></div>
      <select id="dialect" onchange="changeDialect()">
          <option value="">Standard
          <option value="logo">Turtle graphics
@@ -42,9 +47,8 @@
      <a download="myprogram.grace" id="downloadlink">Download</a>
      Load file: <input type="file" id="userfile" onchange="loadFile()" />
      <br />
-     <textarea id="stdout_txt" style="clear:both;" cols="100" rows="5"></textarea>
-     <br /><textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea><br />
-     <textarea id="gracecode" cols="100" rows="10"></textarea><br />
+     <textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea>
+     <textarea id="gracecode" cols="100" rows="10"></textarea>
      <canvas id="overlay-canvas" width="500" height="500"></canvas>
      <script type="text/javascript" src="main.js"></script>
      <script type="text/javascript" src="json.js"></script>
@@ -118,12 +122,11 @@ var gctCache = {
                if (token && token.type == 'identifier') {
                    drawVarLinesOverText(e);
                } else {
-                   document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, 500);
+                   document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
                }
            });
            var ctr = document.getElementById('code_txt_real');
            ctr.style.height = document.getElementById('codearea').clientHeight + 'px';
-           ctr.style.width = (document.getElementById('codearea').clientWidth) + 'px';
            ctr.style.position = 'absolute';
            ctr.style.top = codearea.offsetTop + 'px';
            ctr.style.left = codearea.offsetLeft + 'px';
