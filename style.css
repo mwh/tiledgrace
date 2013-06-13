@@ -14,10 +14,12 @@ html, body {
 }
 #code_txt_real {
     width: calc(100% - 260px);
+    height: 90vh; /* Work around Chrome bug 168840*/
     height: calc(99vh - 40px);
 }
 #codearea {
     width: calc(100% - 200px);
+    height: 90vh; /* Work around Chrome bug 168840*/
     height: calc(99vh - 40px);
     background: #ddd;
     position: relative;
@@ -30,6 +32,7 @@ html, body {
 #toolbox {
     background: #ccf;
     float:left;
+    height: 90vh; /* Work around Chrome bug 168840*/
     height: calc(99vh - 40px);
     width: 200px;
     overflow: auto;
@@ -39,6 +42,7 @@ html, body {
 }
 #overlay-canvas {
     position: absolute;
+    height: 90vh; /* Work around Chrome bug 168840*/
     height: calc(99vh - 40px);
     top: 0px;
     left: 0px;
@@ -267,12 +271,15 @@ html, body {
     font-size: 0;
     display: none;
     z-index: 100;
-    right: 254px;
+    top: -32px;
+    left: calc(100% - 262px);
+    bottom: 9vh; /* Work around Chrome bug 168840*/
     bottom: calc(1vh + 38px);
-    transform-origin: 100% 100%;
+    transform-origin: 0% 100%;
     transform: rotate(0.25turn);
     -webkit-transform-origin: 0% 100%;
     -webkit-transform: rotate(0.25turn);
+    width: 90vh; /* Work around Chrome bug 168840*/
     width: calc(99vh - 44px);
 }
 #category-bar input {
