@@ -337,7 +337,6 @@ html, body {
 }
 #codearea.shrink, #codearea.growing {
     background: white;
-    overflow: hidden;
 }
 #codearea.shrink #bin, #codearea.growing #bin {
     display: none;
