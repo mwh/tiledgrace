@@ -1346,10 +1346,10 @@ function attachTileBehaviour(n) {
                 el.addEventListener('dblclick', function(ev) {
                     switch(this.innerHTML) {
                         case "==":
-                            this.innerHTML = '<';
+                            this.innerHTML = '&lt;';
                             break;
-                        case "<":
-                            this.innerHTML = '>';
+                        case "&lt;":
+                            this.innerHTML = '&gt;'
                             break;
                         default:
                             this.innerHTML = '==';
