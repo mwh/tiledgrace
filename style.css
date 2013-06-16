@@ -68,37 +68,36 @@ html, body {
     border-radius: 5px;
 }
 .tile.operator {
-    background: #9b9;
-    border: 2px outset #060;
+    background: hsl(120, 50%, 50%);
+    border: 2px outset hsl(120, 25%, 50%);
 }
 .tile.comparison-operator {
-    background: #44d;
-    border: 2px outset #00b;
+    background: hsl(240, 75%, 50%);
+    border: 2px outset hsl(240, 75%, 25%);
 }
 .tile.request {
-    background: #b99;
-    border: 2px outset #600;
+    background: hsl(300, 75%, 50%);
+    border: 2px outset hsl(300, 75%, 25%);
 }
 .tile.vardec {
-    background: #c44;
-    border: 2px outset #c00;
+    background: hsl(0, 75%, 60%);
+    border: 2px outset hsl(0, 75%, 30%);
 }
 .tile.var {
-    background: #eaa;
-    border: 2px outset #c00;
+    background: hsl(0, 75%, 75%);
+    border: 2px outset hsl(0, 75%, 50%);
 }
 .tile.assign {
-    background: #ccc;
-    border: 2px outset #888;
+    background: hsl(0, 50%, 50%);
+    border: 2px outset hsl(0, 50%, 50%);
 }
 .tile.number {
-    background: #8c8;
-    border: 2px outset #080;
+    background: hsl(120, 75%, 50%);
+    border: 2px outset hsl(120, 75%, 25%);
 }
 .tile.string {
-    background: #cec;
-    color: #080;
-    border: 2px outset #0c0;
+    background: hsl(120, 75%, 75%);
+    border: 2px outset hsl(120, 75%, 35%);
 }
 .tile.string input {
     color: #080;
@@ -149,8 +148,8 @@ html, body {
     -webkit-align-items: center;
 }
 .tile.method {
-    background: #4dd;
-    border: 2px outset #088;
+    background: hsl(240, 100%, 75%);
+    border: 2px outset hsl(240, 100%, 25%);
     flex-direction: column;
     align-items: flex-start;
     -webkit-flex-direction: column;
@@ -163,19 +162,31 @@ html, body {
     border: 2px outset #880;
 }
 .tile.dialect-method {
-    background: #c3c;
-    border: 2px outset #707;
+    background: hsl(300, 100%, 50%);
+    border: 2px outset hsl(300, 100%, 25%);
 }
-.tile.dialect-request {
-    background: #d4d;
-    border: 2px outset #808;
+.tile.dialect-method[data-category="Control"] {
+    background: hsl(180, 25%, 50%);
+    border: 2px outset hsl(90, 25%, 25%);
+}
+.tile.dialect-method[data-category="Turtle"] {
+    background: hsl(90, 25%, 50%);
+    border: 2px outset hsl(90, 100%, 25%);
+}
+.tile.dialect-method.constant[data-category="Turtle"] {
+    background: hsl(90, 50%, 35%);
+    border: 2px outset hsl(90, 100%, 25%);
+}
+.tile.dialect-method.constant {
+    background: hsl(300, 25%, 50%);
+    border: 2px outset hsl(300, 100%, 25%);
 }
 .tile.constant {
     background: #d48;
     border: 2px outset #804;
 }
 .tile.selfcall {
-    background: #a1a;
+    background: hsl(210, 50%, 50%);
     border: 2px outset #606;
 }
 .tile {
@@ -301,8 +312,8 @@ html, body {
     display: none;
 }
 .tile.bottom-join-target {
-    border-bottom-color: yellow;
-    border-bottom-style: solid;
+    border-bottom-color: yellow !important;
+    border-bottom-style: solid !important;
 }
 .hole.multi {
     flex-direction: column;
@@ -347,7 +358,7 @@ html, body {
 .shrink .tile, .shrink .hole {
     padding: 0;
     border: 0 !important;
-    background: none;
+    background: none !important;
     min-width: 0;
     transition: left 1s, top 1s, background-color 0.5s, padding 0.5s, border-width 0.5s;
     font-family: 'Monaco','Menlo','Ubuntu Mono','Droid Sans Mono','Consolas',monospace;
