@@ -111,11 +111,13 @@ window.addEventListener('load', function(ev) {
         if (navigator.userAgent.indexOf('Firefox') != -1) {
             obscurer.appendChild(document.createTextNode(
                     "Go to about:config and set layout.css.flexbox.enabled to true, then reload this page."));
-            alert("It looks like you're using Firefox, but haven't "
+            alert("It looks like you're using Firefox 21 or earlier, but "
+                + "haven't "
                 + "enabled the preference necessary for this tool to "
                 + "use the flexbox layout it requires.\n\nGo to "
                 + "about:config and set layout.css.flexbox.enabled to "
-                + "true, then reload the page.");
+                + "true, then reload the page. Alternatively, upgrade to "
+                + "Firefox 22 or later.");
         } else {
             obscurer.appendChild(document.createTextNode(
                     "Not usable in this browser. Try a recent version of "
