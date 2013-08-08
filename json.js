@@ -362,6 +362,7 @@ function loadJSON(str) {
     while (codearea.hasChildNodes())
         codearea.removeChild(codearea.lastChild);
     codearea.appendChild(bin);
+    codearea.appendChild(desaturator);
     var obj = JSON.parse(str);
     var dialect = document.getElementById('dialect');
     for (var i=0; i<dialect.options.length; i++) {

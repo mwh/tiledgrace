@@ -1,6 +1,7 @@
 "use strict"
 var el = document.createElement('div');
 var indicator = document.getElementById('indicator');
+var desaturator = document.getElementById('desaturator');
 var hideCategoryBar = false;
 var bgMinigrace = new Worker("background.js");
 el.style.cssText = 'pointer-events: auto';
@@ -26,24 +27,14 @@ indicator.addEventListener('mouseover', function(ev) {
         return;
     var reasons = [];
     var tiles = findErroneousTiles(reasons);
-    if (tiles.length > 0)
+    if (tiles.length > 0) {
+        desaturator.style.display = 'block';
+        setTimeout(function() {codearea.classList.add('desaturate');}, 10);
         document.getElementById('overlay-canvas').style.display = 'block';
+    }
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');
     ctx.font = "9pt sans-serif";
-    for (var i=0; i<tiles.length; i++) {
-        var mn = tiles[i];
-        var xy = findOffsetTopLeft(mn);
-        ctx.save();
-        ctx.translate(0, -codearea.scrollTop);
-        ctx.beginPath();
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = "pink";
-        ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
-        ctx.lineTo(indicator.offsetLeft + indicator.offsetWidth / 2, codearea.scrollTop + codearea.offsetHeight);
-        ctx.stroke();
-        ctx.restore();
-    }
     for (var i=0; i<tiles.length; i++) {
         var mn = tiles[i];
         var xy = findOffsetTopLeft(mn);
@@ -69,6 +60,8 @@ indicator.addEventListener('mouseover', function(ev) {
     }
 });
 indicator.addEventListener('mouseout', function(ev) {
+    codearea.classList.remove('desaturate');
+    setTimeout(function() {desaturator.style.display = 'none';}, 250);
     document.getElementById('overlay-canvas').style.display = 'none';
     var tiles = codearea.getElementsByClassName('highlight');
     while (tiles.length > 0) {

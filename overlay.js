@@ -278,7 +278,7 @@ function findErroneousTiles(reasons) {
     var varNames = codearea.getElementsByClassName("var-name");
     for (var i=0; i<varNames.length; i++) {
         if (varNames[i].innerHTML == "") {
-            tiles.push(varNames[i]);
+            tiles.push(varNames[i].parentNode);
             reasons.push("You need to choose a variable name");
         } else {
             var vars = [];
@@ -288,7 +288,7 @@ function findErroneousTiles(reasons) {
                 if (vars[j] == varNames[i].innerHTML)
                     found = true;
             if (!found) {
-                tiles.push(varNames[i]);
+                tiles.push(varNames[i].parentNode);
                 reasons.push("The variable \"" + varNames[i].innerHTML + "\" is not in scope");
             }
         }

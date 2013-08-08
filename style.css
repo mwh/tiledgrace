@@ -17,6 +17,23 @@ html, body {
     height: 90vh; /* Work around Chrome bug 168840*/
     height: calc(99vh - 40px);
 }
+#desaturator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #000;
+    display: none;
+    z-index: 100;
+    opacity: 0;
+    display: none;
+    transition: opacity 0.25s ease-out;
+}
+#codearea.desaturate #desaturator {
+    display: block;
+    opacity: 0.7;
+}
 #codearea {
     width: calc(100% - 460px);
     height: 90vh; /* Work around Chrome bug 168840*/
@@ -266,6 +283,7 @@ html, body {
 .highlight {
     animation: flashbg 0.5s 4;
     -webkit-animation: flashbg 0.5s 4;
+    z-index: 200;
 }
 .hole:not(:empty) {
     background: inherit;
