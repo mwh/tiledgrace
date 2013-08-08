@@ -303,6 +303,14 @@ html, body {
     padding-left: 4px;
     padding-right: 4px;
     font-weight: bold;
+    color: black;
+}
+.tile .assop {
+    margin-left: 1ex;
+    margin-right: 1ex;
+    color: black;
+}
+.shrink .tile .op, .shrink .tile .cmpop, .shrink .tile .assop {
     color: #687687;
 }
 #gracecode {
