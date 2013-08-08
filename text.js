@@ -17,10 +17,10 @@ function shrink() {
         continue;
     }
     setTimeout(function() {
-        var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 4) + 'px';
+        var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 3) + 'px';
         var runningTop = 0;
         if (document.getElementById('dialect').value)
-            runningTop = 19;
+            runningTop = 18;
         for (var i=0; i<starts.length; i++) {
             starts[i].oldTop = starts[i].style.top;
             starts[i].oldLeft = starts[i].style.left;
