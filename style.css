@@ -321,7 +321,12 @@ html, body {
     padding-left: 4px;
     padding-right: 4px;
     font-weight: bold;
+}
+.tile .op {
     color: black;
+}
+.tile .cmpop {
+    color: #687687;
 }
 .tile .assop {
     margin-left: 1ex;
