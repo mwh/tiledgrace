@@ -364,7 +364,10 @@ function createDialectRequestTile(req) {
                         inp.classList.add("variable-name");
                         line.appendChild(inp);
                     }
-                    line.appendChild(document.createTextNode(" ->"));
+                    var arrow = document.createElement('span');
+                    arrow.classList.add('arrow');
+                    arrow.appendChild(document.createTextNode("->"));
+                    line.appendChild(arrow);
                 }
                 line = document.createElement("div");
                 line.classList.add("line");
@@ -456,7 +459,7 @@ function codeSerialiser(n) {
                             out += ", ";
                         out += vars[j].value;
                     }
-                    out += " ->";
+                    out += "->";
                 }
                 out += "\n";
                 var indent = "";

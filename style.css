@@ -254,6 +254,9 @@ html, body {
 .tile.number input {
     color: blue;
 }
+.shrink .arrow {
+    color: #687687;
+}
 .selected {
     z-index: 999;
     opacity: 0.5;
