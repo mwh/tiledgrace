@@ -293,6 +293,50 @@ function findErroneousTiles(reasons) {
             }
         }
     }
+    var methodDeclarations = codearea.getElementsByClassName('method');
+    for (var i=0; i<methodDeclarations.length; i++) {
+        var md = methodDeclarations[i];
+        if (md.parentNode != codearea) {
+            tiles.push(md);
+            reasons.push("A method declaration cannot appear here");
+        }
+    }
+    var varDeclarations = codearea.getElementsByClassName('vardec');
+    for (var i=0; i<varDeclarations.length; i++) {
+        var md = varDeclarations[i];
+        if (md.parentNode != codearea
+                && !md.parentNode.classList.contains('multi')) {
+            tiles.push(md);
+            reasons.push("A variable declaration cannot appear here");
+        }
+    }
+    var assignments = codearea.getElementsByClassName('assign');
+    for (var i=0; i<assignments.length; i++) {
+        var md = assignments[i];
+        if (md.parentNode != codearea
+                && !md.parentNode.classList.contains('multi')) {
+            tiles.push(md);
+            reasons.push("A variable assignment cannot appear here");
+        }
+    }
+    var selfcalls = codearea.getElementsByClassName('selfcall');
+    for (var i=0; i<selfcalls.length; i++) {
+        var sc = selfcalls[i];
+        var methname = sc.childNodes[0].value;
+        var found = false;
+        for (var j=0; j<methodDeclarations.length; j++) {
+            var md = methodDeclarations[j];
+            var mn = md.getElementsByClassName('method-name')[0].value;
+            if (mn == methname) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            tiles.push(sc.childNodes[0]);
+            reasons.push("There is no method called \"" + methname + "\"");
+        }
+    }
     return tiles;
 }
 function highlightTileErrors() {
