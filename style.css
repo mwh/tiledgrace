@@ -309,11 +309,13 @@ html, body {
 @keyframes flashbg {
     50% {
         background: hsl(330, 75%, 65%);
+        border-color: hsl(330, 75%, 65%);
     }
 }
 @-webkit-keyframes flashbg {
     50% {
         background: hsl(330, 75%, 65%);
+        border-color: hsl(330, 75%, 65%);
     }
 }
 .highlight {
