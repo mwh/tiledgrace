@@ -86,6 +86,10 @@ window.addEventListener('load', function(ev) {
             }
         }
     }
+    var inputs = tb.getElementsByTagName('input');
+    for (var i=0; i<inputs.length; i++) {
+        inputs[i].value = inputs[i].getAttribute('value');
+    }
     var op = tb.querySelector('.tile.assign');
     var holes = op.getElementsByClassName('hole');
     if (holes[0].offsetTop != holes[1].offsetTop) {
