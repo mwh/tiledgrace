@@ -251,6 +251,41 @@ function drawVarLinesOverText(e) {
     }
 }
 
+function dameraulevenshtein(seq1, seq2) {
+    // codesnippet:D0DE4716-B6E6-4161-9219-2903BF8F547F
+    // codesnippet:CA1A7474-48C0-44B6-AF12-D1AA3CFD9988
+    // Conceptually, this is based on a (seq1.length + 1) * (seq2.length + 1)
+    // matric. However, only the current and two previous rows are
+    // needed at once, so we only store those.
+    var oneago, twoago;
+    var zeroes = [0];
+    var thisrow = [];
+    for (var i=0; i<=seq2.length; i++) {
+        zeroes.push(0);
+        thisrow.push(i + 1);
+    }
+    // To reduce special cases later on, we store the first column
+    // of the matrix at index -1 to match the 0-indexed sequences.
+    thisrow[-1] = 0;
+    for (var x=0; x<seq1.length; x++) {
+        twoago = oneago;
+        oneago = thisrow;
+        thisrow = zeroes.slice(0);
+        thisrow[-1] = x + 1;
+        for (var y=0; y<seq2.length; y++) {
+            var delcost = oneago[y] + 1;
+            var addcost = thisrow[y - 1] + 1;
+            var subcost = oneago[y - 1] + (seq1[x] != seq2[y] ? 1 : 0);
+            thisrow[y] = Math.min(delcost, addcost, subcost);
+            // This deals with transpositions
+            if (x > 0 && y > 0 && seq1[x] == seq2[y - 1]
+                    && seq1[x-1] == seq2[y] && seq1[x] != seq2[y])
+                thisrow[y] = Math.min(thisrow[y], twoago[y - 2] + 1);
+        }
+    }
+    return thisrow[seq2.length - 1];
+}
+
 function findErroneousTiles(reasons) {
     if (!reasons)
         reasons = [];
@@ -324,6 +359,8 @@ function findErroneousTiles(reasons) {
         var sc = selfcalls[i];
         var methname = sc.childNodes[0].value;
         var found = false;
+        var best = "";
+        var bestScore = methname.length;
         for (var j=0; j<methodDeclarations.length; j++) {
             var md = methodDeclarations[j];
             var mn = md.getElementsByClassName('method-name')[0].value;
@@ -331,10 +368,19 @@ function findErroneousTiles(reasons) {
                 found = true;
                 break;
             }
+            var dl = dameraulevenshtein(methname, mn);
+            if (dl < bestScore) {
+                bestScore = dl;
+                best = mn;
+            }
         }
         if (!found) {
             tiles.push(sc.childNodes[0]);
-            reasons.push("There is no method called \"" + methname + "\"");
+            var reason = "There is no method called \"" + methname + "\"";
+            if (bestScore <= methname.length / 2) {
+                reason += ". Did you mean \"" + best + "\"?";
+            }
+            reasons.push(reason);
         }
     }
     return tiles;
