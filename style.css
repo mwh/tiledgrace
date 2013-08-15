@@ -407,7 +407,7 @@ html, body {
     opacity: 0.25;
     transition: opacity 0s;
 }
-.tile.over-bin, .over-bin .tile, .over-bin .hole {
+.tile.over-bin, .over-bin .tile, .over-bin .hole, .tile.dialect-method.over-bin {
     background: red;
     border-color: red;
 }
