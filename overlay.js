@@ -353,6 +353,14 @@ function findErroneousTiles(reasons) {
             tiles.push(md);
             reasons.push("A variable assignment cannot appear here");
         }
+        var lhs = md.childNodes[0];
+        if (lhs.childNodes.length > 0) {
+            lhs = lhs.lastChild;
+            if (!lhs.classList.contains('var')) {
+                tiles.push(lhs);
+                reasons.push("This cannot be assigned to");
+            }
+        }
     }
     var selfcalls = codearea.getElementsByClassName('selfcall');
     for (var i=0; i<selfcalls.length; i++) {
