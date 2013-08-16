@@ -117,7 +117,7 @@ html, body {
     border-radius: 50%/35%;
     border-color: hsl(120, 75%, 25%);
 }
-.tile.number input {
+input {
     border-radius: 3px;
 }
 .tile.string {
