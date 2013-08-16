@@ -67,7 +67,7 @@ function drawConstantLines(el) {
         ctx.moveTo(xy.left + el.offsetWidth / 2, xy.top + el.offsetHeight);
         ctx.lineTo(50, codearea.scrollTop + codearea.offsetHeight);
     }
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = "hsla(120, 100%, 25%, 0.6)";
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.restore();
@@ -87,7 +87,7 @@ function drawDialectRequestLines(el) {
         ctx.moveTo(xy.left + mn.offsetWidth / 2, xy.top + mn.offsetHeight);
         ctx.lineTo(50, codearea.scrollTop + codearea.offsetHeight);
     }
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = "hsla(120, 100%, 25%, 0.6)";
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.restore();
@@ -100,7 +100,7 @@ function drawMethodRequestLines(el) {
     for (var i=0; i<meths.length; i++) {
         var methInput = meths[i].getElementsByTagName('input')[0];
         if (myName == methInput.value)
-            drawLineBetweenElements(myInput, methInput, "blue");
+            drawLineBetweenElements(myInput, methInput, "hsla(240, 100%, 50%, 0.6)");
     }
 }
 function drawMethodDefinitionLines(el) {
@@ -111,7 +111,7 @@ function drawMethodDefinitionLines(el) {
     for (var i=0; i<meths.length; i++) {
         var methInput = meths[i].getElementsByTagName('input')[0];
         if (myName == methInput.value)
-            drawLineBetweenElements(myInput, methInput, "blue");
+            drawLineBetweenElements(myInput, methInput, "hsla(240, 100%, 50%, 0.6)");
     }
 }
 function drawVardecLines(el) {
@@ -120,12 +120,12 @@ function drawVardecLines(el) {
     var myName = myInput.value;
     findVarRefsInScope(myName, el, vars);
     for (var i=0; i<vars.length; i++) {
-        drawLineBetweenElements(myInput, vars[i], "blue");
+        drawLineBetweenElements(myInput, vars[i], "hsla(240, 100%, 50%, 0.6)");
     }
     vars = [];
     findVarAssignsInScope(myName, el, vars);
     for (var i=0; i<vars.length; i++) {
-        drawLineBetweenElements(myInput, vars[i].childNodes[0], "red");
+        drawLineBetweenElements(myInput, vars[i].childNodes[0], "hsla(0, 100%, 50%, 0.6)");
     }
 }
 function drawVarRefLines(el) {
@@ -149,11 +149,11 @@ function drawVarRefLines(el) {
         defInput = defEl.getElementsByClassName('variable-name')[0];
     if (defEl.classList.contains('dialect-method'))
         defInput = defEl.getElementsByClassName('variable-name')[0];
-    drawLineBetweenElements(el, defInput, "blue");
+    drawLineBetweenElements(el, defInput, "hsla(240, 100%, 50%, 0.6)");
     vars = [];
     findVarAssignsInScope(myName, defEl, vars);
     for (var i=0; i<vars.length; i++) {
-        drawLineBetweenElements(defInput, vars[i].childNodes[0], "red");
+        drawLineBetweenElements(defInput, vars[i].childNodes[0], "hsla(0, 100%, 50%, 0.6)");
     }
 }
 function drawVarLinesOverText(e) {
