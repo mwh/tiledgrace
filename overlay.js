@@ -114,6 +114,43 @@ function drawMethodDefinitionLines(el) {
             drawLineBetweenElements(myInput, methInput, "hsla(240, 100%, 50%, 0.6)");
     }
 }
+function clearPopouts() {
+    var popouts = codearea.getElementsByClassName('popout');
+    while (popouts.length)
+        popouts[0].classList.remove('popout');
+}
+function highlightVarReferences(el) {
+    var vars = [];
+    var myInput = el.getElementsByTagName('input')[0];
+    var myName = myInput.value;
+    findVarRefsInScope(myName, el, vars);
+    for (var i=0; i<vars.length; i++) {
+        vars[i].classList.add('popout');
+    }
+}
+function highlightVarDefinition(el) {
+    var varNames = [];
+    var vars = [];
+    findVarsInScope(el, varNames, vars);
+    var myName = el.childNodes[0].innerHTML;
+    var defEl = false;
+    for (var i=0; i<vars.length; i++) {
+        if (varNames[i] == myName) {
+            defEl = vars[i];
+            break;
+        }
+    }
+    if (!defEl)
+        return;
+    var defInput = defEl.getElementsByTagName('input')[0];
+    if (defEl.classList.contains('method'))
+        defInput = defEl.getElementsByTagName('input')[1];
+    if (defEl.classList.contains('for'))
+        defInput = defEl.getElementsByClassName('variable-name')[0];
+    if (defEl.classList.contains('dialect-method'))
+        defInput = defEl.getElementsByClassName('variable-name')[0];
+    defInput.classList.add('popout');
+}
 function drawVardecLines(el) {
     var vars = [];
     var myInput = el.getElementsByTagName('input')[0];

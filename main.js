@@ -145,22 +145,18 @@ function attachTileBehaviour(n) {
     });
     if (n.classList.contains('vardec') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
-            drawVardecLines(this);
-            document.getElementById('overlay-canvas').style.display = 'block';
+            highlightVarReferences(this);
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
-            document.getElementById('overlay-canvas').style.display = 'none';
+            clearPopouts();
         });
     }
     if (n.classList.contains('var') && supportsPointerEvents) {
         n.addEventListener('mouseover', function(ev) {
-            drawVarRefLines(this);
-            document.getElementById('overlay-canvas').style.display = 'block';
+            highlightVarDefinition(this);
         });
         n.addEventListener('mouseout', function(ev) {
-            document.getElementById('overlay-canvas').getContext('2d').clearRect(0, 0, codearea.offsetWidth, codearea.offsetHeight);
-            document.getElementById('overlay-canvas').style.display = 'none';
+            clearPopouts();
         });
     }
     if (n.classList.contains('selfcall') && supportsPointerEvents) {
