@@ -35,8 +35,8 @@ function drawLineBetweenElements(el1, el2, colour) {
         }
     }
     ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
+    ctx.moveTo(x1 + 4, y1 + 4);
+    ctx.lineTo(x2 + 4, y2 + 4);
     ctx.strokeStyle = colour;
     ctx.lineWidth = 3;
     ctx.stroke();
