@@ -271,6 +271,7 @@ function dragstart(ev) {
             originalHole.style.width = 'auto';
             originalHole.style.height = 'auto';
         }
+        runOnDrop(obj);
         reflow();
         updateTileIndicator();
         if (!hadDragContinue && ev.target.classList.contains('var-name')) {
@@ -280,7 +281,6 @@ function dragstart(ev) {
         }
         generateCode();
         checkpointSave();
-        runOnDrop(obj);
     }
     d.addEventListener('mousemove', dragcontinue)
     d.addEventListener('mouseup', dragend)
