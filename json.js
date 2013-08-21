@@ -378,11 +378,13 @@ function loadJSON(str) {
     var obj = JSON.parse(str);
     var dialect = document.getElementById('dialect');
     for (var i=0; i<dialect.options.length; i++) {
-        if (dialect.options[i].value == obj.dialect)
-            dialect.selectedIndex = i;
+        if (dialect.options[i].value == obj.dialect) {
+            if (dialect.selectedIndex != i) {
+                dialect.selectedIndex = i;
+                changeDialect();
+            }
+        }
     }
-    if (obj.dialect)
-        changeDialect();
     Array.prototype.forEach.call(obj.chunks, createChunkFromJSON);
     Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
             function(el) {
