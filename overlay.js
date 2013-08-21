@@ -1,4 +1,5 @@
 "use strict"
+var markErrorsAlways = false;
 function drawLineBetweenElements(el1, el2, colour) {
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');

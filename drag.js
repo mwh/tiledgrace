@@ -331,11 +331,25 @@ function reflow() {
 }
 
 function updateTileIndicator() {
-    var errorTiles = findErroneousTiles();
+    if (markErrorsAlways) {
+        var wereErrors = codearea.getElementsByClassName('has-error');
+        while (wereErrors.length) {
+            wereErrors[0].title = "";
+            wereErrors[0].classList.remove('has-error');
+        }
+    }
+    var reasons = [];
+    var errorTiles = findErroneousTiles(reasons);
     if (errorTiles.length > 0)
         document.getElementById('indicator').style.background = 'red';
     else
         document.getElementById('indicator').style.background = 'green';
+    if (markErrorsAlways) {
+        for (var i=0; i<errorTiles.length; i++) {
+            errorTiles[i].classList.add('has-error');
+            errorTiles[i].title = reasons[i];
+        }
+    }
 }
 function renameVar(oldValue, newValue) {
     var vars = document.getElementsByClassName('var-name');

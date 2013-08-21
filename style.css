@@ -326,6 +326,12 @@ input {
     -webkit-animation: flashbg 0.5s 4;
     z-index: 200;
 }
+#codearea .has-error {
+    box-shadow: 0px 0px 2px 4px hsla(330, 100%, 50%, 0.85);
+}
+#codearea.desaturate .has-error {
+    box-shadow: none;
+}
 .hole:not(:empty) {
     background: inherit;
 }
