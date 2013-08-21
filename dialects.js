@@ -64,7 +64,7 @@ var StandardGrace = {
             parts: [
                 {
                     name: 'for',
-                    args: ["Any"],
+                    args: ["Iterable"],
                 },
                 {
                     name: 'do',
