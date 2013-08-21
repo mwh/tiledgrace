@@ -428,6 +428,30 @@ function findErroneousTiles(reasons) {
             reasons.push(reason);
         }
     }
+    var holes = codearea.getElementsByClassName('hole');
+    for (var i=0; i<holes.length; i++) {
+        var hole = holes[i];
+        if (!hole.lastChild)
+            continue;
+        if (!hole.dataset || !hole.dataset.accepts)
+            continue;
+        var accepts = hole.dataset.accepts;
+        if (accepts == "Any")
+            continue;
+        var val = hole.lastChild;
+        if (!val.dataset || !val.dataset.types)
+            continue;
+        var types = val.dataset.types.split(' ');
+        var ok = false;
+        for (var j=0; j<types.length; j++)
+            if (accepts == types[j])
+                ok = true;
+        if (!ok) {
+            tiles.push(val);
+            reasons.push("This needs to be " + accepts + ", not "
+                    + types[0] + ".");
+        }
+    }
     return tiles;
 }
 function highlightTileErrors() {
