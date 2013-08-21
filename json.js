@@ -259,6 +259,18 @@ function populateTile(tile, obj) {
             appendChildFromJSON(tile.childNodes[0], obj.left);
             tile.childNodes[1].innerHTML = obj.operator;
             appendChildFromJSON(tile.childNodes[2], obj.right);
+            var templates = document.getElementById('toolbox').querySelectorAll('.tile.' + obj.type);
+            if (templates.length > 1) {
+                for (var i=0; i<templates.length; i++)
+                    if (templates[i].dataset && templates[i].dataset.operators) {
+                        var ops = templates[i].dataset.operators.split(' ');
+                        for (var j=0; j<ops.length; j++) {
+                            if (ops[j] == obj.operator)
+                                for (var k in templates[i].dataset)
+                                    tile.dataset[k] = templates[i].dataset[k];
+                        }
+                    }
+            }
             break;
         case "assign":
             appendChildFromJSON(tile.childNodes[0], obj.left);
