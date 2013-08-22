@@ -155,24 +155,32 @@ dialects.logo = {
     methods: {
         "forward": {
             name: "forward",
-            parts: [{name: "forward", args: ["Number"]}]
+            parts: [{name: "forward", args: ["Number"]}],
+            returns: "Done"
         },
         "turnRight": {
             name: "turnRight",
-            parts: [{name: "turnRight", args: ["Number"]}]
+            parts: [{name: "turnRight", args: ["Number"]}],
+            returns: "Done"
         },
         "turnLeft": {
             name: "turnLeft",
-            parts: [{name: "turnLeft", args: ["Number"]}]
+            parts: [{name: "turnLeft", args: ["Number"]}],
+            returns: "Done"
         },
         "lineColor:=": {
             name: "lineColor:=",
-            parts: [{name: "lineColor:=", args: ["Any"]}]
+            parts: [{name: "lineColor:=", args: ["Any"]}],
+            returns: "Done"
         },
-        "blue": {name: "blue", parts: [{name: "blue", args: []}]},
-        "red": {name: "red", parts: [{name: "red", args: []}]},
-        "green": {name: "green", parts: [{name: "green", args: []}]},
-        "black": {name: "black", parts: [{name: "black", args: []}]},
+        "blue": {name: "blue", parts: [{name: "blue", args: []}],
+            returns: "Colour"},
+        "red": {name: "red", parts: [{name: "red", args: []}],
+            returns: "Colour"},
+        "green": {name: "green", parts: [{name: "green", args: []}],
+            returns: "Colour"},
+        "black": {name: "black", parts: [{name: "black", args: []}],
+            returns: "Colour"},
     }
 };
 for (var k in dialects.logo.methods)
