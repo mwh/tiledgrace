@@ -434,26 +434,28 @@ function findErroneousTiles(reasons) {
         var hole = holes[i];
         if (!hole.lastChild)
             continue;
-        if (!hole.dataset || !hole.dataset.accepts)
-            continue;
-        var accepts = hole.dataset.accepts;
-        if (accepts == "Any")
-            continue;
-        var val = hole.lastChild;
-        if (!val.dataset || !val.dataset.types)
-            continue;
-        var types = val.dataset.types.split(' ');
-        var ok = false;
-        for (var j=0; j<types.length; j++)
-            if (accepts == types[j])
-                ok = true;
-        if (!ok) {
-            tiles.push(val);
-            reasons.push("This needs to be " + accepts + ", not "
+        if (!holeCanHoldTile(hole, hole.lastChild)) {
+            tiles.push(hole.lastChild);
+            var types = hole.lastChild.dataset.types.split(' ');
+            reasons.push("This needs to be " + hole.dataset.accepts + ", not "
                     + types[0] + ".");
         }
     }
     return tiles;
+}
+function holeCanHoldTile(hole, tile) {
+    if (!tile || !hole.dataset || !hole.dataset.accepts)
+        return true;
+    var accepts = hole.dataset.accepts;
+    if (accepts == "Any")
+        return true;
+    if (!tile.dataset || !tile.dataset.types)
+        return true;
+    var types = tile.dataset.types.split(' ');
+    for (var j=0; j<types.length; j++)
+        if (accepts == types[j])
+            return true;
+    return false;
 }
 function highlightTileErrors() {
     var tiles = findErroneousTiles();
