@@ -101,6 +101,9 @@ function dragstart(ev) {
         }
         if (bestHole != null && bestHole.children.length == 0) {
             bestHole.style.background = 'yellow';
+            if (!holeCanHoldTile(bestHole, obj)) {
+                bestHole.style.background = 'pink';
+            }
         }
         var tmp = obj;
         while (typeof tmp.next != "undefined" && tmp.next) {
@@ -210,7 +213,9 @@ function dragstart(ev) {
             }
         }
         if (bestHole != null) {
-            if (bestHole.children.length == 0) {
+            bestHole.style.background = '';
+            if (bestHole.children.length == 0
+                    && holeCanHoldTile(bestHole, obj)) {
                 var tmp = obj;
                 while (tmp) {
                     tmp.style.top = 0;
@@ -219,7 +224,6 @@ function dragstart(ev) {
                     bestHole.appendChild(tmp);
                     tmp = tmp.next;
                 }
-                bestHole.style.background = '';
             } else {
                 bestHole = null;
             }
