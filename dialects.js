@@ -403,6 +403,8 @@ function createDialectRequestTile(req) {
     }
     tile.dataset.serialiserIndex = serialisers.length;
     serialisers.push(req);
+    if (req.returns)
+        tile.dataset.types = req.returns;
     return tile;
 }
 function createHole(arg) {
