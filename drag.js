@@ -58,6 +58,7 @@ function dragstart(ev) {
     }
     var hadDragContinue = false;
     var dragcontinue = function(ev2) {
+        overlaidError.style.display = 'none';
         hadDragContinue = true;
         var top = (ev2.clientY - offsetY);
         var left = (ev2.clientX - offsetX);
@@ -101,8 +102,10 @@ function dragstart(ev) {
         }
         if (bestHole != null && bestHole.children.length == 0) {
             bestHole.style.background = 'yellow';
-            if (!holeCanHoldTile(bestHole, obj)) {
+            var reason = {};
+            if (!holeCanHoldTile(bestHole, obj, reason)) {
                 bestHole.style.background = 'pink';
+                overlayError(reason.error, bestHole);
             }
         }
         var tmp = obj;
@@ -160,6 +163,7 @@ function dragstart(ev) {
         tmp = tmp.next;
     }
     var dragend = function(ev) {
+        overlaidError.style.display = 'none';
         var top = (ev.clientY - offsetY);
         var left = (ev.clientX - offsetX);
         obj.style.top = top + 'px';

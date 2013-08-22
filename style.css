@@ -489,3 +489,10 @@ ul.popup-menu li:hover {
     background: #008;
     color: white;
 }
+.overlaid-error {
+    position: absolute;
+    display: none;
+    background: pink;
+    border: 2px solid hsl(330, 75%, 65%);
+    z-index: 300;
+}

@@ -443,7 +443,8 @@ function findErroneousTiles(reasons) {
     }
     return tiles;
 }
-function holeCanHoldTile(hole, tile) {
+function holeCanHoldTile(hole, tile, extra) {
+    if (!extra) extra = {};
     if (!tile || !hole.dataset || !hole.dataset.accepts)
         return true;
     var accepts = hole.dataset.accepts;
@@ -455,6 +456,7 @@ function holeCanHoldTile(hole, tile) {
     for (var j=0; j<types.length; j++)
         if (accepts == types[j])
             return true;
+    extra.error = "Only " + accepts + " can go here, not " + types[0] + ".";
     return false;
 }
 function highlightTileErrors() {
@@ -541,4 +543,15 @@ function findVarsInScope(el, accum, elAccum) {
     // Then go out
     if (el.parentNode != codearea)
         findVarsInScope(el.parentNode, accum, elAccum);
+}
+var overlaidError = document.createElement('div');
+overlaidError.classList.add('overlaid-error');
+document.body.appendChild(overlaidError);
+function overlayError(msg, relativeTo) {
+    var xy = findOffsetTopLeft(relativeTo);
+    overlaidError.innerHTML = msg;
+    xy.top -= relativeTo.offsetHeight + 10;
+    overlaidError.style.top = xy.top + 'px';
+    overlaidError.style.left = xy.left + 'px';
+    overlaidError.style.display = 'block';
 }
