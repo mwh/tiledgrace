@@ -444,16 +444,25 @@ function findErroneousTiles(reasons) {
     return tiles;
 }
 function holeCanHoldTile(hole, tile, extra) {
+    if (!tile)
+        return true;
     if (!extra) extra = {};
-    if (!hole.classList.contains('multi') && tile && tile.next) {
+    if (!hole.classList.contains('multi') && tile.next) {
         extra.error = "Only a single tile can go here.";
         return false;
     }
-    if (tile && tile.classList.contains('method')) {
+    if (tile.classList.contains('method')) {
         extra.error = "Method declarations cannot go here.";
         return false;
     }
-    if (!tile || !hole.dataset || !hole.dataset.accepts)
+    if (hole.classList.contains('bind-lhs')) {
+        if (!tile.classList.contains('var')
+                && !tile.classList.contains('request')) {
+            extra.error = "This cannot be assigned to.";
+            return false;
+        }
+    }
+    if (!hole.dataset || !hole.dataset.accepts)
         return true;
     var accepts = hole.dataset.accepts;
     if (accepts == "Any")
