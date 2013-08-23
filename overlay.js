@@ -78,6 +78,7 @@ function drawDialectRequestLines(el) {
     var xy = findOffsetTopLeft(mn);
     var c = document.getElementById('overlay-canvas');
     var ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, c.width, c.height);
     ctx.save();
     ctx.translate(0, -codearea.scrollTop);
     ctx.beginPath();
