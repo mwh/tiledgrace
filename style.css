@@ -479,11 +479,13 @@ ul.popup-menu {
     position: absolute;
     list-style-type: none;
     padding-left: 0;
+    z-index: 300;
 }
 ul.popup-menu li {
     display: block;
     padding-left: 1ex;
     padding-right: 1ex;
+    cursor: default;
 }
 ul.popup-menu li:hover {
     background: #008;

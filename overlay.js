@@ -130,11 +130,15 @@ function highlightVarReferences(el) {
         vars[i].classList.add('popout');
     }
 }
-function highlightVarDefinition(el) {
+function highlightVarDefinition(el, name) {
     var varNames = [];
     var vars = [];
     findVarsInScope(el, varNames, vars);
-    var myName = el.childNodes[0].innerHTML;
+    var myName;
+    if (name)
+        myName = name;
+    else
+        myName = el.childNodes[0].innerHTML;
     var defEl = false;
     for (var i=0; i<vars.length; i++) {
         if (varNames[i] == myName) {

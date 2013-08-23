@@ -96,6 +96,12 @@ function popupVarMenu(ev) {
             generateCode();
             checkpointSave();
         });
+        opt.addEventListener("mouseover", function(ev) {
+            highlightVarDefinition(el, ev.target.innerHTML);
+        });
+        opt.addEventListener("mouseout", function(ev) {
+            clearPopouts();
+        });
         menu.appendChild(opt);
     }
     if (vars.length == 0) {
