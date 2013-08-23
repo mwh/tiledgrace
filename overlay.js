@@ -445,6 +445,14 @@ function findErroneousTiles(reasons) {
 }
 function holeCanHoldTile(hole, tile, extra) {
     if (!extra) extra = {};
+    if (!hole.classList.contains('multi') && tile && tile.next) {
+        extra.error = "Only a single tile can go here.";
+        return false;
+    }
+    if (tile && tile.classList.contains('method')) {
+        extra.error = "Method declarations cannot go here.";
+        return false;
+    }
     if (!tile || !hole.dataset || !hole.dataset.accepts)
         return true;
     var accepts = hole.dataset.accepts;
