@@ -77,10 +77,15 @@ function popupVarMenu(ev) {
     var menu = document.createElement("ul");
     menu.classList.add("popup-menu");
     var xy = findOffsetTopLeft(el);
-    menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop - 4) + 'px';
+    menu.style.top = (xy.top + el.offsetHeight - codearea.offsetTop - 10) + 'px';
     menu.style.left = xy.left + 'px';
     var vars = [];
-    findVarsInScope(el, vars, []);
+    var mustBeMutable = el.parentNode.classList.contains('bind-lhs')
+            || el.parentNode.parentNode.classList.contains('bind-lhs');
+    if (mustBeMutable)
+        findMutableVarsInScope(el, vars, []);
+    else
+        findVarsInScope(el, vars, []);
     for (var i=0; i<vars.length; i++) {
         var opt = document.createElement('li');
         opt.innerHTML = vars[i];
@@ -96,10 +101,13 @@ function popupVarMenu(ev) {
     if (vars.length == 0) {
         var opt = document.createElement('li');
         opt.innerHTML = '--none--';
-        opt.title = "There are no reachable variables from this point in the code.";
+        var msg = "There are no reachable variables from this point in the code.";
+        if (mustBeMutable)
+            msg = "There are no mutable variables reachable from this point in the code.";
+        opt.title = msg;
         opt.addEventListener("click", function(ev) {
             codearea.removeChild(menu);
-            alert("There are no reachable variables from this point in the code.");
+            alert(msg);
         });
         menu.appendChild(opt);
     }

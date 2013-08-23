@@ -531,6 +531,20 @@ function findVarRefsInScope(varname, el, accum) {
         e = e.next;
     }
 }
+function findMutableVarsInScope(el, accum, elAccum) {
+    // First go up
+    var e = el;
+    while (e) {
+        if (e.classList.contains('vardec')) {
+            accum.push(e.getElementsByClassName('variable-name')[0].value);
+            elAccum.push(e);
+        }
+        e = e.prev;
+    }
+    // Then go out
+    if (el.parentNode != codearea)
+        findMutableVarsInScope(el.parentNode, accum, elAccum);
+}
 function findVarsInScope(el, accum, elAccum) {
     // First go up
     var e = el;

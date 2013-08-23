@@ -307,7 +307,10 @@ function dragstart(ev) {
 function runOnDrop(tile) {
     if (tile.classList.contains('var')) {
         var vars = [];
-        findVarsInScope(tile, vars, []);
+        if (tile.parentNode.classList.contains('bind-lhs'))
+            findMutableVarsInScope(tile, vars, []);
+        else
+            findVarsInScope(tile, vars, []);
         if (vars.length == 1 && tile.childNodes[0].innerHTML == '') {
             tile.getElementsByClassName('var-name')[0].innerHTML = vars[0];
         } else if (vars.length != 0) {
@@ -315,6 +318,11 @@ function runOnDrop(tile) {
             for (var i=0; i<vars.length; i++)
                 if (vars[i] == curname)
                     return;
+            popupVarMenu({target: tile.childNodes[0],
+                stopImmediatePropagation: function(){}});
+        } else if (tile.childNodes[0].innerHTML != ''
+                && tile.parentNode.classList.contains('bind-lhs')) {
+            tile.childNodes[0].innerHTML = '';
             popupVarMenu({target: tile.childNodes[0],
                 stopImmediatePropagation: function(){}});
         }
