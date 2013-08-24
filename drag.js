@@ -14,6 +14,10 @@ function isBottomTarget(ch, obj) {
         if (!ch.parentElement.classList.contains('multi')) {
             return false;
         }
+        if (obj.classList.contains('method')
+                && !ch.parentElement.classList.contains('object-scope')) {
+            return false;
+        }
     }
     var p = ch.parentNode;
     while (p != codearea) {
