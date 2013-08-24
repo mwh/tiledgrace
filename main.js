@@ -228,30 +228,7 @@ function attachTileBehaviour(n) {
     if (!n.prev)
         n.prev = false;
     Array.prototype.forEach.call(n.getElementsByTagName('input'),
-            function(el) {
-                el.addEventListener('mousedown', function(ev) {
-                    ev.stopPropagation();
-                });
-                el.addEventListener('keyup', function(ev) {
-                    this.size = this.value.length + 1;
-                    generateCode();
-                });
-                el.addEventListener('blur', function(ev) {
-                    updateTileIndicator();
-                    this.size = this.value.length;
-                    generateCode();
-                    checkpointSave();
-                });
-                if (el.classList.contains('variable-name')) {
-                    el.addEventListener('blur', function(ev) {
-                        renameVar(el.oldName, el.value);
-                        updateTileIndicator();
-                        el.oldName = el.value;
-                        generateCode();
-                        checkpointSave();
-                    });
-                }
-            });
+            attachInputEvents);
     Array.prototype.forEach.call(n.getElementsByClassName('op'),
             function(el) {
                 el.addEventListener('dblclick', function(ev) {
@@ -292,6 +269,53 @@ function attachTileBehaviour(n) {
                     checkpointSave();
                 });
             });
+    Array.prototype.forEach.call(n.getElementsByClassName('parameter-adder'),
+            function(el) {
+                el.addEventListener('click', parameterAdd);
+            });
+}
+function attachInputEvents(el) {
+    el.addEventListener('mousedown', function(ev) {
+        ev.stopPropagation();
+    });
+    el.addEventListener('keyup', function(ev) {
+        this.size = this.value.length + 1;
+        generateCode();
+    });
+    el.addEventListener('blur', function(ev) {
+        updateTileIndicator();
+        this.size = this.value.length;
+        generateCode();
+        checkpointSave();
+    });
+    if (el.classList.contains('variable-name')) {
+        el.addEventListener('blur', function(ev) {
+            renameVar(el.oldName, el.value);
+            updateTileIndicator();
+            el.oldName = el.value;
+            generateCode();
+            checkpointSave();
+        });
+    }
+}
+function addParameterToMethod(paramAdder, name) {
+    if (paramAdder.previousSibling.classList
+            && paramAdder.previousSibling.classList.contains('variable-name')) {
+        var comma = document.createTextNode(', ');
+        paramAdder.parentElement.insertBefore(comma, paramAdder);
+    }
+    var newParam = document.createElement('input');
+    newParam.type = "text";
+    newParam.size = 1;
+    newParam.classList.add("variable-name");
+    paramAdder.parentElement.insertBefore(newParam, paramAdder);
+    newParam.value = name;
+    attachInputEvents(newParam);
+    return newParam;
+}
+function parameterAdd(ev) {
+    var newParam = addParameterToMethod(this, "");
+    newParam.focus();
 }
 function attachHoleBehaviour(n) {
     n.addEventListener('mouseup', holedrop);

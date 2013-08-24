@@ -149,8 +149,8 @@ function highlightVarDefinition(el, name) {
     if (!defEl)
         return;
     var defInput = defEl.getElementsByTagName('input')[0];
-    if (defEl.classList.contains('method'))
-        defInput = defEl.getElementsByTagName('input')[1];
+    if (defEl.classList.contains('variable-name'))
+        defInput = defEl;
     if (defEl.classList.contains('for'))
         defInput = defEl.getElementsByClassName('variable-name')[0];
     if (defEl.classList.contains('dialect-method'))
@@ -556,8 +556,11 @@ function findVarsInScope(el, accum, elAccum) {
     // First go up
     var e = el;
     if (e.classList.contains('method')) {
-        accum.push(e.getElementsByTagName('input')[1].value);
-        elAccum.push(e);
+        var argInputs = e.childNodes[0].getElementsByClassName('variable-name');
+        for (var i=0; i<argInputs.length; i++) {
+            accum.push(argInputs[i].value);
+            elAccum.push(argInputs[i]);
+        }
     }
     if (e.classList.contains('for')) {
         var varInput = e.querySelector('div > input[type="text"].variable-name');

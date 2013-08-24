@@ -162,7 +162,11 @@ function generateNodeCode(n, loc) {
     }
     if (n.classList.contains('method')) {
         var name = n.childNodes[0].childNodes[1].value;
-        var arg = n.childNodes[0].childNodes[3].value;
+        var argInputs = n.childNodes[0].getElementsByClassName('variable-name');
+        var args = [];
+        for (var i=0; i<argInputs.length; i++)
+            args.push(argInputs[i].value);
+        var arg = args.join(',');
         var bodyHole = n.children[1].children[0];
         var indent = '';
         for (var i=0; i<blockIndent; i++)

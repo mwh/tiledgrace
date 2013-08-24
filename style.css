@@ -182,6 +182,14 @@ input {
     -ms-flex-direction: column;
     -ms-flex-align: start;
 }
+.parameter-adder {
+    font-size: 0.65em;
+    margin-bottom: 0.8em;
+    color: #0f0;
+}
+.shrink .parameter-adder {
+    display: none;
+}
 .tile.object {
     background: hsl(270, 100%, 50%);
     border: 2px outset hsl(270, 100%, 25%);

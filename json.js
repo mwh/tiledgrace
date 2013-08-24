@@ -53,7 +53,10 @@ function generateNodeJSON(n) {
     }
     if (n.classList.contains('method')) {
         var name = n.childNodes[0].childNodes[1].value;
-        var arg = n.childNodes[0].childNodes[3].value;
+        var argInputs = n.childNodes[0].getElementsByClassName('variable-name');
+        var args = [];
+        for (var i=0; i<argInputs.length; i++)
+            args.push(argInputs[i].value);
         var bodyHole = n.children[1].children[0];
         var body = [];
         for (var i=0; i<bodyHole.children.length; i++) {
@@ -62,7 +65,7 @@ function generateNodeJSON(n) {
         }
         return {type: 'method',
             name: name,
-            arg: arg,
+            arg: args,
             body: body
         };
     }
@@ -289,7 +292,13 @@ function populateTile(tile, obj) {
             break;
         case "method":
             tile.childNodes[0].childNodes[1].value = obj.name;
-            tile.childNodes[0].childNodes[3].value = obj.arg;
+            var paramAdder = tile.childNodes[0].getElementsByClassName('parameter-adder')[0];
+            if (typeof obj.arg == 'string') {
+                addParameterToMethod(paramAdder, obj.arg);
+            } else {
+                for (var i=0; i<obj.arg.length; i++)
+                    addParameterToMethod(paramAdder, obj.arg[i]);
+            }
             var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
