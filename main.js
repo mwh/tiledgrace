@@ -273,6 +273,10 @@ function attachTileBehaviour(n) {
             function(el) {
                 el.addEventListener('click', parameterAdd);
             });
+    Array.prototype.forEach.call(n.getElementsByClassName('argument-adder'),
+            function(el) {
+                el.addEventListener('click', argumentAdd);
+            });
 }
 function attachInputEvents(el) {
     el.addEventListener('mousedown', function(ev) {
@@ -297,6 +301,26 @@ function attachInputEvents(el) {
             checkpointSave();
         });
     }
+}
+function addArgumentToRequest(argAdder) {
+    if (argAdder.previousSibling.nodeName
+            && argAdder.previousSibling.nodeName.toLowerCase() == "input") {
+        var lparen = document.createTextNode('(');
+        argAdder.parentElement.insertBefore(lparen, argAdder);
+        var rparen = document.createTextNode(')');
+        argAdder.parentElement.insertBefore(rparen, argAdder.nextSibling);
+    }
+    if (argAdder.previousSibling.classList
+            && argAdder.previousSibling.classList.contains('hole')) {
+        var comma = document.createTextNode(', ');
+        argAdder.parentElement.insertBefore(comma, argAdder);
+    }
+    var hole = createHole();
+    argAdder.parentElement.insertBefore(hole, argAdder);
+    return hole;
+}
+function argumentAdd(ev) {
+    addArgumentToRequest(this);
 }
 function addParameterToMethod(paramAdder, name) {
     if (paramAdder.previousSibling.classList

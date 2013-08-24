@@ -81,9 +81,25 @@ function generateNodeJSON(n) {
         };
     }
     if (n.classList.contains('request')) {
+        var args = [];
+        // The receiver is in a hole
+        var first = true;
+        for (var i=0; i<n.childNodes.length; i++) {
+            var node = n.childNodes[i];
+            if (!node.classList)
+                continue;
+            if (node.classList.contains('hole')) {
+                if (first) {
+                    first = false;
+                    continue;
+                }
+                args.push(generateNodeJSON(node));
+            }
+        }
         return {type: 'request',
             receiver: generateNodeJSON(n.children[0].children[0]),
-            name: n.children[2].value};
+            name: n.children[2].value,
+            args: args};
     }
     if (n.classList.contains('operator') || n.classList.contains('comparison-operator')) {
         var l = false;
@@ -263,6 +279,13 @@ function populateTile(tile, obj) {
         case "request":
             appendChildFromJSON(tile.childNodes[0], obj.receiver);
             tile.childNodes[2].value = obj.name;
+            var argAdder = tile.getElementsByClassName('argument-adder')[0];
+            if (obj.args && obj.args.length > 0) {
+                for (var i=0; i<obj.args.length; i++) {
+                    var hole = addArgumentToRequest(argAdder);
+                    appendChildFromJSON(hole, obj.args[i]);
+                }
+            }
             break;
         case "selfcall":
             tile.childNodes[0].value = obj.name;

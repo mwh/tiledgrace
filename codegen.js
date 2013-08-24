@@ -60,7 +60,26 @@ function generateNodeCode(n, loc) {
         return n.children[0].value + '(' + generateNodeCode(n.children[1], 'assignment') + ')';
     }
     if (n.classList.contains('request')) {
-        return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value;
+        var argStr = '';
+        if (n.getElementsByClassName('hole').length > 1) {
+            var args = [];
+            // The receiver is in a hole
+            var first = true;
+            for (var i=0; i<n.childNodes.length; i++) {
+                var node = n.childNodes[i];
+                if (!node.classList)
+                    continue;
+                if (node.classList.contains('hole')) {
+                    if (first) {
+                        first = false;
+                        continue;
+                    }
+                    args.push(generateNodeCode(node, 'assignment'));
+                }
+            }
+            argStr = '(' + args.join(',') + ')';
+        }
+        return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value + argStr;
     }
     if (n.classList.contains('operator') || n.classList.contains('comparison-operator')) {
         var l = false;

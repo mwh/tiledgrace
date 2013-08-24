@@ -182,17 +182,17 @@ input {
     -ms-flex-direction: column;
     -ms-flex-align: start;
 }
-.parameter-adder {
+.parameter-adder, .argument-adder {
     font-size: 0.65em;
     margin-bottom: 0.8em;
     color: #0f0;
 }
-.shrink .parameter-adder {
+.shrink .parameter-adder, .shrink .argument-adder {
     display: none;
 }
 .tile.object {
-    background: hsl(270, 100%, 50%);
-    border: 2px outset hsl(270, 100%, 25%);
+    background: hsl(210, 100%, 75%);
+    border: 2px outset hsl(210, 100%, 25%);
     flex-direction: column;
     align-items: flex-start;
     -webkit-flex-direction: column;
