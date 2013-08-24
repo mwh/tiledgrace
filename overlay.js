@@ -374,7 +374,8 @@ function findErroneousTiles(reasons) {
     var methodDeclarations = codearea.getElementsByClassName('method');
     for (var i=0; i<methodDeclarations.length; i++) {
         var md = methodDeclarations[i];
-        if (md.parentNode != codearea) {
+        if (md.parentNode != codearea &&
+            !md.parentNode.classList.contains('object-scope')) {
             tiles.push(md);
             reasons.push("A method declaration cannot appear here");
         }
@@ -456,7 +457,8 @@ function holeCanHoldTile(hole, tile, extra) {
         extra.error = "Only a single tile can go here.";
         return false;
     }
-    if (tile.classList.contains('method')) {
+    if (tile.classList.contains('method') &&
+            !hole.classList.contains('object-scope')) {
         extra.error = "Method declarations cannot go here.";
         return false;
     }

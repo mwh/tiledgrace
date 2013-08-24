@@ -176,6 +176,20 @@ function generateNodeCode(n, loc) {
         blockIndent--;
         return 'method ' + name + '(' + arg + ') {\n' + body + indent + '}'
     }
+    if (n.classList.contains('object')) {
+        var bodyHole = n.children[1].children[0];
+        var indent = '';
+        for (var i=0; i<blockIndent; i++)
+            indent += '    ';
+        blockIndent++;
+        var body = '';
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body = body + indent + '    ' + generateNodeCode(ch) + '\n';
+        }
+        blockIndent--;
+        return 'object {\n' + body + indent + '}'
+    }
 }
 function generateCode() {
     var tb = document.getElementById('gracecode');

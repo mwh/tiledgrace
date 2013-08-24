@@ -66,6 +66,17 @@ function generateNodeJSON(n) {
             body: body
         };
     }
+    if (n.classList.contains('object')) {
+        var bodyHole = n.children[1].children[0];
+        var body = [];
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body.push(generateNodeJSON(ch));
+        }
+        return {type: 'object',
+            body: body
+        };
+    }
     if (n.classList.contains('request')) {
         return {type: 'request',
             receiver: generateNodeJSON(n.children[0].children[0]),
@@ -279,6 +290,14 @@ function populateTile(tile, obj) {
         case "method":
             tile.childNodes[0].childNodes[1].value = obj.name;
             tile.childNodes[0].childNodes[3].value = obj.arg;
+            var bodyHole = tile.children[1].children[0];
+            for (var i=0; i<obj.body.length; i++) {
+                var ch = obj.body[i];
+                appendChildFromJSON(bodyHole, ch);
+            }
+            fillNextPrev(bodyHole);
+            break;
+        case "object":
             var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];
