@@ -373,10 +373,22 @@ function updateTileIndicator() {
         }
     }
 }
-function renameVar(oldValue, newValue) {
-    var vars = document.getElementsByClassName('var-name');
-    for (var i=0; i<vars.length; i++) {
-        if (vars[i].innerHTML == oldValue)
-            vars[i].innerHTML = newValue;
+function renameVar(oldValue, newValue, relativeTo) {
+    if (!relativeTo)
+        relativeTo = codearea;
+    else {
+        while (relativeTo && !relativeTo.classList.contains('tile'))
+            relativeTo = relativeTo.parentNode;
+        if (!relativeTo)
+            relativeTo = codearea;
+    }
+    var tmp = relativeTo;
+    while (tmp) {
+        var vars = tmp.getElementsByClassName('var-name');
+        for (var i=0; i<vars.length; i++) {
+            if (vars[i].innerHTML == oldValue)
+                vars[i].innerHTML = newValue;
+        }
+        tmp = tmp.next;
     }
 }

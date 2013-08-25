@@ -486,7 +486,7 @@ function loadJSON(str) {
                     if (el.value.length > 0)
                         el.size = el.value.length;
                     if (el.classList.contains('variable-name')) {
-                        renameVar(el.value, el.value);
+                        renameVar(el.value, el.value, el);
                         el.oldName = el.value;
                     }
             });
