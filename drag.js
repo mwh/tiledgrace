@@ -191,6 +191,8 @@ function dragstart(ev) {
             }
             reflow();
             checkpointSave();
+            clearPopouts();
+            document.getElementById('overlay-canvas').style.display = 'none';
             return;
         }
         var tmp = obj;
