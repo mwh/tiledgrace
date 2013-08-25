@@ -342,7 +342,13 @@ function findErroneousTiles(reasons) {
     for (var i=0; i<varNames.length; i++)
         if (!isValidVariableName(varNames[i].value)) {
             tiles.push(varNames[i]);
-            reasons.push("The variable name \"" + varNames[i].value + "\"is invalid");
+            reasons.push("The variable name \"" + varNames[i].value + "\" is invalid");
+        }
+    var methodNames = codearea.getElementsByClassName("method-name");
+    for (var i=0; i<methodNames.length; i++)
+        if (!isValidVariableName(methodNames[i].value)) {
+            tiles.push(methodNames[i]);
+            reasons.push("The method name \"" + methodNames[i].value + "\" is invalid");
         }
     var numbers = codearea.querySelectorAll(".tile.number > input");
     for (var i=0; i<numbers.length; i++)
