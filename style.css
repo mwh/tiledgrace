@@ -192,6 +192,11 @@ input {
     color: #0f0;
     cursor: pointer;
 }
+.parameter-adder:hover, .argument-adder:hover {
+    background: #0f0;
+    border-radius: 1em;
+    color: white;
+}
 .shrink .parameter-adder, .shrink .argument-adder {
     display: none;
 }
