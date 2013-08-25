@@ -291,13 +291,13 @@ function attachInputEvents(el) {
     });
     el.addEventListener('blur', function(ev) {
         updateTileIndicator();
-        this.size = this.value.length;
+        this.size = this.value.length > 0 ? this.value.length : 1;
         generateCode();
         checkpointSave();
     });
     if (el.classList.contains('variable-name')) {
         el.addEventListener('blur', function(ev) {
-            renameVar(el.oldName, el.value);
+            renameVar(el.oldName, el.value, el);
             updateTileIndicator();
             el.oldName = el.value;
             generateCode();

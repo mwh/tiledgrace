@@ -8,10 +8,9 @@ function shrink() {
     toolbox.style.visibility = 'hidden';
     var starts = [];
     chunkLine = "\n// chunks:";
-    for (var i=0; i<codearea.children.length; i++) {
-        var child = codearea.children[i];
-        if (child.prev != false)
-            continue;
+    var chunks = sortChunks();
+    for (var i=0; i<chunks.length; i++) {
+        var child = chunks[i];
         chunkLine += " " + child.style.left + "," + child.style.top;
         starts.push(child);
         continue;

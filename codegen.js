@@ -245,6 +245,20 @@ function generateNodeCode(n, loc) {
         return 'class ' + name + '.' + constructor + arg + ' {\n' + body + indent + '}'
     }
 }
+function sortChunks() {
+    var classes = [];
+    var others = [];
+    for (var i=0; i<codearea.children.length; i++) {
+        var child = codearea.children[i];
+        if (child.prev != false)
+            continue;
+        if (child.classList.contains('class'))
+            classes.push(child);
+        else
+            others.push(child);
+    }
+    return classes.concat(others);
+}
 function generateCode() {
     var tb = document.getElementById('gracecode');
     tb.value = '';
@@ -252,10 +266,9 @@ function generateCode() {
     if (dialect)
         tb.value = 'dialect "' + dialect + '"\n';
     var chunkLine = "// chunks:";
-    for (var i=0; i<codearea.children.length; i++) {
-        var child = codearea.children[i];
-        if (child.prev != false)
-            continue;
+    var chunks = sortChunks();
+    for (var i=0; i<chunks.length; i++) {
+        var child = chunks[i];
         chunkLine += " " + child.style.left + "," + child.style.top;
         while (child) {
             tb.value = tb.value + generateNodeCode(child) + '\n';
