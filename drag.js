@@ -377,10 +377,14 @@ function renameVar(oldValue, newValue, relativeTo) {
     if (!relativeTo)
         relativeTo = codearea;
     else {
-        while (relativeTo && !relativeTo.classList.contains('tile'))
-            relativeTo = relativeTo.parentNode;
-        if (!relativeTo)
+        if (relativeTo.classList.contains('class-name'))
             relativeTo = codearea;
+        else {
+            while (relativeTo && !relativeTo.classList.contains('tile'))
+                relativeTo = relativeTo.parentNode;
+            if (!relativeTo)
+                relativeTo = codearea;
+        }
     }
     var tmp = relativeTo;
     while (tmp) {
