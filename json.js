@@ -47,10 +47,18 @@ function generateNodeJSON(n) {
     }
     if (n.classList.contains('selfcall')) {
         var name = n.children[0].value;
-        var arg = n.children[1].children[0];
+        var args = [];
+        for (var i=0; i<n.childNodes.length; i++) {
+            var node = n.childNodes[i];
+            if (!node.classList)
+                continue;
+            if (node.classList.contains('hole')) {
+                args.push(generateNodeJSON(node));
+            }
+        }
         return {type: 'selfcall',
-            argument: generateNodeJSON(arg),
-            name: name
+            name: name,
+            args: args
         };
     }
     if (n.classList.contains('constant')) {
@@ -318,7 +326,16 @@ function populateTile(tile, obj) {
             break;
         case "selfcall":
             tile.childNodes[0].value = obj.name;
-            appendChildFromJSON(tile.childNodes[2], obj.argument);
+            var argAdder = tile.getElementsByClassName('argument-adder')[0];
+            if (obj.argument) {
+                var hole = addArgumentToRequest(argAdder);
+                appendChildFromJSON(hole, obj.argument);
+            } else if (obj.args && obj.args.length > 0) {
+                for (var i=0; i<obj.args.length; i++) {
+                    var hole = addArgumentToRequest(argAdder);
+                    appendChildFromJSON(hole, obj.args[i]);
+                }
+            }
             break;
         case "operator":
         case "comparison-operator":

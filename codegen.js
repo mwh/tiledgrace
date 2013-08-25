@@ -69,7 +69,21 @@ function generateNodeCode(n, loc) {
         return n.dataset.name;
     }
     if (n.classList.contains('selfcall')) {
-        return n.children[0].value + '(' + generateNodeCode(n.children[1], 'assignment') + ')';
+        var argStr = '';
+        if (n.getElementsByClassName('hole').length > 0) {
+            var args = [];
+            for (var i=0; i<n.childNodes.length; i++) {
+                var node = n.childNodes[i];
+                if (!node.classList)
+                    continue;
+                if (node.classList.contains('hole')) {
+                    args.push(generateNodeCode(node, 'assignment'));
+                }
+            }
+            if (args.length)
+                argStr = '(' + args.join(',') + ')';
+        }
+        return n.children[0].value + argStr;
     }
     if (n.classList.contains('request')) {
         var argStr = '';
