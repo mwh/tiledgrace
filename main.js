@@ -158,7 +158,7 @@ function attachTileBehaviour(n) {
             return;
         }
     });
-    if (n.classList.contains('vardec') && supportsPointerEvents) {
+    if (n.classList.contains('vardec')) {
         n.addEventListener('mouseover', function(ev) {
             highlightVarReferences(this);
         });
@@ -166,7 +166,7 @@ function attachTileBehaviour(n) {
             clearPopouts();
         });
     }
-    if (n.classList.contains('var') && supportsPointerEvents) {
+    if (n.classList.contains('var')) {
         n.addEventListener('mouseover', function(ev) {
             highlightVarDefinition(this);
         });

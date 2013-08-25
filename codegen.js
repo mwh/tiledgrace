@@ -117,9 +117,9 @@ function generateNodeCode(n, loc) {
         if (l.classList.contains('operator') || r.classList.contains('operator')) {
             var lop = false;
             var rop = false;
-            if (l.classList.contains('operator'))
+            if (l.classList && l.classList.contains('operator'))
                 lop = l.childNodes[1].firstChild.data;
-            if (r.classList.contains('operator'))
+            if (r.classList && r.classList.contains('operator'))
                 rop = r.childNodes[1].firstChild.data;
             if (lop && rop && lop == rop && lop == op
                     || (lop && !rop
@@ -288,6 +288,7 @@ function sortChunks() {
     return classes.concat(others);
 }
 function generateCode() {
+    blockIndent = 0;
     var tb = document.getElementById('gracecode');
     tb.value = '';
     var dialect = document.getElementById('dialect').value;
