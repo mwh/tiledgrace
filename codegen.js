@@ -191,7 +191,9 @@ function generateNodeCode(n, loc) {
         var args = [];
         for (var i=0; i<argInputs.length; i++)
             args.push(argInputs[i].value);
-        var arg = args.join(',');
+        var arg = '';
+        if (args.length)
+            arg = '(' + args.join(',') + ')';
         var bodyHole = n.children[1].children[0];
         var indent = '';
         for (var i=0; i<blockIndent; i++)
@@ -203,7 +205,7 @@ function generateNodeCode(n, loc) {
             body = body + indent + '    ' + generateNodeCode(ch) + '\n';
         }
         blockIndent--;
-        return 'method ' + name + '(' + arg + ') {\n' + body + indent + '}'
+        return 'method ' + name + arg + ' {\n' + body + indent + '}'
     }
     if (n.classList.contains('object')) {
         var bodyHole = n.children[1].children[0];
@@ -226,7 +228,9 @@ function generateNodeCode(n, loc) {
         var args = [];
         for (var i=1; i<argInputs.length; i++)
             args.push(argInputs[i].value);
-        var arg = args.join(',');
+        var arg = '';
+        if (args.length)
+            arg = '(' + args.join(',') + ')';
         var bodyHole = n.children[1].children[0];
         var indent = '';
         for (var i=0; i<blockIndent; i++)
@@ -238,7 +242,7 @@ function generateNodeCode(n, loc) {
             body = body + indent + '    ' + generateNodeCode(ch) + '\n';
         }
         blockIndent--;
-        return 'class ' + name + '.' + constructor + '(' + arg + ') {\n' + body + indent + '}'
+        return 'class ' + name + '.' + constructor + arg + ' {\n' + body + indent + '}'
     }
 }
 function generateCode() {

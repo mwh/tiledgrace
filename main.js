@@ -325,6 +325,13 @@ function argumentAdd(ev) {
 }
 function addParameterToMethod(paramAdder, name) {
     if (paramAdder.previousSibling.classList
+            && paramAdder.previousSibling.classList.contains('method-name')) {
+        var lparen = document.createTextNode('(');
+        paramAdder.parentElement.insertBefore(lparen, paramAdder);
+        var rparen = document.createTextNode(')');
+        paramAdder.parentElement.insertBefore(rparen, paramAdder.nextSibling);
+    }
+    if (paramAdder.previousSibling.classList
             && paramAdder.previousSibling.classList.contains('variable-name')) {
         var comma = document.createTextNode(', ');
         paramAdder.parentElement.insertBefore(comma, paramAdder);
@@ -348,6 +355,13 @@ function parameterRemove(ev) {
     } else if (this.nextSibling.nodeType == Node.TEXT_NODE
             && this.nextSibling.data[0] == ",") {
         this.parentNode.removeChild(this.nextSibling);
+    }
+    if (this.previousSibling.nodeType == Node.TEXT_NODE
+            && this.previousSibling.data == '('
+            && this.nextSibling.classList
+            && this.nextSibling.classList.contains('parameter-adder')) {
+        this.previousSibling.remove();
+        this.nextSibling.nextSibling.remove();
     }
     this.parentNode.removeChild(this);
 }
