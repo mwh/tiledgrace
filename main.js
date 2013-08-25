@@ -335,7 +335,20 @@ function addParameterToMethod(paramAdder, name) {
     paramAdder.parentElement.insertBefore(newParam, paramAdder);
     newParam.value = name;
     attachInputEvents(newParam);
+    newParam.addEventListener('blur', parameterRemove);
     return newParam;
+}
+function parameterRemove(ev) {
+    if (this.value != "")
+        return;
+    if (this.previousSibling.nodeType == Node.TEXT_NODE
+            && this.previousSibling.data[0] == ",") {
+        this.parentNode.removeChild(this.previousSibling);
+    } else if (this.nextSibling.nodeType == Node.TEXT_NODE
+            && this.nextSibling.data[0] == ",") {
+        this.parentNode.removeChild(this.nextSibling);
+    }
+    this.parentNode.removeChild(this);
 }
 function parameterAdd(ev) {
     var newParam = addParameterToMethod(this, "");
