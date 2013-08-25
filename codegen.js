@@ -1,4 +1,10 @@
 "use strict"
+var compatibleOperators = {
+    '+': {'+': true, '-': true, '*': true, '/': true},
+    '-': {'+': true, '-': true, '*': true, '/': true},
+    '*': {'+': true, '-': true, '*': true, '/': true},
+    '/': {'+': true, '-': true, '*': true, '/': true},
+};
 function generateNodeCode(n, loc) {
     if (typeof n == 'undefined' || typeof n == 'boolean')
         return '!ABSENT!';
@@ -105,9 +111,30 @@ function generateNodeCode(n, loc) {
                 op = c.childNodes[0].data;
             }
         }
+        var lMode = undefined;
+        var rMode = undefined;
+        if (l.classList.contains('operator') || r.classList.contains('operator')) {
+            var lop = false;
+            var rop = false;
+            if (l.classList.contains('operator'))
+                lop = l.childNodes[1].firstChild.data;
+            if (r.classList.contains('operator'))
+                rop = r.childNodes[1].firstChild.data;
+            if (lop && rop && lop == rop && lop == op
+                    || (lop && !rop
+                        && (lop == op || compatibleOperators[op][lop]))
+                    || (rop && !lop
+                        && (rop == op || compatibleOperators[op][rop])))
+                if (lop)
+                    lMode = 'assignment';
+                if (rop)
+                    rMode = 'assignment';
+        }
         if (loc == 'assignment')
-            return generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r);
-        return '(' + generateNodeCode(l) + ' ' + op + ' ' + generateNodeCode(r) + ')';
+            return generateNodeCode(l, lMode) + ' ' + op
+                + ' ' + generateNodeCode(r, rMode);
+        return '(' + generateNodeCode(l, lMode) + ' ' + op
+            + ' ' + generateNodeCode(r, rMode) + ')';
     }
     if (n.classList.contains('assign')) {
         var l = false;
