@@ -89,7 +89,8 @@ function generateNodeCode(n, loc) {
                     args.push(generateNodeCode(node, 'assignment'));
                 }
             }
-            argStr = '(' + args.join(',') + ')';
+            if (args.length)
+                argStr = '(' + args.join(',') + ')';
         }
         return generateNodeCode(n.children[0].children[0]) + '.' + n.children[2].value + argStr;
     }
