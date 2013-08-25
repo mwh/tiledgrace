@@ -28,6 +28,11 @@ function generateNodeJSON(n) {
             name: n.childNodes[1].value,
             value: generateNodeJSON(n.childNodes[3])};
     }
+    if (n.classList.contains('defdec')) {
+        return {type: 'defdec',
+            name: n.childNodes[1].value,
+            value: generateNodeJSON(n.childNodes[3])};
+    }
     if (n.classList.contains('print')) {
         var arg = n.children[1].children[0];
         return {type: 'print', value: generateNodeJSON(arg)};
@@ -293,6 +298,10 @@ function populateTile(tile, obj) {
             tile.dataset.name = obj.name;
             break;
         case "vardec":
+            tile.childNodes[1].value = obj.name;
+            appendChildFromJSON(tile.childNodes[3], obj.value);
+            break;
+        case "defdec":
             tile.childNodes[1].value = obj.name;
             appendChildFromJSON(tile.childNodes[3], obj.value);
             break;

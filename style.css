@@ -100,6 +100,10 @@ html, body {
     background: hsl(0, 75%, 60%);
     border: 2px outset hsl(0, 75%, 30%);
 }
+.tile.defdec {
+    background: hsl(345, 75%, 60%);
+    border: 2px outset hsl(345, 75%, 30%);
+}
 .tile.var {
     background: hsl(0, 75%, 75%);
     border: 2px outset hsl(0, 75%, 50%);
@@ -264,6 +268,9 @@ input {
     margin-right: -1px;
 }
 .shrink .tile.vardec .tile.operator .hole:nth-of-type(1) > .tile.var {
+    margin-left: 1px;
+}
+.shrink .tile.defdec .tile.operator .hole:nth-of-type(1) > .tile.var {
     margin-left: 1px;
 }
 .tile {

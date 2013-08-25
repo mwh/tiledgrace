@@ -26,6 +26,12 @@ function generateNodeCode(n, loc) {
             name = "!UNNAMED!";
         return 'var ' + name + ' := ' + generateNodeCode(n.childNodes[3], 'assignment');
     }
+    if (n.classList.contains('defdec')) {
+        var name = n.childNodes[1].value;
+        if (!name)
+            name = "!UNNAMED!";
+        return 'def ' + name + ' = ' + generateNodeCode(n.childNodes[3], 'assignment');
+    }
     if (n.classList.contains('print')) {
         var arg = n.children[1].children[0];
         if (!arg)
