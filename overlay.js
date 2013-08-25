@@ -562,6 +562,13 @@ function findVarsInScope(el, accum, elAccum) {
             elAccum.push(argInputs[i]);
         }
     }
+    if (e.classList.contains('class')) {
+        var argInputs = e.childNodes[0].getElementsByClassName('variable-name');
+        for (var i=1; i<argInputs.length; i++) {
+            accum.push(argInputs[i].value);
+            elAccum.push(argInputs[i]);
+        }
+    }
     if (e.classList.contains('for')) {
         var varInput = e.querySelector('div > input[type="text"].variable-name');
         accum.push(varInput.value);
@@ -584,6 +591,16 @@ function findVarsInScope(el, accum, elAccum) {
     // Then go out
     if (el.parentNode != codearea)
         findVarsInScope(el.parentNode, accum, elAccum);
+    else {
+        // All top-level classes are always in scope
+        var classes = codearea.getElementsByClassName('class');
+        for (var i=0; i<classes.length; i++) {
+            var cls = classes[i];
+            var argInputs = cls.getElementsByClassName('variable-name')[0];
+            accum.push(argInputs.value);
+            elAccum.push(cls);
+        }
+    }
 }
 var overlaidError = document.createElement('div');
 overlaidError.classList.add('overlaid-error');

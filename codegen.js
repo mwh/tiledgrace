@@ -213,6 +213,27 @@ function generateNodeCode(n, loc) {
         blockIndent--;
         return 'object {\n' + body + indent + '}'
     }
+    if (n.classList.contains('class')) {
+        var name = n.childNodes[0].getElementsByClassName('variable-name')[0].value;
+        var constructor = n.childNodes[0].getElementsByClassName('method-name')[0].value;
+        var argInputs = n.childNodes[0].getElementsByClassName('variable-name');
+        var args = [];
+        for (var i=1; i<argInputs.length; i++)
+            args.push(argInputs[i].value);
+        var arg = args.join(',');
+        var bodyHole = n.children[1].children[0];
+        var indent = '';
+        for (var i=0; i<blockIndent; i++)
+            indent += '    ';
+        blockIndent++;
+        var body = '';
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body = body + indent + '    ' + generateNodeCode(ch) + '\n';
+        }
+        blockIndent--;
+        return 'class ' + name + '.' + constructor + '(' + arg + ') {\n' + body + indent + '}'
+    }
 }
 function generateCode() {
     var tb = document.getElementById('gracecode');

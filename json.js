@@ -69,6 +69,26 @@ function generateNodeJSON(n) {
             body: body
         };
     }
+    if (n.classList.contains('class')) {
+        var name = n.childNodes[0].getElementsByClassName('variable-name')[0].value;
+        var constructor = n.childNodes[0].getElementsByClassName('method-name')[0].value;
+        var argInputs = n.childNodes[0].getElementsByClassName('variable-name');
+        var args = [];
+        for (var i=1; i<argInputs.length; i++)
+            args.push(argInputs[i].value);
+        var bodyHole = n.children[1].children[0];
+        var body = [];
+        for (var i=0; i<bodyHole.children.length; i++) {
+            var ch = bodyHole.children[i];
+            body.push(generateNodeJSON(ch));
+        }
+        return {type: 'class',
+            name: name,
+            constructor: constructor,
+            args: args,
+            body: body
+        };
+    }
     if (n.classList.contains('object')) {
         var bodyHole = n.children[1].children[0];
         var body = [];
@@ -322,6 +342,21 @@ function populateTile(tile, obj) {
                 for (var i=0; i<obj.arg.length; i++)
                     addParameterToMethod(paramAdder, obj.arg[i]);
             }
+            var bodyHole = tile.children[1].children[0];
+            for (var i=0; i<obj.body.length; i++) {
+                var ch = obj.body[i];
+                appendChildFromJSON(bodyHole, ch);
+            }
+            fillNextPrev(bodyHole);
+            break;
+        case "class":
+            var name = tile.childNodes[0].getElementsByClassName('variable-name')[0];
+            name.value = obj.name;
+            var constructor = tile.childNodes[0].getElementsByClassName('method-name')[0];
+            constructor.value = obj.constructor;
+            var paramAdder = tile.childNodes[0].getElementsByClassName('parameter-adder')[0];
+            for (var i=0; i<obj.args.length; i++)
+                addParameterToMethod(paramAdder, obj.args[i]);
             var bodyHole = tile.children[1].children[0];
             for (var i=0; i<obj.body.length; i++) {
                 var ch = obj.body[i];

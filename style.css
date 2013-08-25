@@ -165,7 +165,7 @@ input {
     -ms-flex-direction: column;
     -ms-flex-align: start;
 }
-.tile.if > div, .tile.while > div, .tile.method > div, .tile.for > div, .tile.multiline > div.line, .tile.object > div {
+.tile.if > div, .tile.while > div, .tile.method > div, .tile.for > div, .tile.multiline > div.line, .tile.object > div, .tile.class > div {
     display: inline-flex;
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
@@ -193,6 +193,16 @@ input {
 .tile.object {
     background: hsl(210, 100%, 75%);
     border: 2px outset hsl(210, 100%, 25%);
+    flex-direction: column;
+    align-items: flex-start;
+    -webkit-flex-direction: column;
+    -webkit-align-items: flex-start;
+    -ms-flex-direction: column;
+    -ms-flex-align: start;
+}
+.tile.class {
+    background: hsl(180, 100%, 50%);
+    border: 2px outset hsl(180, 100%, 25%);
     flex-direction: column;
     align-items: flex-start;
     -webkit-flex-direction: column;
