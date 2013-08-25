@@ -273,10 +273,12 @@ function attachTileBehaviour(n) {
     Array.prototype.forEach.call(n.getElementsByClassName('parameter-adder'),
             function(el) {
                 el.addEventListener('click', parameterAdd);
+                el.title = "Add parameter";
             });
     Array.prototype.forEach.call(n.getElementsByClassName('argument-adder'),
             function(el) {
                 el.addEventListener('click', argumentAdd);
+                el.title = "Add argument";
             });
 }
 function attachInputEvents(el) {
@@ -322,6 +324,9 @@ function addArgumentToRequest(argAdder) {
 }
 function argumentAdd(ev) {
     addArgumentToRequest(this);
+    updateTileIndicator();
+    generateCode();
+    checkpointSave();
 }
 function addParameterToMethod(paramAdder, name) {
     if (paramAdder.previousSibling.classList
@@ -364,6 +369,9 @@ function parameterRemove(ev) {
         this.nextSibling.nextSibling.remove();
     }
     this.parentNode.removeChild(this);
+    updateTileIndicator();
+    generateCode();
+    checkpointSave();
 }
 function parameterAdd(ev) {
     var newParam = addParameterToMethod(this, "");
