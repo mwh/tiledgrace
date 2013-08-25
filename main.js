@@ -90,6 +90,7 @@ function popupVarMenu(ev) {
         var opt = document.createElement('li');
         opt.innerHTML = vars[i];
         opt.addEventListener("click", function(ev) {
+            clearPopouts();
             el.innerHTML = ev.target.innerHTML;
             codearea.removeChild(menu);
             updateTileIndicator();
