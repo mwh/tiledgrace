@@ -18,9 +18,9 @@ function shrink() {
     }
     setTimeout(function() {
         var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 3) + 'px';
-        var runningTop = 0;
+        var runningTop = -1;
         if (document.getElementById('dialect').value)
-            runningTop = 18;
+            runningTop += 19;
         for (var i=0; i<starts.length; i++) {
             starts[i].oldTop = starts[i].style.top;
             starts[i].oldLeft = starts[i].style.left;
