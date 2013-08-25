@@ -230,7 +230,7 @@ function generateNodeCode(n, loc) {
         var body = '';
         for (var i=0; i<bodyHole.children.length; i++) {
             var ch = bodyHole.children[i];
-            body = body + indent + '    ' + generateNodeCode(ch) + '\n';
+            body = body + indent + '    ' + generateNodeCode(ch, 'assignment') + '\n';
         }
         blockIndent--;
         return 'method ' + name + arg + ' {\n' + body + indent + '}'
@@ -300,7 +300,7 @@ function generateCode() {
         var child = chunks[i];
         chunkLine += " " + child.style.left + "," + child.style.top;
         while (child) {
-            tb.value = tb.value + generateNodeCode(child) + '\n';
+            tb.value = tb.value + generateNodeCode(child, 'assignment') + '\n';
             child = child.next;
         }
         tb.value = tb.value + "\n";
