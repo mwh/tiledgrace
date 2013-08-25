@@ -322,18 +322,31 @@ function populateTile(tile, obj) {
             break;
         case "operator":
         case "comparison-operator":
-            appendChildFromJSON(tile.childNodes[0], obj.left);
+            var leftHole = tile.childNodes[0];
+            var rightHole = tile.childNodes[2];
+            appendChildFromJSON(leftHole, obj.left);
             tile.childNodes[1].innerHTML = obj.operator;
-            appendChildFromJSON(tile.childNodes[2], obj.right);
+            appendChildFromJSON(rightHole, obj.right);
             var templates = document.getElementById('toolbox').querySelectorAll('.tile.' + obj.type);
             if (templates.length > 1) {
+                // Find the right sample tile and copy the datasets
+                // (for types, etc) into the new tile. We must also
+                // copy holes' datasets for the same reason.
                 for (var i=0; i<templates.length; i++)
                     if (templates[i].dataset && templates[i].dataset.operators) {
                         var ops = templates[i].dataset.operators.split(' ');
                         for (var j=0; j<ops.length; j++) {
-                            if (ops[j] == obj.operator)
-                                for (var k in templates[i].dataset)
-                                    tile.dataset[k] = templates[i].dataset[k];
+                            if (ops[j] == obj.operator) {
+                                var temp = templates[i];
+                                var templhs = templates[i].childNodes[0];
+                                var temprhs = templates[i].childNodes[2];
+                                for (var k in temp.dataset)
+                                    tile.dataset[k] = temp.dataset[k];
+                                for (var k in temp.childNodes[0].dataset)
+                                    leftHole.dataset[k] = templhs.dataset[k];
+                                for (var k in temp.childNodes[2].dataset)
+                                    rightHole.dataset[k] = temprhs.dataset[k];
+                            }
                         }
                     }
             }
