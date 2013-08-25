@@ -585,6 +585,9 @@ function findVarsInScope(el, accum, elAccum) {
         if (e.classList.contains('vardec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
             elAccum.push(e);
+        } else if (e.classList.contains('defdec')) {
+            accum.push(e.getElementsByClassName('variable-name')[0].value);
+            elAccum.push(e);
         }
         e = e.prev;
     }
