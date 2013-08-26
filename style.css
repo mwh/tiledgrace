@@ -191,11 +191,16 @@ input {
     margin-bottom: 0.8em;
     color: #0f0;
     cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 .parameter-adder:hover, .argument-adder:hover {
     background: #0f0;
     border-radius: 1em;
     color: white;
+}
+.tile:hover > div > .parameter-adder, .tile:hover > .argument-adder {
+    opacity: 1.0;
 }
 .shrink .parameter-adder, .shrink .argument-adder {
     display: none;
