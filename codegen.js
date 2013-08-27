@@ -116,10 +116,10 @@ function generateNodeCode(n, loc) {
             var c = n.children[i];
             if (c.classList.contains('hole')) {
                 if (l) {
-                    r = c.children[0];
+                    r = c.childNodes[0];
                     break;
                 } else {
-                    l = c.children[0];
+                    l = c.childNodes[0];
                 }
             }
             if (c.classList.contains('op') || c.classList.contains('cmpop')) {
@@ -128,12 +128,12 @@ function generateNodeCode(n, loc) {
         }
         var lMode = undefined;
         var rMode = undefined;
-        if (l.classList.contains('operator') || r.classList.contains('operator')) {
+        if (l && l.classList.contains('operator') || r && r.classList.contains('operator')) {
             var lop = false;
             var rop = false;
-            if (l.classList && l.classList.contains('operator'))
+            if (l && l.classList && l.classList.contains('operator'))
                 lop = l.childNodes[1].firstChild.data;
-            if (r.classList && r.classList.contains('operator'))
+            if (r && r.classList && r.classList.contains('operator'))
                 rop = r.childNodes[1].firstChild.data;
             if (lop && rop && lop == rop && lop == op
                     || (lop && !rop

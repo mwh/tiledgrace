@@ -273,3 +273,6 @@ setInterval(function() {
         modname: "main", source: editor.getValue() + chunkLine});
 
 }, 1000);
+setTimeout(function() {
+    changeDialect();
+}, 250);

@@ -341,6 +341,9 @@ function populateTile(tile, obj) {
         case "comparison-operator":
             var leftHole = tile.childNodes[0];
             var rightHole = tile.childNodes[2];
+            ensureDataset(tile);
+            ensureDataset(leftHole);
+            ensureDataset(rightHole);
             appendChildFromJSON(leftHole, obj.left);
             tile.childNodes[1].innerHTML = obj.operator;
             appendChildFromJSON(rightHole, obj.right);
@@ -537,4 +540,8 @@ function loadFile() {
         loadJSON(minigrace.generated_output);
         checkpointSave();
     });
+}
+function ensureDataset(n) {
+    if (!n.dataset)
+        n.dataset = {};
 }
