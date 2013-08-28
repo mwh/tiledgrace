@@ -105,7 +105,10 @@ window.addEventListener('load', function(ev) {
         obscurer.style.opacity = 0.95;
         obscurer.style.textAlign = 'center';
         document.body.appendChild(obscurer);
-        if (navigator.userAgent.indexOf('Firefox') != -1) {
+        if (navigator.userAgent.indexOf('Firefox') != -1 &&
+                (+navigator.userAgent.replace(/^.*rv:([0-9.]+)\).*$/,"$1") >= 18
+                    || !navigator.userAgent.search(/rv:[0-9.]+/))
+                ) {
             obscurer.appendChild(document.createTextNode(
                     "Go to about:config and set layout.css.flexbox.enabled to true, then reload this page."));
             alert("It looks like you're using Firefox 21 or earlier, but "
