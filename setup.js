@@ -192,6 +192,14 @@ minigrace.stdout_write = function(value) {
     stdout.scrollTop = stdout.scrollHeight;
 };
 
+document.getElementById('standard-canvas').addEventListener('click', function(ev) {
+    if (this.classList.contains('big')) {
+        this.classList.remove('big');
+    } else {
+        this.classList.add('big');
+    }
+});
+
 if (window.location.hash) {
     var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
     history.replaceState(obj, "", generateHash(obj));

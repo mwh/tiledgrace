@@ -75,11 +75,27 @@ html, body {
     -ms-flex-order: 3;
 }
 #outputarea textarea {
+    margin-top: 260px;
     height: 240px;
     width: 240px;
 }
 #standard-canvas {
+    z-index: 400;
     border: 1px solid black;
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    left: calc(100% - 260px);
+    top: 1px;
+    transition: width 0.5s, height 0.5s, left 0.5s, top 0.5s;
+}
+#standard-canvas.big {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    right: auto;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
 }
 .tile, .hole {
     border-radius: 5px;
