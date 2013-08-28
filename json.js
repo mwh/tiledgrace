@@ -472,6 +472,11 @@ function createTileFromJSON(obj) {
         return tile;
     }
     var template = document.getElementById('toolbox').querySelector('.tile.' + obj.type);
+    if (obj.type == "operator" &&
+            (obj.operator == "==" || obj.operator == "<"
+             || obj.operator == ">")) {
+        template = document.getElementById('toolbox').querySelector('.tile.comparison-operator');
+    }
     var newTile = template.cloneNode(true);
     newTile.style.position = 'static';
     populateTile(newTile, obj);
