@@ -192,13 +192,22 @@ minigrace.stdout_write = function(value) {
     stdout.scrollTop = stdout.scrollHeight;
 };
 
-document.getElementById('standard-canvas').addEventListener('click', function(ev) {
-    if (this.classList.contains('big')) {
-        this.classList.remove('big');
-    } else {
-        this.classList.add('big');
-    }
-});
+(function(canvas){
+    canvas.addEventListener('click', function(ev) {
+        if (this.classList.contains('big')) {
+            this.classList.remove('big');
+        } else {
+            this.classList.add('big');
+        }
+    });
+    var ctx = canvas.getContext("2d")
+    ctx.lineWidth = 1;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 250, 250);
+    ctx.strokeStyle = "black";
+    ctx.rect(0, 0, 250, 250);
+    ctx.stroke;
+})(document.getElementById('standard-canvas'))
 
 if (window.location.hash) {
     var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
