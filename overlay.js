@@ -200,7 +200,10 @@ function drawVarRefLines(el) {
     }
 }
 function drawVarLinesOverText(e) {
-    codearea.scrollTop = document.getElementsByClassName('ace_sb')[0].scrollTop;
+    if (document.getElementsByClassName('ace_sb').length)
+        codearea.scrollTop = document.getElementsByClassName('ace_sb')[0].scrollTop;
+    else
+        codearea.scrollTop = document.getElementsByClassName('ace_scrollbar')[0].scrollTop;
     var y = e.clientY + codearea.scrollTop - codearea.offsetTop;
     var x = e.clientX;
     var vars = codearea.getElementsByClassName('var');
