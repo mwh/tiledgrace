@@ -408,7 +408,7 @@ input {
     padding: 2px;
     font-size: 0;
     display: none;
-    z-index: 100;
+    z-index: 500;
     top: -32px;
     left: calc(100% - 262px);
     bottom: 9vh; /* Work around Chrome bug 168840*/
