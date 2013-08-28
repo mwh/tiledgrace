@@ -86,7 +86,7 @@ html, body {
     width: 250px;
     height: 250px;
     left: calc(100% - 260px);
-    top: 1px;
+    top: 2px;
     transition: width 0.5s, height 0.5s, left 0.5s, top 0.5s;
 }
 #standard-canvas.big {
