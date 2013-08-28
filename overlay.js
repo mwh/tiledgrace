@@ -192,6 +192,8 @@ function drawVarRefLines(el) {
         defInput = defEl.getElementsByClassName('variable-name')[0];
     if (defEl.classList.contains('dialect-method'))
         defInput = defEl.getElementsByClassName('variable-name')[0];
+    if (defEl.classList.contains('variable-name'))
+        defInput = defEl;
     drawLineBetweenElements(el, defInput, "hsla(240, 100%, 50%, 0.6)");
     vars = [];
     findVarAssignsInScope(myName, defEl, vars);
