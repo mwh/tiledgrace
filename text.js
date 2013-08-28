@@ -1,10 +1,13 @@
 "use strict"
+var shrinkFuncs = [];
+var growFuncs = [];
 function shrink() {
     if (highlightTileErrors())
         return;
     editor.setValue(document.getElementById('gracecode').value, -1);
     editor.getSession().clearAnnotations();
     codearea.classList.add('shrink');
+    shrinkFuncs.forEach(function(f){f()});
     toolbox.style.visibility = 'hidden';
     var starts = [];
     chunkLine = "\n// chunks:";
@@ -80,6 +83,7 @@ function grow() {
         setTimeout(function() {
             codearea.classList.add('growing');
             codearea.classList.remove('shrink');
+            growFuncs.forEach(function(f){f()});
             setTimeout(function() {
                 codearea.classList.remove('growing');
                 toolbox.style.visibility = 'visible';
@@ -149,4 +153,20 @@ function showErrorInEditor(errstr) {
     }]);
     return errstr;
 }
-
+coddleBrowser('blink', function() {
+    // Chrome has unusual ideas of what input sizes mean
+    shrinkFuncs.push(
+        function() {
+            var inputs = codearea.getElementsByTagName('input');
+            Array.prototype.forEach.call(inputs, function(el) {
+                el.style.width = (el.size * 10) + 'px';
+            });
+        }
+    );
+    growFuncs.push(
+        function() {
+            var inputs = codearea.getElementsByTagName('input');
+            Array.prototype.forEach.call(inputs, blinkCoddleInputs);
+        }
+    );
+});

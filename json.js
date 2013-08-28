@@ -1,4 +1,5 @@
 "use strict"
+var jsonLoadFuncs = [];
 function generateNodeJSON(n) {
     if (n == null)
         return null;
@@ -530,8 +531,10 @@ function loadJSON(str) {
             });
     Array.prototype.forEach.call(tiles, attachTileBehaviour);
     generateCode();
-    if (!codearea.classList.contains('shrink'))
+    if (!codearea.classList.contains('shrink')) {
         updateTileIndicator();
+        jsonLoadFuncs.forEach(function(f) {f();});
+    }
     return obj;
 }
 function loadFile() {
@@ -550,3 +553,9 @@ function ensureDataset(n) {
     if (!n.dataset)
         n.dataset = {};
 }
+coddleBrowser('blink', function() {
+    jsonLoadFuncs.push(function() {
+        Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
+            blinkCoddleInputs);
+    });
+});

@@ -281,17 +281,23 @@ function attachTileBehaviour(n) {
                 el.title = "Add argument";
             });
 }
+function blinkCoddleInputs(el) {
+    // Chrome has unusual ideas of what input sizes mean
+    el.style.width = (el.size * 8) + 'px';
+}
 function attachInputEvents(el) {
     el.addEventListener('mousedown', function(ev) {
         ev.stopPropagation();
     });
     el.addEventListener('keyup', function(ev) {
         this.size = this.value.length + 1;
+        coddleBrowser('blink', blinkCoddleInputs, this);
         generateCode();
     });
     el.addEventListener('blur', function(ev) {
         updateTileIndicator();
         this.size = this.value.length > 0 ? this.value.length : 1;
+        coddleBrowser('blink', blinkCoddleInputs, this);
         generateCode();
         checkpointSave();
     });
@@ -407,4 +413,14 @@ function go() {
     document.getElementById('stdout_txt').value = "";
     minigrace.modname = "main";
     minigrace.compilerun(getCode());
+}
+var theBrowser = 'unknown';
+if (navigator.userAgent.search('Chrome') != -1) {
+    theBrowser = 'blink';
+} else if (navigator.userAgent.search('Gecko') != -1) {
+    theBrowser = 'gecko';
+}
+function coddleBrowser(browser, func, arg) {
+    if (theBrowser == browser)
+        func(arg);
 }
