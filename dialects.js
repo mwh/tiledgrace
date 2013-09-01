@@ -173,14 +173,18 @@ dialects.logo = {
             parts: [{name: "lineColor:=", args: ["Colour"]}],
             returns: "Done"
         },
+        "penUp": {name: "penUp", parts: [{name: "penUp", args: []}],
+            returns: "Done"},
+        "penDown": {name: "penDown", parts: [{name: "penDown", args: []}],
+            returns: "Done"},
         "blue": {name: "blue", parts: [{name: "blue", args: []}],
-            returns: "Colour"},
+            returns: "Colour", constant: true},
         "red": {name: "red", parts: [{name: "red", args: []}],
-            returns: "Colour"},
+            returns: "Colour", constant: true},
         "green": {name: "green", parts: [{name: "green", args: []}],
-            returns: "Colour"},
+            returns: "Colour", constant: true},
         "black": {name: "black", parts: [{name: "black", args: []}],
-            returns: "Colour"},
+            returns: "Colour", constant: true},
     }
 };
 for (var k in dialects.logo.methods)
@@ -332,7 +336,7 @@ function createDialectRequestTile(req) {
     tile.classList.add("tile");
     tile.classList.add("dialect-method");
     tile.dataset.category = req.category;
-    if (req.parts[0].args.length == 0)
+    if (req.constant)
         tile.classList.add('constant');
     var line = tile;
     if (req.multiline) {
