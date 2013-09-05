@@ -361,10 +361,25 @@ dialects.sniff = {
             returns: "Boolean",
             selfcall: true
         },
+        "above": {
+            name: "above",
+            parts: [{name: "above", args: []}],
+            returns: "Shape"
+        },
+        "Δ": {
+            name: "Δ",
+            parts: [{name: "Δ", args: []}],
+            returns: "Shape"
+        },
         "stop": {
             name: "stop",
             parts: [{name: "stop", args: []}],
             returns: "Done"
+        },
+        "random": {
+            name: "random",
+            parts: [{name: "random", args: ["Number"]}],
+            returns: "Number"
         },
         "canvasWidth": {
             name: "canvasWidth",
