@@ -489,6 +489,17 @@ function createTileFromJSON(obj) {
             tile.style.display = '';
             return tile;
         }
+        if (obj.args.length == 0) {
+            // Potential variable
+            obj.type = "var";
+            obj.value = obj.name;
+            var template = document.getElementById('toolbox').querySelector('.tile.var');
+            var newTile = template.cloneNode(true);
+            newTile.style.position = 'static';
+            populateTile(newTile, obj);
+            newTile.style.display = '';
+            return newTile;
+        }
     }
     var template = document.getElementById('toolbox').querySelector('.tile.' + obj.type);
     if (obj.type == "operator" &&
