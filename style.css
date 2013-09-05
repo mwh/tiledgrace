@@ -241,6 +241,10 @@ input {
     -ms-flex-direction: column;
     -ms-flex-align: start;
 }
+.tile.inherits {
+    background: hsl(195, 100%, 75%);
+    border: 2px outset hsl(195, 100%, 25%);
+}
 .tile.print {
     background: #cc8;
     border: 2px outset #880;

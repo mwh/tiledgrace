@@ -103,6 +103,12 @@ function generateNodeJSON(n) {
             body: body
         };
     }
+    if (n.classList.contains('inherits')) {
+        var value = n.children[1];
+        return {type: 'inherits',
+            parent: generateNodeJSON(value)
+        };
+    }
     if (n.classList.contains('object')) {
         var bodyHole = n.children[1].children[0];
         var body = [];
@@ -414,6 +420,10 @@ function populateTile(tile, obj) {
                 appendChildFromJSON(bodyHole, ch);
             }
             fillNextPrev(bodyHole);
+            break;
+        case "inherits":
+            var bodyHole = tile.children[1];
+            appendChildFromJSON(bodyHole, obj.parent);
             break;
         case "while":
             appendChildFromJSON(tile.children[0].children[1], obj.condition);

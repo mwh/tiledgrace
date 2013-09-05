@@ -249,6 +249,10 @@ function generateNodeCode(n, loc) {
         blockIndent--;
         return 'method ' + name + arg + ' {\n' + body + indent + '}'
     }
+    if (n.classList.contains('inherits')) {
+        var hole = n.children[1];
+        return 'inherits ' + generateNodeCode(hole);
+    }
     if (n.classList.contains('object')) {
         var bodyHole = n.children[1].children[0];
         var indent = '';
