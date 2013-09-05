@@ -606,6 +606,21 @@ function findVarsInScope(el, accum, elAccum) {
         if (varInputs.length)
             elAccum.push(e);
     }
+    if (e.classList.contains('object')) {
+        // Inside an object, treat all top-level vars/defs as in scope
+        for (var i=0; i<codearea.childNodes.length; i++) {
+            var ch = codearea.childNodes[i];
+            if (!ch.classList)
+                continue;
+            if (!ch.classList.contains('tile'))
+                continue;
+            if (!ch.classList.contains('vardec')
+                    && !ch.classList.contains('defdec'))
+                continue;
+            accum.push(ch.getElementsByClassName('variable-name')[0].value);
+            elAccum.push(ch);
+        }
+    }
     while (e) {
         if (e.classList.contains('vardec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
