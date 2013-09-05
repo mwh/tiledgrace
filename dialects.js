@@ -303,6 +303,93 @@ dialects.loopinvariant = {
     },
     operators: StandardGrace.operators
 };
+dialects.sniff = {
+    methods: {
+        "rectangle": {
+            name: "rectangle",
+            parts: [{name: "rectangle", args: []}],
+            returns: "Shape"
+        },
+        "whenever()do": {
+            name: "whenever()do",
+            parts: [{name: "whenever", args: [
+                    {type: 'Block', returns: 'Boolean', multiline: false}]},
+                {name: "do", args: [
+                    {type: 'Block', returns: 'Any', multiline: true}
+                    ]}],
+            returns: "Done",
+            multiline: true,
+            selfcall: true
+        },
+        "always": {
+            name: "always",
+            parts: [{name: "always",
+                    args: [{type: 'Block', returns: 'Any', multiline: true}]
+                    }],
+            returns: "Done",
+            multiline: true,
+            selfcall: true
+        },
+        "bounce": {
+            name: "bounce",
+            parts: [{name: "bounce", args: []}],
+            returns: "Done",
+            selfcall: true
+        },
+        "forward": {
+            name: "forward",
+            parts: [{name: "forward", args: ["Number"]}],
+            returns: "Done",
+            selfcall: true
+        },
+        "bounceOff": {
+            name: "bounceOff",
+            parts: [{name: "bounceOff", args: ["Shape"]}],
+            returns: "Done",
+            selfcall: true
+        },
+        "touchingEdge": {
+            name: "touchingEdge",
+            parts: [{name: "touchingEdge", args: []}],
+            returns: "Boolean",
+            selfcall: true
+        },
+        "touching": {
+            name: "touching",
+            parts: [{name: "touching", args: ["Shape"]}],
+            returns: "Boolean",
+            selfcall: true
+        },
+        "stop": {
+            name: "stop",
+            parts: [{name: "stop", args: []}],
+            returns: "Done"
+        },
+        "turn": {
+            name: "turn",
+            parts: [{name: "turn", args: ["Number"]}],
+            returns: "Done",
+            selfcall: true
+        },
+        "jumpTo": {
+            name: "jumpTo",
+            parts: [{name: "jumpTo", args: ["Point"]}],
+            returns: "Done",
+            selfcall: true
+        },
+        "centre": {name: "centre", parts: [{name: "centre", args: []}],
+            returns: "Point", constant: true},
+        "rightCentre": {name: "rightCentre",
+            parts: [{name: "rightCentre", args: []}],
+            returns: "Point", constant: true},
+        "leftCentre": {name: "leftCentre",
+            parts: [{name: "leftCentre", args: []}],
+            returns: "Point", constant: true},
+    }
+};
+for (var k in dialects.sniff.methods)
+    dialects.sniff.methods[k].category = "Sniff";
+extendDialect("sniff", "StandardGrace");
 
 
 function createOperatorTile(op) {
