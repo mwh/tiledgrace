@@ -170,6 +170,10 @@ document.addEventListener('keypress', function(ev) {
         ev.preventDefault();
         go();
     }
+    if (ev.charCode == 114 && ev.target == document.body) {// "r"
+        ev.preventDefault();
+        go();
+    }
     if (ev.charCode == 118 && ev.target == document.body) {// "v"
         ev.preventDefault();
         toggleShrink();
