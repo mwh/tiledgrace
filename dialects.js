@@ -550,6 +550,8 @@ function createDialectRequestTile(req) {
     }
     tile.dataset.serialiserIndex = serialisers.length;
     serialisers.push(req);
+    if (req.inheritedVars)
+        tile.dataset.inheritedVars = req.inheritedVars.join(",");
     if (req.returns)
         tile.dataset.types = req.returns;
     return tile;
