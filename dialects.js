@@ -378,6 +378,16 @@ dialects.sniff = {
             returns: "Done",
             selfcall: true
         },
+        "background": {
+            name: "background",
+            parts: [{name: "background", args: ["String"]}],
+            returns: "Done"
+        },
+        "mouse": {
+            name: "mouse",
+            parts: [{name: "mouse", args: []}],
+            returns: "Point"
+        },
         "centre": {name: "centre", parts: [{name: "centre", args: []}],
             returns: "Point", constant: true},
         "rightCentre": {name: "rightCentre",
