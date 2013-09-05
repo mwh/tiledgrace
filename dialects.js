@@ -311,6 +311,12 @@ dialects.sniff = {
             returns: "Shape",
             inheritedVars: ["width", "height", "x", "y", "colour"]
         },
+        "circle": {
+            name: "circle",
+            parts: [{name: "circle", args: []}],
+            returns: "Shape",
+            inheritedVars: ["radius", "x", "y", "colour"]
+        },
         "whenever()do": {
             name: "whenever()do",
             parts: [{name: "whenever", args: [
