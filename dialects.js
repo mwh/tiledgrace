@@ -309,7 +309,7 @@ dialects.sniff = {
             name: "rectangle",
             parts: [{name: "rectangle", args: []}],
             returns: "Shape",
-            inheritedVars: ["width", "height"]
+            inheritedVars: ["width", "height", "x", "y", "colour"]
         },
         "whenever()do": {
             name: "whenever()do",
@@ -365,6 +365,16 @@ dialects.sniff = {
             name: "stop",
             parts: [{name: "stop", args: []}],
             returns: "Done"
+        },
+        "canvasWidth": {
+            name: "canvasWidth",
+            parts: [{name: "canvasWidth", args: []}],
+            returns: "Number"
+        },
+        "canvasHeight": {
+            name: "canvasHeight",
+            parts: [{name: "canvasHeight", args: []}],
+            returns: "Number"
         },
         "turn": {
             name: "turn",
