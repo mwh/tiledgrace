@@ -564,3 +564,31 @@ ul.popup-menu li:hover {
     border: 2px solid hsl(330, 75%, 65%);
     z-index: 300;
 }
+
+@media only screen and (max-width: 640px) {
+    #codearea {
+        width: calc(100% - 205px);
+    }
+    #toolbox {
+        width: 100px;
+    }
+    #standard-canvas {
+        width: 125px;
+        height: 125px;
+        left: calc(100% - 127px);
+    }
+    #outputarea {
+        width: 130px;
+    }
+    #outputarea textarea {
+        width: 120px;
+        margin-top: 130px;
+        height: 120px;
+    }
+    #category-bar {
+        left: calc(100% - 137px);
+    }
+    #category-bar input {
+        font-size: 10px;
+    }
+}
