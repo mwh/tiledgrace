@@ -53,6 +53,12 @@
      <div id="indicator" style="display: inline-block; width: 16px; height: 16px; background: green;"></div>
      <a download="myprogram.grace" id="downloadlink">Download</a>
      Load file: <input type="file" id="userfile" onchange="loadFile()" />
+     <input type="button" value="Load sample" onclick="loadSample(document.getElementById('samples').value)" />
+     <select id="samples">
+         <option>Select sample</option>
+         <option value="turtlehousec">Turtle house</option>
+         <option value="sniffpong">Sniff pong</option>
+     </select>
      <br />
      <textarea id="stderr_txt" style="clear:both;" cols="100" rows="5"></textarea>
      <textarea id="gracecode" cols="100" rows="10"></textarea>

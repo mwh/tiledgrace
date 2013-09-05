@@ -578,6 +578,20 @@ function loadFile() {
         checkpointSave();
     });
 }
+function loadSample(k) {
+    if (!k)
+        return;
+    var req = new XMLHttpRequest();
+    req.open("GET", "./sample/" + k + ".grace", false);
+    req.send(null);
+    if (req.status == 200) {
+        minigrace.mode = "json";
+        minigrace.compile(req.responseText);
+        minigrace.mode = "js";
+        loadJSON(minigrace.generated_output);
+        checkpointSave();
+    }
+}
 function ensureDataset(n) {
     if (!n.dataset)
         n.dataset = {};
