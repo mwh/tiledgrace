@@ -155,6 +155,8 @@ function highlightVarDefinition(el, name) {
         defInput = defEl.getElementsByClassName('variable-name')[0];
     if (defEl.classList.contains('dialect-method'))
         defInput = defEl.getElementsByClassName('variable-name')[0];
+    if (defEl.classList.contains('inherits'))
+        defInput = defEl;
     defInput.classList.add('popout');
 }
 function drawVardecLines(el) {
@@ -556,6 +558,18 @@ function findMutableVarsInScope(el, accum, elAccum) {
         if (e.classList.contains('vardec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
             elAccum.push(e);
+        } else if (e.classList.contains('inherits')) {
+            var hole = e.children[1];
+            if (hole.childNodes.length > 0 && hole.childNodes[0].dataset) {
+                var par = hole.childNodes[0];
+                if (par.dataset.inheritedVars) {
+                    var vars = par.dataset.inheritedVars.split(",");
+                    for (var i=0; i<vars.length; i++) {
+                        accum.push(vars[i]);
+                        elAccum.push(e);
+                    }
+                }
+            }
         }
         e = e.prev;
     }
@@ -599,6 +613,18 @@ function findVarsInScope(el, accum, elAccum) {
         } else if (e.classList.contains('defdec')) {
             accum.push(e.getElementsByClassName('variable-name')[0].value);
             elAccum.push(e);
+        } else if (e.classList.contains('inherits')) {
+            var hole = e.children[1];
+            if (hole.childNodes.length > 0 && hole.childNodes[0].dataset) {
+                var par = hole.childNodes[0];
+                if (par.dataset.inheritedVars) {
+                    var vars = par.dataset.inheritedVars.split(",");
+                    for (var i=0; i<vars.length; i++) {
+                        accum.push(vars[i]);
+                        elAccum.push(e);
+                    }
+                }
+            }
         }
         e = e.prev;
     }

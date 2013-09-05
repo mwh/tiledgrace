@@ -308,7 +308,8 @@ dialects.sniff = {
         "rectangle": {
             name: "rectangle",
             parts: [{name: "rectangle", args: []}],
-            returns: "Shape"
+            returns: "Shape",
+            inheritedVars: ["width", "height"]
         },
         "whenever()do": {
             name: "whenever()do",
@@ -709,6 +710,8 @@ function jsonDeserialiser(obj) {
             }
         }
     }
+    if (req.inheritedVars)
+        tile.dataset.inheritedVars = req.inheritedVars.join(",");
     return tile;
 }
 function addDialectMethods(dialect) {
