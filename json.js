@@ -482,6 +482,14 @@ function createTileFromJSON(obj) {
         tile.style.display = '';
         return tile;
     }
+    if (obj.type == "selfcall") {
+        if (isDialectSelfcall(obj)) {
+            var tile = jsonDeserialiser(obj);
+            tile.style.position = 'static';
+            tile.style.display = '';
+            return tile;
+        }
+    }
     var template = document.getElementById('toolbox').querySelector('.tile.' + obj.type);
     if (obj.type == "operator" &&
             (obj.operator == "==" || obj.operator == "<"

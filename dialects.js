@@ -567,6 +567,13 @@ function jsonSerialiser(n) {
     return overallObject;
 }
 
+function isDialectSelfcall(obj) {
+    var req = currentDialect.methods[obj.name];
+    if (!req)
+        return false;
+    return req.selfcall;
+}
+
 function jsonDeserialiser(obj) {
     var req = currentDialect.methods[obj.name];
     if (!req)
@@ -578,6 +585,10 @@ function jsonDeserialiser(obj) {
     }
     var holes = getHoles(line);
     var ho = 0;
+    if (!req.parts)
+        req.parts = [req.args];
+    if (!obj.parts)
+        obj.parts = [obj.args];
     for (var i=0; i<req.parts.length; i++) {
         var part = req.parts[i];
         for (var j=0; j<part.args.length; j++) {
