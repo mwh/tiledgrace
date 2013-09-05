@@ -137,13 +137,16 @@ function generateNodeCode(n, loc) {
                 rop = r.childNodes[1].firstChild.data;
             if (lop && rop && lop == rop && lop == op
                     || (lop && !rop
-                        && (lop == op || compatibleOperators[op][lop]))
+                        && (lop == op || (compatibleOperators[op]
+                                && compatibleOperators[op][lop])))
                     || (rop && !lop
-                        && (rop == op || compatibleOperators[op][rop])))
+                        && (rop == op || (compatibleOperators[op]
+                                && compatibleOperators[op][rop])))) {
                 if (lop)
                     lMode = 'assignment';
                 if (rop)
                     rMode = 'assignment';
+            }
         }
         if (loc == 'assignment')
             return generateNodeCode(l, lMode) + ' ' + op
