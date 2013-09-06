@@ -427,6 +427,11 @@ dialects.sniff = {
             returns: "Done",
             selfcall: true
         },
+        "clear": {
+            name: "clear",
+            parts: [{name: "clear", args: []}],
+            returns: "Done",
+        },
         "background": {
             name: "background",
             parts: [{name: "background", args: ["String"]}],
