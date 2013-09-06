@@ -590,6 +590,7 @@ function loadSample(k) {
         minigrace.mode = "js";
         loadJSON(minigrace.generated_output);
         checkpointSave();
+        history.replaceState(generateJSObject(), "", "#sample=" + k);
     }
 }
 function ensureDataset(n) {
