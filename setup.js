@@ -170,7 +170,8 @@ document.addEventListener('keypress', function(ev) {
         ev.preventDefault();
         go();
     }
-    if (ev.charCode == 114 && ev.target == document.body) {// "r"
+    if (ev.charCode == 114 && ev.target == document.body
+            && !ev.ctrlKey && !ev.metaKey) {// "r"
         ev.preventDefault();
         go();
     }
