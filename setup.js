@@ -211,9 +211,9 @@ minigrace.stdout_write = function(value) {
     var ctx = canvas.getContext("2d")
     ctx.lineWidth = 1;
     ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, 250, 250);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "black";
-    ctx.rect(0, 0, 250, 250);
+    ctx.rect(0, 0, canvas.width, canvas.height);
     ctx.stroke;
 })(document.getElementById('standard-canvas'))
 

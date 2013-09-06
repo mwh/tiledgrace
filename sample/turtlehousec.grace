@@ -10,7 +10,7 @@ method square(l) {
     turnRight (90)
 }
 
-var length := 100
+var length := 200
 var diagonal := 1.414 * length
 square(length)
 turnRight (45)

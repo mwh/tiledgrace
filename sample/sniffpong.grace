@@ -4,14 +4,14 @@ background ("black")
 object {
     inherits circle
     colour := "yellow"
-    radius := 5
+    radius := 10
     jumpTo (centre)
     turn (random (60) + 15)
-    whenever {x < 5} do {
+    whenever {x < 10} do {
         background ("red")
         stop
     }
-    whenever {x > (canvasWidth - 5)} do {
+    whenever {x > (canvasWidth - 10)} do {
         background ("green")
         stop
     }
@@ -25,37 +25,37 @@ object {
         bounceOff (computerPaddle)
     }
     always {
-        forward (2.25)
+        forward (4)
     }
 }
 def ball = Δ
 
 object {
     inherits rectangle
-    height := 20
-    width := 10
+    height := 40
+    width := 20
     colour := "white"
-    jumpTo (leftCentre.right(5))
+    jumpTo (leftCentre.right(10))
     whenever {y < mouse.y} do {
-        y := y + 3
+        y := y + 6
     }
     whenever {y > mouse.y} do {
-        y := y - 3
+        y := y - 6
     }
 }
 def myPaddle = Δ
 
 object {
     inherits rectangle
-    height := 20
-    width := 10
+    height := 40
+    width := 20
     colour := "white"
-    jumpTo (rightCentre.left(5))
+    jumpTo (rightCentre.left(10))
     whenever {y < ball.y} do {
-        y := y + 1
+        y := y + 2
     }
     whenever {y > ball.y} do {
-        y := y - 1
+        y := y - 2
     }
 }
 def computerPaddle = Δ
