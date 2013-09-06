@@ -373,6 +373,12 @@ dialects.sniff = {
             returns: "Boolean",
             selfcall: true
         },
+        "face": {
+            name: "face",
+            parts: [{name: "face", args: ["Point"]}],
+            returns: "Done",
+            selfcall: true
+        },
         "above": {
             name: "above",
             parts: [{name: "above", args: []}],
@@ -437,6 +443,18 @@ dialects.sniff = {
 };
 for (var k in dialects.sniff.methods)
     dialects.sniff.methods[k].category = "Sniff";
+dialects.sniff.methods['whenever()do'].category = "Control";
+dialects.sniff.methods['always'].category = "Control";
+dialects.sniff.methods['stop'].category = "Control";
+dialects.sniff.methods.turn.category = "Motion";
+dialects.sniff.methods.face.category = "Motion";
+dialects.sniff.methods.forward.category = "Motion";
+dialects.sniff.methods.jumpTo.category = "Motion";
+dialects.sniff.methods.bounce.category = "Motion";
+dialects.sniff.methods.bounceOff.category = "Motion";
+dialects.sniff.methods.mouse.category = "Sensing";
+dialects.sniff.methods.touching.category = "Sensing";
+dialects.sniff.methods.touchingEdge.category = "Sensing";
 extendDialect("sniff", "StandardGrace");
 
 
