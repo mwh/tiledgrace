@@ -200,12 +200,13 @@ minigrace.stdout_write = function(value) {
 };
 
 (function(canvas){
-    canvas.addEventListener('click', function(ev) {
+    canvas.addEventListener('dblclick', function(ev) {
         if (this.classList.contains('big')) {
             this.classList.remove('big');
         } else {
             this.classList.add('big');
         }
+        ev.preventDefault();
     });
     var ctx = canvas.getContext("2d")
     ctx.lineWidth = 1;
