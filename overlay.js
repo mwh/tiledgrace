@@ -460,6 +460,15 @@ function findErroneousTiles(reasons) {
                     + types[0] + ".");
         }
     }
+    for (var i=0; i<codearea.childNodes.length; i++) {
+        var ch = codearea.childNodes[i];
+        if (!ch.classList || !ch.classList.contains('tile'))
+            continue;
+        if (ch.dataset && ch.dataset.onlyInObject == "y") {
+            tiles.push(ch);
+            reasons.push("This can only be inside an object or class.");
+        }
+    }
     return tiles;
 }
 function holeCanHoldTile(hole, tile, extra) {

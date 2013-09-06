@@ -332,7 +332,8 @@ dialects.sniff = {
                     ]}],
             returns: "Done",
             multiline: true,
-            selfcall: true
+            selfcall: true,
+            toplevel: true
         },
         "always": {
             name: "always",
@@ -341,7 +342,8 @@ dialects.sniff = {
                     }],
             returns: "Done",
             multiline: true,
-            selfcall: true
+            selfcall: true,
+            toplevel: true
         },
         "bounce": {
             name: "bounce",
@@ -369,7 +371,7 @@ dialects.sniff = {
         },
         "touching": {
             name: "touching",
-            parts: [{name: "touching", args: ["Shape"]}],
+            parts: [{name: "touching", args: ["Point"]}],
             returns: "Boolean",
             selfcall: true
         },
@@ -581,6 +583,8 @@ function createDialectRequestTile(req) {
     serialisers.push(req);
     if (req.inheritedVars)
         tile.dataset.inheritedVars = req.inheritedVars.join(",");
+    if (req.selfcall && !req.toplevel)
+        tile.dataset.onlyInObject = "y";
     if (req.returns)
         tile.dataset.types = req.returns;
     return tile;
@@ -790,6 +794,8 @@ function jsonDeserialiser(obj) {
     }
     if (req.inheritedVars)
         tile.dataset.inheritedVars = req.inheritedVars.join(",");
+    if (req.selfcall && !req.toplevel)
+        tile.dataset.onlyInObject = "y";
     return tile;
 }
 function addDialectMethods(dialect) {
