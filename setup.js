@@ -218,8 +218,12 @@ minigrace.stdout_write = function(value) {
 })(document.getElementById('standard-canvas'))
 
 if (window.location.hash) {
-    var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
-    history.replaceState(obj, "", generateHash(obj));
+    if (window.location.hash.substring(0, 8) == "#sample=") {
+        loadSample(window.location.hash.substring(8));
+    } else {
+        var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
+        history.replaceState(obj, "", generateHash(obj));
+    }
 }
 bgMinigrace.postMessage({action: "importFile", modname: "logo",
         url: "logo.js"});
