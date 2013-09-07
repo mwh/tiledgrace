@@ -21,8 +21,9 @@ function shrink() {
     setTimeout(function() {
         var leftEdge = (document.getElementsByClassName('ace_gutter')[0].offsetWidth + 3) + 'px';
         var runningTop = -1;
+        var offset = document.getElementsByClassName('ace_gutter-cell')[0].offsetHeight;
         if (document.getElementById('dialect').value)
-            runningTop += 19;
+            runningTop += offset;
         for (var i=0; i<starts.length; i++) {
             starts[i].oldTop = starts[i].style.top;
             starts[i].oldLeft = starts[i].style.left;
@@ -38,7 +39,7 @@ function shrink() {
                 runningTop += +child.offsetHeight;
                 child = child.next;
             }
-            runningTop += 19;
+            runningTop += offset;
         }
         setTimeout(function() {
             ctr.style.visibility = 'visible';
