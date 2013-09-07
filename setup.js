@@ -260,7 +260,7 @@ editor.setShowFoldWidgets(false);
 editor.setShowPrintMargin(false);
 editor.getSession().setUseSoftTabs(true);
 editor.getSession().setTabSize(4);
-editor.setFontSize('16px');
+editor.setFontSize('14px');
 editor.commands.bindKeys({"ctrl-l":null, "ctrl-shift-r":null, "ctrl-r":null, "ctrl-t":null})
 editor.on('mousemove', function(e) {
     var position = e.getDocumentPosition();

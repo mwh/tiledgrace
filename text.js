@@ -160,7 +160,7 @@ coddleBrowser('blink', function() {
         function() {
             var inputs = codearea.getElementsByTagName('input');
             Array.prototype.forEach.call(inputs, function(el) {
-                el.style.width = (el.size * 10) + 'px';
+                el.style.width = (el.size * 8) + 'px';
             });
         }
     );
