@@ -581,16 +581,58 @@ function loadFile() {
 function loadSample(k) {
     if (!k)
         return;
+    var n = k;
+    var sel = document.getElementById('samples');
+    for (var i=0; i<sel.options.length; i++)
+        if (sel.options[i].value == k)
+            n = sel.options[i].label;
+    var loading = document.createElement('div');
+    loading.style.border = "2px solid hsl(330, 75%, 60%)";
+    loading.style.background = 'hsl(180, 0%, 90%)';
+    loading.style.color = 'black';
+    loading.style.font = '32px sans-serif';
+    loading.style.textAlign = 'center';
+    loading.style.position = 'absolute';
+    loading.style.top = '30%';
+    loading.style.left = '30%';
+    loading.style.width = '40%';
+    var loadingBody = document.createElement('div');
+    loadingBody.innerHTML = 'Loading sample "' + n + '": retrieving.<br />This may take a while.';
+    loading.appendChild(loadingBody);
+    var progressBar = document.createElement('div');
+    progressBar.style.background = 'blue';
+    progressBar.style.height = '20px';
+    progressBar.style.width = '0px';
+    loading.appendChild(progressBar);
+    document.body.appendChild(loading);
     var req = new XMLHttpRequest();
     req.open("GET", "./sample/" + k + ".grace", false);
     req.send(null);
     if (req.status == 200) {
-        minigrace.mode = "json";
-        minigrace.compile(req.responseText);
-        minigrace.mode = "js";
-        loadJSON(minigrace.generated_output);
-        checkpointSave();
-        history.replaceState(generateJSObject(), "", "#sample=" + k);
+        bgMinigrace.onmessage = function(ev) {
+            if (!ev.data.success) {
+                alert("Sample failed to compile for some reason. "
+                        + "This is probably a bug.");
+                loading.remove();
+                return;
+            }
+            loadingBody.innerHTML = 'Loading sample "' + n
+                + '": creating tiles. <br />This may take a while.';
+            progressBar.style.width = "66%";
+            setTimeout(function() {
+                loadJSON(ev.data.output);
+                checkpointSave();
+                history.replaceState(generateJSObject(), "", "#sample=" + k);
+                loading.remove();
+            }, 50);
+        }
+        loadingBody.innerHTML = 'Loading sample "' + n + '": compiling. <br />This may take a while.';
+        progressBar.style.width = "33%";
+        bgMinigrace.postMessage({action: "compile", mode: "json",
+            modname: "main", source: req.responseText});
+    } else {
+        alert("Failed to retrieve sample.");
+        loading.remove();
     }
 }
 function ensureDataset(n) {

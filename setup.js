@@ -221,13 +221,8 @@ minigrace.stdout_write = function(value) {
 if (window.location.hash) {
     if (window.location.hash.substring(0, 8) == "#sample=") {
         var sample = window.location.hash.substring(8);
-        loadSample(sample);
         window.addEventListener("load", function(ev) {
-            // Reset the URL after it's re-encoded to a program string
-            setTimeout(function() {
-                history.replaceState(generateJSObject(), "",
-                    "#sample=" + sample);
-            }, 500);
+            loadSample(sample);
         });
     } else {
         var obj = loadJSON(decodeURIComponent((atob(window.location.hash.substring(1)))));
