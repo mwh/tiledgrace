@@ -563,7 +563,7 @@ function findVarRefsInScope(varname, el, accum) {
 function findMutableVarsInScope(el, accum, elAccum) {
     // First go up
     var e = el;
-    if (e.classList.contains('object')) {
+    if (e.classList.contains('object') || e.classList.contains("class")) {
         // Inside an object, treat all top-level vars as in scope
         for (var i=0; i<codearea.childNodes.length; i++) {
             var ch = codearea.childNodes[i];
@@ -629,7 +629,7 @@ function findVarsInScope(el, accum, elAccum) {
         if (varInputs.length)
             elAccum.push(e);
     }
-    if (e.classList.contains('object')) {
+    if (e.classList.contains('object') || e.classList.contains("class")) {
         // Inside an object, treat all top-level vars/defs as in scope
         for (var i=0; i<codearea.childNodes.length; i++) {
             var ch = codearea.childNodes[i];
