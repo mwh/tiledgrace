@@ -39,4 +39,4 @@ whenever {random (150) < 2} do {
     stuart.new
 }
 
-// chunks: 226px,192px 21px,14px 17px,407px 220px,65px
+// chunks: 220px,99px 19px,2px 8px,373px 218px,2px
