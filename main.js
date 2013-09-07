@@ -277,7 +277,7 @@ function attachTileBehaviour(n) {
             });
     Array.prototype.forEach.call(n.getElementsByClassName('argument-adder'),
             function(el) {
-                el.addEventListener('click', argumentAdd);
+                el.addEventListener('mousedown', argumentAdd);
                 el.title = "Add argument";
             });
 }
@@ -333,6 +333,7 @@ function argumentAdd(ev) {
     updateTileIndicator();
     generateCode();
     checkpointSave();
+    ev.stopPropagation();
 }
 function addParameterToMethod(paramAdder, name) {
     if (paramAdder.previousSibling.classList
