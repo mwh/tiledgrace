@@ -401,6 +401,11 @@ dialects.sniff = {
             parts: [{name: "random", args: ["Number"]}],
             returns: "Number"
         },
+        "randomPoint": {
+            name: "randomPoint",
+            parts: [{name: "randomPoint", args: []}],
+            returns: "Point"
+        },
         "canvasWidth": {
             name: "canvasWidth",
             parts: [{name: "canvasWidth", args: []}],
