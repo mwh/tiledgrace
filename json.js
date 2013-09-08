@@ -59,7 +59,8 @@ function generateNodeJSON(n) {
         }
         return {type: 'selfcall',
             name: name,
-            args: args
+            args: args,
+            isRequest: true
         };
     }
     if (n.classList.contains('constant')) {
@@ -489,7 +490,7 @@ function createTileFromJSON(obj) {
             tile.style.display = '';
             return tile;
         }
-        if (obj.args.length == 0) {
+        if (obj.args.length == 0 && !obj.isRequest) {
             // Potential variable
             obj.type = "var";
             obj.value = obj.name;
