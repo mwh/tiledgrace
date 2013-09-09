@@ -192,6 +192,7 @@ function createOffscreenArrow(dir) {
         arrow.style.left = (codearea.scrollLeft + codearea.offsetWidth - 80) + 'px';
         arrow.innerHTML = '&#58542;';
     }
+    arrow.classList.add(dir);
     codearea.appendChild(arrow);
     return arrow;
 }

@@ -366,6 +366,62 @@ input {
     box-shadow: 0px 0px 8px 12px hsla(60, 100%, 75%, 0.75);
     z-index: 101;
 }
+@keyframes bounce-left {
+    50% {
+        margin-left: 16px;
+    }
+}
+@keyframes bounce-right {
+    50% {
+        margin-left: -16px;
+    }
+}
+@keyframes bounce-up {
+    50% {
+        margin-top: 16px;
+    }
+}
+@keyframes bounce-down {
+    50% {
+        margin-top: -16px;
+    }
+}
+@-webkit-keyframes bounce-left {
+    50% {
+        margin-left: 16px;
+    }
+}
+@-webkit-keyframes bounce-right {
+    50% {
+        margin-left: -16px;
+    }
+}
+@-webkit-keyframes bounce-up {
+    50% {
+        margin-top: 16px;
+    }
+}
+@-webkit-keyframes bounce-down {
+    50% {
+        margin-top: -16px;
+    }
+}
+.popout-arrow.up {
+    animation: bounce-up 0.75s infinite;
+    -webkit-animation: bounce-up 0.75s infinite;
+}
+.popout-arrow.down {
+    animation: bounce-down 0.75s infinite;
+    -webkit-animation: bounce-down 0.75s infinite;
+}
+.popout-arrow.left {
+    animation: bounce-left 0.75s infinite;
+    -webkit-animation: bounce-left 0.75s infinite;
+}
+.popout-arrow.right {
+    animation: bounce-right 0.75s infinite;
+    -webkit-animation: bounce-right 0.75s infinite;
+}
 .popout-arrow {
     color: hsla(60, 100%, 75%, 0.75);
     background: transparent;
@@ -374,6 +430,8 @@ input {
     font-family: entypo;
     line-height: 64px;
     font-size: 128px;
+    -webkit-animation: flash-popout-arrow 0.75s infinite;
+    animation: flash-popout-arrow 0.75s infinite;
 }
 .hole {
     background: #aaa;
