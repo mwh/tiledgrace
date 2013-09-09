@@ -366,6 +366,15 @@ input {
     box-shadow: 0px 0px 8px 12px hsla(60, 100%, 75%, 0.75);
     z-index: 101;
 }
+.popout-arrow {
+    color: hsla(60, 100%, 75%, 0.75);
+    background: transparent;
+    z-index: 101;
+    position: absolute;
+    font-family: entypo;
+    line-height: 64px;
+    font-size: 128px;
+}
 .hole {
     background: #aaa;
     display: inline-flex;

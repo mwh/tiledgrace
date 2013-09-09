@@ -120,6 +120,9 @@ function clearPopouts() {
     var popouts = codearea.getElementsByClassName('popout');
     while (popouts.length)
         popouts[0].classList.remove('popout');
+    popouts = codearea.getElementsByClassName('popout-arrow');
+    while (popouts.length)
+        popouts[0].remove();
 }
 function highlightVarReferences(el) {
     var vars = [];
@@ -158,6 +161,39 @@ function highlightVarDefinition(el, name) {
     if (defEl.classList.contains('inherits'))
         defInput = defEl;
     defInput.classList.add('popout');
+    var xy = findOffsetTopLeft(defInput);
+    if (xy.top > codearea.scrollTop + codearea.offsetHeight) {
+        createOffscreenArrow('down');
+    } else if (xy.top + defInput.offsetHeight < codearea.scrollTop) {
+        createOffscreenArrow('up');
+    } else if (xy.left > codearea.scrollLeft + codearea.offsetWidth) {
+        createOffscreenArrow('right');
+    } else if (xy.left + defInput.offsetWidth < codearea.scrollLeft) {
+        createOffscreenArrow('left');
+    }
+}
+function createOffscreenArrow(dir) {
+    var arrow = document.createElement('div');
+    arrow.classList.add('popout-arrow');
+    if (dir == 'up') {
+        arrow.style.top = (codearea.scrollTop) + 'px';
+        arrow.style.left = (codearea.scrollLeft + 0.45 * codearea.offsetWidth - 40) + 'px';
+        arrow.innerHTML = '&#58543;';
+    } else if (dir == 'down') {
+        arrow.style.top = (codearea.scrollTop + codearea.offsetHeight - 80) + 'px';
+        arrow.style.left = (codearea.scrollLeft + 0.45 * codearea.offsetWidth - 40) + 'px';
+        arrow.innerHTML = '&#58544;';
+    } else if (dir == 'left') {
+        arrow.style.left = (codearea.scrollLeft) + 'px';
+        arrow.style.top = (codearea.scrollTop + 0.45 * codearea.scrollHeight - 40) + 'px';
+        arrow.innerHTML = '&#58541;';
+    } else if (dir == 'right') {
+        arrow.style.top = (codearea.scrollTop + 0.45 * codearea.offsetHeight - 40) + 'px';
+        arrow.style.left = (codearea.scrollLeft + codearea.offsetWidth - 80) + 'px';
+        arrow.innerHTML = '&#58542;';
+    }
+    codearea.appendChild(arrow);
+    return arrow;
 }
 function drawVardecLines(el) {
     var vars = [];
