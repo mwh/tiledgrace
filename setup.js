@@ -2,6 +2,7 @@
 var el = document.createElement('div');
 var indicator = document.getElementById('indicator');
 var desaturator = document.getElementById('desaturator');
+var bin = document.getElementById('bin');
 var hideCategoryBar = false;
 var bgMinigrace = new Worker("background.js");
 el.style.cssText = 'pointer-events: auto';
@@ -22,12 +23,18 @@ codearea.addEventListener('click', function(ev) {
     for (var i=0; i<menus.length; i++)
         codearea.removeChild(menus[i]);
 });
+codearea.addEventListener('scroll', function(ev) {
+    bin.style.top = codearea.scrollTop + 'px';
+    bin.style.right = (-codearea.scrollLeft) + 'px';
+});
 indicator.addEventListener('mouseover', function(ev) {
     if (codearea.style.visibility == 'hidden')
         return;
     var reasons = [];
     var tiles = findErroneousTiles(reasons);
     if (tiles.length > 0) {
+        desaturator.style.width = codearea.scrollWidth + 'px';
+        desaturator.style.height = codearea.scrollHeight + 'px';
         desaturator.style.display = 'block';
         setTimeout(function() {codearea.classList.add('desaturate');}, 10);
         document.getElementById('overlay-canvas').style.display = 'block';

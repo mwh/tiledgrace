@@ -20,9 +20,9 @@ html, body {
 #desaturator {
     position: absolute;
     left: 0;
-    right: 0;
     top: 0;
-    bottom: 0;
+    height: 100%;
+    width: 100%;
     background: #000;
     display: none;
     z-index: 100;
