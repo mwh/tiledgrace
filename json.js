@@ -549,6 +549,10 @@ function loadJSON(str) {
             }
         }
     }
+    if (!obj.dialect) {
+        dialect.selectedIndex = 0;
+        changeDialect();
+    }
     Array.prototype.forEach.call(obj.chunks, createChunkFromJSON);
     Array.prototype.forEach.call(codearea.getElementsByTagName('input'),
             function(el) {
