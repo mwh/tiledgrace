@@ -433,6 +433,9 @@ input {
     -webkit-animation: flash-popout-arrow 0.75s infinite;
     animation: flash-popout-arrow 0.75s infinite;
 }
+.popout-arrow.error {
+    color: hsla(330, 75%, 65%, 0.75);
+}
 .hole {
     background: #aaa;
     display: inline-flex;

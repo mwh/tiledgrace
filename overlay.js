@@ -542,17 +542,44 @@ function holeCanHoldTile(hole, tile, extra) {
     extra.error = "Only " + accepts + " can go here, not " + types[0] + ".";
     return false;
 }
-function highlightTileErrors() {
-    var tiles = findErroneousTiles();
+function arrowOffscreenTiles(tiles) {
+    var arrows = {};
+    for (var i=0; i<tiles.length; i++) {
+        var tile = tiles[i];
+        var xy = findOffsetTopLeft(tile);
+        if (xy.top > codearea.scrollTop + codearea.offsetHeight) {
+            if (!arrows['down'])
+                arrows['down'] = createOffscreenArrow('down');
+        } else if (xy.top + tile.offsetHeight < codearea.scrollTop) {
+            if (!arrows['up'])
+                arrows['up'] = createOffscreenArrow('up');
+        } else if (xy.left > codearea.scrollLeft + codearea.offsetWidth) {
+            if (!arrows['right'])
+                arrows['right'] = createOffscreenArrow('right');
+        } else if (xy.left + tile.offsetWidth < codearea.scrollLeft) {
+            if (!arrows['left'])
+                arrows['left'] = createOffscreenArrow('left');
+        }
+    }
+    return arrows;
+}
+function highlightTileErrors(tiles) {
+    if (!tiles)
+        var tiles = findErroneousTiles();
     if (tiles.length > 0) {
         tiles.push(indicator);
         for (var i=0; i<tiles.length; i++) {
             tiles[i].classList.add('highlight');
         }
+        var arrows = arrowOffscreenTiles(tiles);
+        for (var k in arrows)
+            arrows[k].classList.add('error');
         setTimeout(function() {
             for (var i=0; i<tiles.length; i++) {
                 tiles[i].classList.remove('highlight');
             }
+            for (var k in arrows)
+                arrows[k].remove();
         }, 2000);
         return true;
     }

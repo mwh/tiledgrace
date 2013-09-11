@@ -65,6 +65,9 @@ indicator.addEventListener('mouseover', function(ev) {
         ctx.restore();
         tiles[i].classList.add('highlight');
     }
+    var arrows = arrowOffscreenTiles(tiles);
+    for (var k in arrows)
+        arrows[k].classList.add('error');
 });
 indicator.addEventListener('mouseout', function(ev) {
     codearea.classList.remove('desaturate');
@@ -74,6 +77,7 @@ indicator.addEventListener('mouseout', function(ev) {
     while (tiles.length > 0) {
         tiles[0].classList.remove('highlight');
     }
+    clearPopouts();
 });
 window.addEventListener('popstate', function(ev) {
     if (ev.state != null)
