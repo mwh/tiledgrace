@@ -584,7 +584,7 @@ function loadFile() {
     });
 }
 function loadSample(k) {
-    if (!k)
+    if (!k || k == 'Select sample')
         return;
     var n = k;
     var sel = document.getElementById('samples');
