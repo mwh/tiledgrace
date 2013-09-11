@@ -545,6 +545,7 @@ function holeCanHoldTile(hole, tile, extra) {
 function highlightTileErrors() {
     var tiles = findErroneousTiles();
     if (tiles.length > 0) {
+        tiles.push(indicator);
         for (var i=0; i<tiles.length; i++) {
             tiles[i].classList.add('highlight');
         }
