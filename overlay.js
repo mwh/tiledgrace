@@ -567,13 +567,13 @@ function highlightTileErrors(tiles) {
     if (!tiles)
         var tiles = findErroneousTiles();
     if (tiles.length > 0) {
+        var arrows = arrowOffscreenTiles(tiles);
+        for (var k in arrows)
+            arrows[k].classList.add('error');
         tiles.push(indicator);
         for (var i=0; i<tiles.length; i++) {
             tiles[i].classList.add('highlight');
         }
-        var arrows = arrowOffscreenTiles(tiles);
-        for (var k in arrows)
-            arrows[k].classList.add('error');
         setTimeout(function() {
             for (var i=0; i<tiles.length; i++) {
                 tiles[i].classList.remove('highlight');
