@@ -6,24 +6,28 @@ var StandardGrace = {
             lhs: 'Number',
             rhs: 'Number',
             returns: 'Number',
+            description: "Double-click to change operator.",
             operators: ["+", "*", "-", "/"]
         },
         {
             lhs: 'Number',
             rhs: 'Number',
             returns: 'Sequence',
+            description: "Range from one number to another.",
             operators: [".."]
         },
         {
             lhs: 'Any',
             rhs: 'Any',
             returns: 'Boolean',
+            description: "Double-click to change operator.",
             operators: ["==", "<", ">", "<=", "=>"]
         },
         {
             lhs: 'String',
             rhs: 'String',
             returns: 'String',
+            description: "Join two strings together.",
             operators: ["++"]
         }
     ],
@@ -37,6 +41,7 @@ var StandardGrace = {
                 },
             ],
             category: "Input/Output",
+            description: "Write a string to the text area.",
             returns: "Done"
         },
         "while()do": {
@@ -45,18 +50,21 @@ var StandardGrace = {
                 {
                     name: 'while',
                     args: [
-                        {type: 'Block', returns: 'Boolean', multiline: false}
+                        {type: 'Block', returns: 'Boolean', multiline: false,
+                            description: "Condition."}
                     ],
                 },
                 {
                     name: 'do',
                     args: [
-                        {type: 'Block', returns: 'Any', multiline: true}
+                        {type: 'Block', returns: 'Any', multiline: true,
+                            description: "Something to do."}
                     ],
                 }
             ],
             category: "Control",
             returns: "Done",
+            description: "While a condition is true, do something.",
             multiline: true,
         },
         "for()do": {
@@ -73,13 +81,15 @@ var StandardGrace = {
                             type: 'Block',
                             returns: 'Any',
                             multiline: true,
-                            params: 1
+                            params: 1,
+                            description: "Something to do for each item.",
                         }
                     ],
                 }
             ],
             category: "Control",
             returns: "Done",
+            description: "For each item, do something.",
             multiline: true,
         },
         "if()then": {
@@ -88,16 +98,19 @@ var StandardGrace = {
                 {
                     name: 'if',
                     args: ["Boolean"],
+                    description: "Condition.",
                 },
                 {
                     name: 'then',
                     args: [
-                        {type: 'Block', returns: 'Any', multiline: true}
+                        {type: 'Block', returns: 'Any', multiline: true,
+                            description: "Something to do if true."}
                     ],
                 }
             ],
             category: "Control",
             returns: "Done",
+            description: "If a condition is true, do something.",
             multiline: true,
         },
         "if()then()else": {
@@ -106,22 +119,26 @@ var StandardGrace = {
                 {
                     name: 'if',
                     args: ["Boolean"],
+                    description: "Condition.",
                 },
                 {
                     name: 'then',
                     args: [
-                        {type: 'Block', returns: 'Any', multiline: true}
+                        {type: 'Block', returns: 'Any', multiline: true,
+                            description: "Something to do if true."}
                     ],
                 },
                 {
                     name: 'else',
                     args: [
-                        {type: 'Block', returns: 'Any', multiline: true}
+                        {type: 'Block', returns: 'Any', multiline: true,
+                            description: "Something to do if false."}
                     ],
                 }
             ],
             category: "Control",
             returns: "Done",
+            description: "If a condition is true, do something, otherwise do something else.",
             multiline: true,
         },
     },
@@ -156,35 +173,44 @@ dialects.logo = {
         "forward": {
             name: "forward",
             parts: [{name: "forward", args: ["Number"]}],
+            description: "Move forward this much.",
             returns: "Done"
         },
         "turnRight": {
             name: "turnRight",
             parts: [{name: "turnRight", args: ["Number"]}],
+            description: "Turn anticlockwise this many degrees.",
             returns: "Done"
         },
         "turnLeft": {
             name: "turnLeft",
             parts: [{name: "turnLeft", args: ["Number"]}],
+            description: "Turn clockwise this many degrees.",
             returns: "Done"
         },
         "lineColor:=": {
             name: "lineColor:=",
             parts: [{name: "lineColor:=", args: ["Colour"]}],
+            description: "Set the colour of the line.",
             returns: "Done"
         },
         "penUp": {name: "penUp", parts: [{name: "penUp", args: []}],
-            returns: "Done"},
+            returns: "Done", description: "Lift the pen and stop drawing."},
         "penDown": {name: "penDown", parts: [{name: "penDown", args: []}],
-            returns: "Done"},
+            returns: "Done",
+            description: "Put the pen back down and start drawing again."},
         "blue": {name: "blue", parts: [{name: "blue", args: []}],
-            returns: "Colour", constant: true},
+            returns: "Colour", constant: true,
+            description: "The colour blue."},
         "red": {name: "red", parts: [{name: "red", args: []}],
-            returns: "Colour", constant: true},
+            returns: "Colour", constant: true,
+            description: "The colour red."},
         "green": {name: "green", parts: [{name: "green", args: []}],
-            returns: "Colour", constant: true},
+            returns: "Colour", constant: true,
+            description: "The colour green."},
         "black": {name: "black", parts: [{name: "black", args: []}],
-            returns: "Colour", constant: true},
+            returns: "Colour", constant: true,
+            description: "The colour black."},
     }
 };
 for (var k in dialects.logo.methods)
@@ -309,12 +335,14 @@ dialects.sniff = {
             name: "rectangle",
             parts: [{name: "rectangle", args: []}],
             returns: "Shape",
+            description: "Create a rectangle.",
             inheritedVars: ["width", "height", "x", "y", "colour"]
         },
         "circle": {
             name: "circle",
             parts: [{name: "circle", args: []}],
             returns: "Shape",
+            description: "Create a circle.",
             inheritedVars: ["radius", "x", "y", "colour"]
         },
         "image": {
@@ -329,18 +357,22 @@ dialects.sniff = {
                 {type: 'Block', returns: 'Any', multiline: false}]
             }],
             returns: "Shape",
+            description: "Display a value on screen.",
             inheritedVars: ["x", "y", "label"]
         },
         "whenever()do": {
             name: "whenever()do",
             parts: [{name: "whenever", args: [
-                    {type: 'Block', returns: 'Boolean', multiline: false}]},
+                    {type: 'Block', returns: 'Boolean', multiline: false,
+                        description: "Condition."}]},
                 {name: "do", args: [
-                    {type: 'Block', returns: 'Any', multiline: true}
+                    {type: 'Block', returns: 'Any', multiline: true,
+                        description: "Something to do when true."}
                     ]}],
             returns: "Done",
             multiline: true,
             selfcall: true,
+            description: "Any time a condition is true, do something.",
             toplevel: true
         },
         "always": {
@@ -351,117 +383,139 @@ dialects.sniff = {
             returns: "Done",
             multiline: true,
             selfcall: true,
+            description: "Do something all the time.",
             toplevel: true
         },
         "bounce": {
             name: "bounce",
             parts: [{name: "bounce", args: []}],
             returns: "Done",
+            description: "Bounce off an edge.",
             selfcall: true
         },
         "forward": {
             name: "forward",
             parts: [{name: "forward", args: ["Number"]}],
             returns: "Done",
+            description: "Move forward some distance.",
             selfcall: true
         },
         "bounceOff": {
             name: "bounceOff",
             parts: [{name: "bounceOff", args: ["Shape"]}],
             returns: "Done",
+            description: "Bounce off another object.",
             selfcall: true
         },
         "touchingEdge": {
             name: "touchingEdge",
             parts: [{name: "touchingEdge", args: []}],
             returns: "Boolean",
+            description: "True if this object is touching an edge.",
             selfcall: true
         },
         "touching": {
             name: "touching",
             parts: [{name: "touching", args: ["Point"]}],
             returns: "Boolean",
+            description: "True if this object is touching the other.",
             selfcall: true
         },
         "face": {
             name: "face",
             parts: [{name: "face", args: ["Point"]}],
             returns: "Done",
+            description: "Turn to face a particular point.",
             selfcall: true
         },
         "above": {
             name: "above",
             parts: [{name: "above", args: []}],
+            description: "Refers to the last object created.",
             returns: "Shape"
         },
         "Δ": {
             name: "Δ",
             parts: [{name: "Δ", args: []}],
+            description: "Refers to the last object created.",
             returns: "Shape"
         },
         "stop": {
             name: "stop",
             parts: [{name: "stop", args: []}],
+            description: "Stop the program.",
             returns: "Done"
         },
         "random": {
             name: "random",
             parts: [{name: "random", args: ["Number"]}],
+            description: "Returns a random number.",
             returns: "Number"
         },
         "randomPoint": {
             name: "randomPoint",
             parts: [{name: "randomPoint", args: []}],
+            description: "Returns a random point in the drawing area.",
             returns: "Point"
         },
         "canvasWidth": {
             name: "canvasWidth",
             parts: [{name: "canvasWidth", args: []}],
+            description: "Width of the drawing area.",
             returns: "Number"
         },
         "canvasHeight": {
             name: "canvasHeight",
             parts: [{name: "canvasHeight", args: []}],
+            description: "Height of the drawing area.",
             returns: "Number"
         },
         "turn": {
             name: "turn",
             parts: [{name: "turn", args: ["Number"]}],
             returns: "Done",
+            description: "Rotate anticlockwise this many degrees.",
             selfcall: true
         },
         "jumpTo": {
             name: "jumpTo",
             parts: [{name: "jumpTo", args: ["Point"]}],
             returns: "Done",
+            description: "Move immediately to a point.",
             selfcall: true
         },
         "stamp": {
             name: "stamp",
             parts: [{name: "stamp", args: []}],
             returns: "Done",
+            description: "Draw this item onto the background.",
             selfcall: true
         },
         "clear": {
             name: "clear",
             parts: [{name: "clear", args: []}],
+            description: "Erase the background.",
             returns: "Done",
         },
         "background": {
             name: "background",
             parts: [{name: "background", args: ["String"]}],
+            description: "Set the background colour.",
             returns: "Done"
         },
         "mouse": {
             name: "mouse",
             parts: [{name: "mouse", args: []}],
+            description: "The current location of the mouse pointer.",
             returns: "Point"
         },
         "centre": {name: "centre", parts: [{name: "centre", args: []}],
-            returns: "Point", constant: true},
+            returns: "Point", constant: true,
+            description: "The centre of the drawing area."},
         "rightCentre": {name: "rightCentre",
             parts: [{name: "rightCentre", args: []}],
-            returns: "Point", constant: true},
+            returns: "Point", constant: true,
+            description: "The middle of the right edge of the drawing area."},
         "leftCentre": {name: "leftCentre",
             parts: [{name: "leftCentre", args: []}],
             returns: "Point", constant: true},
@@ -524,6 +578,8 @@ function createDialectRequestTile(req) {
         tile.appendChild(line);
         tile.classList.add("multiline");
     }
+    if (req.description)
+        line.title = req.description;
     for (var i=0; i<req.parts.length; i++) {
         var mn = document.createElement('span');
         mn.classList.add("part");
@@ -565,6 +621,8 @@ function createDialectRequestTile(req) {
                 tile.appendChild(line);
                 var hole = createHole(arg.returns);
                 hole.classList.add("multi");
+                if (arg.description)
+                    hole.title = arg.description;
                 var indent = document.createElement("div");
                 indent.classList.add("indent");
                 indent.appendChild(hole);
@@ -575,17 +633,26 @@ function createDialectRequestTile(req) {
                 line.appendChild(document.createTextNode("}"))
             } else if (arg.type == "Block") {
                 ps.appendChild(document.createTextNode(" {"));
-                line.appendChild(createHole(arg.returns));
+                var hole = createHole(arg.returns);
+                if (arg.description)
+                    hole.title = arg.description;
+                line.appendChild(hole);
                 line.appendChild(document.createTextNode("}"));
             } else if (req.parts[i].name.substring(req.parts[i].name.length-2)
                     == ":=") {
                 var pad = document.createElement('span');
                 pad.style.marginLeft = '1ex';
                 ps.appendChild(pad);
-                line.appendChild(createHole(arg));
+                var hole = createHole(arg.returns);
+                if (arg.description)
+                    hole.title = arg.description;
+                line.appendChild(hole);
             } else {
                 ps.appendChild(document.createTextNode(" ("));
-                line.appendChild(createHole(arg));
+                var hole = createHole(arg.returns);
+                if (arg.description)
+                    hole.title = arg.description;
+                line.appendChild(hole);
                 line.appendChild(document.createTextNode(")"));
             }
         }
