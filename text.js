@@ -4,6 +4,8 @@ var growFuncs = [];
 function shrink() {
     if (highlightTileErrors())
         return;
+    var viewButton = document.getElementById('viewbutton');
+    viewButton.disabled = "disabled";
     editor.setValue(document.getElementById('gracecode').value, -1);
     editor.getSession().clearAnnotations();
     codearea.classList.add('shrink');
@@ -45,6 +47,7 @@ function shrink() {
             ctr.style.visibility = 'visible';
             codearea.style.visibility = 'hidden';
             document.getElementById('indicator').style.background = 'green';
+            viewButton.disabled = "";
         }, 1100);
     }, 700);
 }
@@ -67,6 +70,8 @@ function grow() {
         editor.getSession().clearAnnotations();
         rebuildTilesInBackground(minigrace.generated_output);
     }
+    var viewButton = document.getElementById('viewbutton');
+    viewButton.disabled = "disabled";
     document.getElementById('indicator').style.background = 'green';
     ctr.style.visibility = 'hidden';
     codearea.style.visibility = 'visible';
@@ -88,6 +93,7 @@ function grow() {
             setTimeout(function() {
                 codearea.classList.remove('growing');
                 toolbox.style.visibility = 'visible';
+                viewButton.disabled = "";
             }, 1000);
         }, 1100);
     }, 300);
