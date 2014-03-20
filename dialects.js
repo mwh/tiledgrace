@@ -598,6 +598,20 @@ dialects.sniff = {
             description: "Set the background colour.",
             returns: "Done"
         },
+        "playSound": {
+            name: "playSound",
+            parts: [{name: "playSound", args: ["String"]}],
+            returns: "Done",
+            description: "Play a sound.",
+            selfcall: true
+        },
+        "stopSound": {
+            name: "stopSound",
+            parts: [{name: "stopSound", args: ["String"]}],
+            returns: "Done",
+            description: "Stop playing a sound.",
+            selfcall: true
+        },
         "mouse": {
             name: "mouse",
             parts: [{name: "mouse", args: []}],
