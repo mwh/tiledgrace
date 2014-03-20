@@ -124,11 +124,11 @@ html, body {
 }
 .tile.var {
     background: hsl(0, 75%, 75%);
-    border: 2px outset hsl(0, 75%, 50%);
+    border: 2px outset hsl(0, 75%, 65%);
 }
 .tile.assign {
-    background: hsl(0, 50%, 50%);
-    border: 2px outset hsl(0, 50%, 50%);
+    background: hsl(0, 50%, 75%);
+    border: 2px outset hsl(0, 50%, 75%);
 }
 .tile.number {
     background: hsl(120, 75%, 50%);
@@ -252,11 +252,11 @@ input {
     border: 2px outset #880;
 }
 .tile.dialect-method {
-    background: hsl(300, 100%, 50%);
+    background: hsl(300, 100%, 75%);
     border: 2px outset hsl(300, 100%, 25%);
 }
 .tile.dialect-method[data-category="Control"] {
-    background: hsl(180, 25%, 50%);
+    background: hsl(180, 25%, 65%);
     border: 2px outset hsl(90, 25%, 25%);
 }
 .tile.dialect-method[data-category="Turtle"] {
@@ -268,7 +268,7 @@ input {
     border: 2px outset hsl(90, 100%, 25%);
 }
 .tile.dialect-method.constant {
-    background: hsl(300, 25%, 50%);
+    background: hsl(300, 25%, 75%);
     border: 2px outset hsl(300, 100%, 25%);
 }
 .tile.constant {
@@ -512,7 +512,7 @@ input {
     color: black;
 }
 .tile .cmpop {
-    color: #687687;
+    color: #eee; /*#687687;*/
 }
 .tile .assop {
     margin-left: 1ex;
