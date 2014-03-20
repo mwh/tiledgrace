@@ -306,6 +306,9 @@ input {
 .shrink .tile.defdec .tile.operator .hole:nth-of-type(1) > .tile.var {
     margin-left: 1px;
 }
+.shrink .tile .extra-indicator {
+    display: none;
+}
 .tile {
     padding: 1px;
     width: auto;

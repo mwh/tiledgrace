@@ -349,7 +349,102 @@ dialects.sniff = {
             name: "image",
             parts: [{name: "image", args: []}],
             returns: "Shape",
-            inheritedVars: ["width", "height", "x", "y", "url"]
+            description: "Create an image object.",
+            inheritedVars: ["width", "height", "x", "y", "url"],
+            onRegenerate: function(tile) {
+                var inheritsTile = tile.parentNode.parentNode;
+                if (!inheritsTile.classList.contains("inherits"))
+                    return;
+                var objTile = inheritsTile.parentNode.parentNode.parentNode;
+                if (!objTile.classList.contains("object"))
+                    return;
+                var assigns = objTile.getElementsByClassName("assign");
+                assigns = Array.prototype.slice.call(assigns, 0);
+                assigns.forEach(function(assign) {
+                    var extras = assign.getElementsByClassName("extra-indicator");
+                    var extra = null;
+                    if (extras.length == 1) {
+                        extra = extras[0];
+                        if (extra.parentNode != assign)
+                            extra = null;
+                    }
+                    var vhole = assign.childNodes[0];
+                    if (vhole.lastChild == null) {
+                        if (extra)
+                            extra.parentNode.removeChild(extra);
+                        return;
+                    }
+                    var vtile = vhole.childNodes[0];
+                    if (!vtile.classList.contains("var")) {
+                        if (extra)
+                            extra.parentNode.removeChild(extra);
+                        return;
+                    }
+                    var varname = vtile.childNodes[0].innerHTML;
+                    if (varname != "url") {
+                        if (extra)
+                            extra.parentNode.removeChild(extra);
+                        return;
+                    }
+                    var valhole = assign.childNodes[2];
+                    if (valhole.lastChild == null) {
+                        if (extra)
+                            extra.parentNode.removeChild(extra);
+                        return;
+                    }
+                    var valtile = valhole.childNodes[0];
+                    if (!valtile.classList.contains("string")) {
+                        if (extra)
+                            extra.parentNode.removeChild(extra);
+                        return;
+                    }
+                    var strValue = valtile.getElementsByTagName("input")[0].value;
+                    if (extras.length == 0) {
+                        var extra = document.createElement("img");
+                        extra.classList.add("extra-indicator");
+                        extra.style.maxWidth = "3ex";
+                        extra.style.maxHeight = "3ex";
+                        extra.style.border = "1px solid black";
+                    } else
+                        var extra = extras[0];
+                    var available = ["ball.png", "face.jpg", "moon.png",
+                        "star.png", "sun.png", "bug.png",
+                        "smile.png", "stuart.jpg"];
+                    extra.onmousedown = function() {
+                        var menu = document.createElement("ul");
+                        menu.classList.add("popup-menu");
+                        var xy = findOffsetTopLeft(extra);
+                        menu.style.top = (xy.top + extra.offsetHeight - codearea.offsetTop - 10) + 'px';
+                        menu.style.left = xy.left + 'px';
+                        available.forEach(function(url) {
+                            var li = document.createElement('li');
+                            var img = document.createElement('img');
+                            img.style.maxWidth = '5ex';
+                            img.style.maxHeight = '5ex';
+                            img.style.marginLeft = 'auto';
+                            img.style.marginRight = 'auto';
+                            img.src = url;
+                            li.appendChild(img);
+                            menu.appendChild(li);
+                            li.addEventListener('click', function() {
+                                valtile.getElementsByTagName("input")[0].value
+                                    = url;
+                                codearea.removeChild(menu);
+                                updateTileIndicator();
+                                generateCode();
+                                checkpointSave();
+                                if (typeof Event == 'function') {
+                                    var event = new Event('blur');
+                                    valtile.getElementsByTagName("input")[0].dispatchEvent(event);
+                                }
+                            });
+                        });
+                        codearea.appendChild(menu);
+                    }
+                    extra.src = strValue;
+                    assign.appendChild(extra);
+                });
+            }
         },
         "value": {
             name: "value",
@@ -518,7 +613,61 @@ dialects.sniff = {
             description: "The middle of the right edge of the drawing area."},
         "leftCentre": {name: "leftCentre",
             parts: [{name: "leftCentre", args: []}],
-            returns: "Point", constant: true},
+            returns: "Point", constant: true,
+            description: "The middle of the left edge of the drawing area."},
+        "hue()saturation()lightness": {
+            name: "hue()saturation()lightness",
+            parts: [{name: "hue", args: [
+                    {type: 'Number',
+                        description: "0=red, 120=green, 240=blue."}]},
+                {name: "saturation", args: [
+                    {type: 'Number',
+                        description: "How strong the colour is (0-100)."}
+                    ]},
+                {name: "lightness", args: [
+                    {type: 'Number',
+                        description: "How light the colour is (0-100)."}
+                    ]}
+            ],
+            returns: "String",
+            selfcall: true,
+            description: "Create a colour.",
+            toplevel: true,
+            onRegenerate: function(tile) {
+                var colours = tile.getElementsByClassName("extra-indicator");
+                var holes = tile.getElementsByClassName("hole");
+                if (holes.length > 3) {
+                    if (colours.length)
+                        colours[0].parentNode.removeChild(colours[0]);
+                    return;
+                }
+                for (var i=0; i<holes.length; i++) {
+                    if (holes[i].childNodes.length != 1) {
+                        if (colours.length)
+                            colours[0].parentNode.removeChild(colours[0]);
+                        return;
+                    }
+                    if (!holes[i].childNodes[0].classList.contains("number")) {
+                        if (colours.length)
+                            colours[0].parentNode.removeChild(colours[0]);
+                        return;
+                    }
+                }
+                var hue = holes[0].childNodes[0].childNodes[0].value;
+                var sat = holes[1].childNodes[0].childNodes[0].value;
+                var lit = holes[2].childNodes[0].childNodes[0].value;
+                if (colours.length == 0) {
+                    var col = document.createElement("span");
+                    col.classList.add("extra-indicator");
+                    col.style.width = "2ex";
+                    col.style.height = "1.5ex";
+                    col.style.border = "1px solid black";
+                } else
+                    var col = colours[0];
+                col.style.background = "hsl(" + hue + ", " + sat + "%, " + lit + "%)";
+                tile.appendChild(col);
+            }
+        },
     }
 };
 for (var k in dialects.sniff.methods)
@@ -703,6 +852,9 @@ function codeSerialiser(n) {
     var line = n;
     if (req.multiline) {
         line = n.childNodes[0];
+    }
+    if (req.onRegenerate) {
+        req.onRegenerate(n);
     }
     var holes = getHoles(line);
     var ho = 0;
