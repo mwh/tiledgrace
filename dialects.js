@@ -393,12 +393,13 @@ dialects.sniff = {
                         return;
                     }
                     var valtile = valhole.childNodes[0];
-                    if (!valtile.classList.contains("string")) {
+                    var valOrigin = findDefiniteValue(valtile);
+                    if (!valOrigin||!valOrigin.classList.contains("string")) {
                         if (extra)
                             extra.parentNode.removeChild(extra);
                         return;
                     }
-                    var strValue = valtile.getElementsByTagName("input")[0].value;
+                    var strValue = valOrigin.getElementsByTagName("input")[0].value;
                     if (extras.length == 0) {
                         var extra = document.createElement("img");
                         extra.classList.add("extra-indicator");
@@ -427,7 +428,7 @@ dialects.sniff = {
                             li.appendChild(img);
                             menu.appendChild(li);
                             li.addEventListener('click', function() {
-                                valtile.getElementsByTagName("input")[0].value
+                                valOrigin.getElementsByTagName("input")[0].value
                                     = url;
                                 codearea.removeChild(menu);
                                 updateTileIndicator();
@@ -435,7 +436,7 @@ dialects.sniff = {
                                 checkpointSave();
                                 if (typeof Event == 'function') {
                                     var event = new Event('blur');
-                                    valtile.getElementsByTagName("input")[0].dispatchEvent(event);
+                                    valOrigin.getElementsByTagName("input")[0].dispatchEvent(event);
                                 }
                             });
                         });
@@ -655,21 +656,26 @@ dialects.sniff = {
                         colours[0].parentNode.removeChild(colours[0]);
                     return;
                 }
+                var definiteValues = [null, null, null];
                 for (var i=0; i<holes.length; i++) {
                     if (holes[i].childNodes.length != 1) {
                         if (colours.length)
                             colours[0].parentNode.removeChild(colours[0]);
                         return;
                     }
-                    if (!holes[i].childNodes[0].classList.contains("number")) {
+                    definiteValues[i] = findDefiniteValue(holes[i].lastChild);
+                }
+                for (var i=0; i<definiteValues.length; i++) {
+                    if (!definiteValues[i] ||
+                            !definiteValues[i].classList.contains("number")) {
                         if (colours.length)
                             colours[0].parentNode.removeChild(colours[0]);
                         return;
                     }
                 }
-                var hue = holes[0].childNodes[0].childNodes[0].value;
-                var sat = holes[1].childNodes[0].childNodes[0].value;
-                var lit = holes[2].childNodes[0].childNodes[0].value;
+                var hue = definiteValues[0].childNodes[0].value;
+                var sat = definiteValues[1].childNodes[0].value;
+                var lit = definiteValues[2].childNodes[0].value;
                 if (colours.length == 0) {
                     var col = document.createElement("span");
                     col.classList.add("extra-indicator");

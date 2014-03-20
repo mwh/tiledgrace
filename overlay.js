@@ -745,6 +745,31 @@ function findVarsInScope(el, accum, elAccum) {
         }
     }
 }
+function findDefiniteValue(tile) {
+    if (tile.classList.contains("string"))
+        return tile;
+    if (tile.classList.contains("number"))
+        return tile;
+    if (!tile.classList.contains("var"))
+        return null;
+    var varName = tile.getElementsByClassName('var-name')[0].innerHTML;
+    var vars = [];
+    var varEls = [];
+    findVarsInScope(tile, vars, varEls);
+    for (var i=0; i<vars.length; i++) {
+        if (vars[i] == varName)
+            break;
+    }
+    if (vars[i] != varName)
+        return null;
+    var defEl = varEls[i];
+    if (!defEl.classList.contains("defdec"))
+        return null;
+    var hole = defEl.getElementsByClassName('hole')[0];
+    if (!hole.lastChild)
+        return null;
+    return findDefiniteValue(hole.lastChild);
+}
 var overlaidError = document.createElement('div');
 overlaidError.classList.add('overlaid-error');
 document.body.appendChild(overlaidError);
