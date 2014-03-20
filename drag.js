@@ -317,6 +317,8 @@ function runOnDrop(tile) {
             findMutableVarsInScope(tile, vars, []);
         else
             findVarsInScope(tile, vars, []);
+        if (tile.childNodes[0].innerHTML == 'Variable')
+            tile.childNodes[0].innerHTML = '';
         if (vars.length == 1 && tile.childNodes[0].innerHTML == '') {
             tile.getElementsByClassName('var-name')[0].innerHTML = vars[0];
         } else if (vars.length != 0) {
