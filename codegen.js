@@ -296,6 +296,7 @@ function generateNodeCode(n, loc) {
 }
 function sortChunks() {
     var classes = [];
+    var defs = [];
     var others = [];
     for (var i=0; i<codearea.children.length; i++) {
         var child = codearea.children[i];
@@ -303,10 +304,12 @@ function sortChunks() {
             continue;
         if (child.classList.contains('class'))
             classes.push(child);
+        else if (child.classList.contains('defdec'))
+            defs.push(child);
         else
             others.push(child);
     }
-    return classes.concat(others);
+    return classes.concat(defs).concat(others);
 }
 function generateCode() {
     blockIndent = 0;
