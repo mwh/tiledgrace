@@ -427,17 +427,24 @@ dialects.sniff = {
                             img.src = url;
                             li.appendChild(img);
                             menu.appendChild(li);
+                            var inp=valOrigin.getElementsByTagName("input")[0];
                             li.addEventListener('click', function() {
-                                valOrigin.getElementsByTagName("input")[0].value
-                                    = url;
+                                inp.value = url;
                                 codearea.removeChild(menu);
                                 updateTileIndicator();
                                 generateCode();
                                 checkpointSave();
                                 if (typeof Event == 'function') {
                                     var event = new Event('blur');
-                                    valOrigin.getElementsByTagName("input")[0].dispatchEvent(event);
+                                    inp.dispatchEvent(event);
                                 }
+                                inp.classList.remove('popout');
+                            });
+                            li.addEventListener('mouseover', function() {
+                                inp.classList.add('popout');
+                            });
+                            li.addEventListener('mouseout', function() {
+                                inp.classList.remove('popout');
                             });
                         });
                         codearea.appendChild(menu);
