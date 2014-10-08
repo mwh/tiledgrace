@@ -122,7 +122,7 @@ function clearPopouts() {
         popouts[0].classList.remove('popout');
     popouts = codearea.getElementsByClassName('popout-arrow');
     while (popouts.length)
-        popouts[0].remove();
+        popouts[0].parentNode.removeChild(popouts[0]);
 }
 function highlightVarReferences(el) {
     var vars = [];
@@ -579,7 +579,7 @@ function highlightTileErrors(tiles) {
                 tiles[i].classList.remove('highlight');
             }
             for (var k in arrows)
-                arrows[k].remove();
+                arrows[k].parentNode.removeChild(arrows[k]);
         }, 2000);
         return true;
     }

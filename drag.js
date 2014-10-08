@@ -180,7 +180,7 @@ function dragstart(ev) {
         if (isOverBin(ev)) {
             var tmp = obj;
             while (tmp) {
-                tmp.remove();
+                tmp.parentNode.removeChild(tmp);
                 tmp = tmp.next;
             }
             updateTileIndicator();

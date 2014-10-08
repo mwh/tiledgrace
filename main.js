@@ -12,7 +12,7 @@ function generateHash(obj) {
 function checkpointSave() {
     var obj = generateJSObject();
     var progHash = generateHash(obj);
-    if (navigator.userAgent.indexOf("MSIE") == -1)
+    if (navigator.userAgent.indexOf("Trident") == -1 && navigator.userAgent.indexOf("MSIE") == -1)
         history.pushState(obj, "", progHash);
 }
 function loadSave() {
@@ -372,8 +372,8 @@ function parameterRemove(ev) {
             && this.previousSibling.data == '('
             && this.nextSibling.classList
             && this.nextSibling.classList.contains('parameter-adder')) {
-        this.previousSibling.remove();
-        this.nextSibling.nextSibling.remove();
+        this.parentNode.removeChild(this.previousSibling);
+        this.parentNode.removeChild(this.nextSibling.nextSibling);
     }
     this.parentNode.removeChild(this);
     updateTileIndicator();

@@ -618,7 +618,7 @@ function loadSample(k) {
             if (!ev.data.success) {
                 alert("Sample failed to compile for some reason. "
                         + "This is probably a bug.");
-                loading.remove();
+                loading.parentNode.removeChild(loading);
                 return;
             }
             loadingBody.innerHTML = 'Loading sample "' + n
@@ -628,7 +628,7 @@ function loadSample(k) {
                 loadJSON(ev.data.output);
                 checkpointSave();
                 history.replaceState(generateJSObject(), "", "#sample=" + k);
-                loading.remove();
+                loading.parentNode.removeChild(loading);
             }, 50);
         }
         loadingBody.innerHTML = 'Loading sample "' + n + '": compiling. <br />This may take a while.';
@@ -637,7 +637,7 @@ function loadSample(k) {
             modname: "main", source: req.responseText});
     } else {
         alert("Failed to retrieve sample.");
-        loading.remove();
+        loading.parentNode.removeChild(loading);
     }
 }
 function ensureDataset(n) {
