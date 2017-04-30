@@ -1,0 +1,19 @@
+{
+  "name": "tiledgrace-cam",
+  "version": "1.0.0",
+  "description": "Simple Game Programming in Grace",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cambis/tiledgrace.git"
+  },
+  "author": "Cameron Bryers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cambis/tiledgrace/issues"
+  },
+  "homepage": "https://github.com/Cambis/tiledgrace#readme"
+}
