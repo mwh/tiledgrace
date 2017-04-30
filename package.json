@@ -4,6 +4,7 @@
   "description": "Simple Game Programming in Grace",
   "main": "main.js",
   "scripts": {
+    "start": "server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Cambis/tiledgrace/issues"
   },
-  "homepage": "https://github.com/Cambis/tiledgrace#readme"
+  "homepage": "https://github.com/Cambis/tiledgrace#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
 }
