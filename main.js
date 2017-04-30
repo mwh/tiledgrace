@@ -1,13 +1,4 @@
 "use strict"
-
-// window.addEventListener('load', checkDocument, false);
-
-// function checkDocument() {
-//     console.log('Shit');
-// }
-
-console.log('Hello There');
-
 var holes = document.getElementsByClassName('hole');
 var codearea = document.getElementById('codearea');
 var toolbox = document.getElementById('toolbox');
