@@ -1,0 +1,36 @@
+Tiled Grace integrates tiled and textual editing of code
+
+To see Tiled Grace in action, go to
+<http://ecs.vuw.ac.nz/~mwh/minigrace/tiled>.
+
+To use Tiled Grace yourself, copy in a minigrace.js file to the working
+tree root. minigrace.js can be generated from a minigrace.git working
+tree with:
+    make es
+and will then be in es/minigrace.js. You will also need to copy in the
+corresponding version of background.js (which changes only
+infrequently).
+
+You will also need to obtain the ACE editor from <http://ace.c9.io/> and put
+all of its .js files into the "ace" directory.
+
+Any of the sample dialects you want to use should be compiled with the
+same version of the compiler:
+    minigrace --target es -o sniff.js sniff.grace
+Some dialects may require modification to be used in Tiled Grace rather
+than the ordinary web interface. The sample programs themselves are
+loaded from .grace files and do not need precompilation.
+
+Because of browser security rules, Tiled Grace must be served over HTTP
+to work. Either copy it into your web root, or run an in-place web
+server such as osws:
+    osws -I index.html -m -M .woff application/font-woff \
+        -M .json application/json -d .
+
+Tiled Grace works best in recent versions of Chrome and Firefox. The
+transition animation tends to lag for large or deeply-nested programs in
+Firefox, but the system in other respects tends to work slightly better
+there.
+
+Tiled Grace is distributed under the GNU General Public License, version
+3 or later, and without warranty of any kind.
