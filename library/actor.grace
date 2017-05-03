@@ -1,22 +1,23 @@
-class Actor() {
+class Entity(x, y) {
 
-    var posX := 0
-    var posY := 0
+    var posX := x
+    var posY := y
     var rotation := 0
 
+    method setLocation(x, y) {
+        self.posX = x
+        self.posY = y
+    }
+
     method getX {
-        return x
+        return posX
     }
 
     method getY {
-        return y
+        return posY
     }
 
     method getRotation {
         return rotation
-    }
-
-    method contains(dx, dy) {
-        return (dx == posX) && (dy == posY)
     }
 } 
