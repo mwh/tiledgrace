@@ -1,6 +1,6 @@
 dialect "sniff"
 
-class Entity(x, y) {
+class Entity.new(x, y) {
     
     inherits image
 
@@ -13,8 +13,8 @@ class Entity(x, y) {
     }
 
     method setLocation(x, y) {
-        self.posX = x
-        self.posY = y
+        self.posX := x
+        self.posY := y
     }
 
     method getX {

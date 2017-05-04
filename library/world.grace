@@ -1,6 +1,6 @@
 import "entity" as en
 
-class World(x, y) {
+class World.new(x, y) {
 
     var sizeX := x
     var sizeY := y 
