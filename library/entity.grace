@@ -1,8 +1,16 @@
+dialect "sniff"
+
 class Entity(x, y) {
+    
+    inherits image
 
     var posX := x
     var posY := y
     var rotation := 0
+
+    method update {
+
+    }
 
     method setLocation(x, y) {
         self.posX = x
