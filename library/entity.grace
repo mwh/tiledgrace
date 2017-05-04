@@ -1,8 +1,8 @@
-dialect "sniff"
+// dialect "sniff"
 
 class Entity.new(x, y) {
     
-    inherits image
+    // inherits image
 
     var posX := x
     var posY := y
