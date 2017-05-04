@@ -6,7 +6,6 @@ class World.new(x, y) {
     var sizeY := y 
 
     var entities := List
-    var world := null
 
     method addEntity(e: en.Entity) {
         return entities.add(e)
