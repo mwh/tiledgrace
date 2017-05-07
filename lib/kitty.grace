@@ -9,3 +9,6 @@ method stop {
 
 }
 
+method setWorld(world') {
+	world := world'
+}
