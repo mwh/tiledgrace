@@ -62,7 +62,7 @@ class Entity.new(x, y) {
 
 class World.new(x, y) {
 
-	var canvas
+    var canvas
     var canvasWidth := x
     var canvasHeight := y 
 
@@ -71,5 +71,4 @@ class World.new(x, y) {
     method addEntity(e: Entity) {
         return entities.add(e)
     }
-
 }
