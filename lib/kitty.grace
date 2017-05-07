@@ -10,7 +10,7 @@ method stop {
 }
 
 method setWorld(world') {
-	world := world'
+    world := world'
 }
 
 class Entity.new(x, y) {
@@ -62,12 +62,13 @@ class Entity.new(x, y) {
 
 class World.new(x, y) {
 
-    var sizeX := x
-    var sizeY := y 
+	var canvas
+    var canvasWidth := x
+    var canvasHeight := y 
 
     var entities := List
 
-    method addEntity(e: en.Entity) {
+    method addEntity(e: Entity) {
         return entities.add(e)
     }
 
