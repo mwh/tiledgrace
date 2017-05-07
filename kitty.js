@@ -1322,12 +1322,90 @@ function gracecode_lib$kitty () {
   }
   obj_init_51.apply(obj51, []);
   var var_World = obj51;
+  lineNumber = 78
+  var call75 = callmethod(var_World,"new", [2], new GraceNum(100), new GraceNum(100));
+  var var_foo = call75;
+  lineNumber = 63
+  var func76 = function(argcv) {
+    var curarg = 1;
+    if (argcv[0] !=  func76.paramCounts[0])
+      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (foo)"));
+    var returnTarget = invocationCount;
+    invocationCount++;
+    moduleName = "lib/kitty";
+    try {
+      lineNumber = 78
+      return var_foo
+    } catch(e) {
+      if ((e.exctype == 'return') && (e.target == returnTarget)) {
+        return e.returnvalue;
+      } else {
+        throw e;
+      }
+    }
+  }
+  func76.paramCounts = [
+    0,
+  ];
+  func76.variableArities = [
+    false,
+  ];
+  this.methods["foo"] = func76;
+  func76.definitionLine = 63;
+  func76.definitionModule = "lib/kitty";
+  lineNumber = 78;
+  moduleName = "lib/kitty";
+  if (!Grace_isTrue(callmethod(var_Unknown, "match",
+    [1], var_foo)))
+      throw new GraceExceptionPacket(TypeErrorObject,
+            new GraceString("expected "
+            + "initial value of def 'foo' to be of type Unknown"))
+  lineNumber = 79
+  var call77 = callmethod(var_Entity,"new", [2], new GraceNum(10), new GraceNum(10));
+  var var_bar = call77;
+  lineNumber = 63
+  var func78 = function(argcv) {
+    var curarg = 1;
+    if (argcv[0] !=  func78.paramCounts[0])
+      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (bar)"));
+    var returnTarget = invocationCount;
+    invocationCount++;
+    moduleName = "lib/kitty";
+    try {
+      lineNumber = 79
+      return var_bar
+    } catch(e) {
+      if ((e.exctype == 'return') && (e.target == returnTarget)) {
+        return e.returnvalue;
+      } else {
+        throw e;
+      }
+    }
+  }
+  func78.paramCounts = [
+    0,
+  ];
+  func78.variableArities = [
+    false,
+  ];
+  this.methods["bar"] = func78;
+  func78.definitionLine = 63;
+  func78.definitionModule = "lib/kitty";
+  lineNumber = 79;
+  moduleName = "lib/kitty";
+  if (!Grace_isTrue(callmethod(var_Unknown, "match",
+    [1], var_bar)))
+      throw new GraceExceptionPacket(TypeErrorObject,
+            new GraceString("expected "
+            + "initial value of def 'bar' to be of type Unknown"))
+  lineNumber = 80
+  var call79 = callmethod(var_foo,"addEntity", [1], var_bar);
   return this;
 }
 gracecode_lib$kitty.imports = [
 ];
 if (gctCache)
-  gctCache['lib/kitty'] = "constructors-of:World:\n new\nfresh-methods:\npublic:\n world\n world:=\n start\n stop\n setWorld\n Entity\n World\nmethods-of:Entity.new:\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\n getX\n getY\n onDestroy\npath:\n lib/kitty\nclasses:\n Entity\n World\nconfidential:\nconstructors-of:Entity:\n new\nmethods-of:World.new:\n canvasWidth:=\n entities\n addEntity\n canvasHeight:=\n canvas:=\n canvasHeight\n canvasWidth\n canvas\n entities:=\nmodules:\n";
+  gctCache['lib/kitty'] = "public:\n world\n world:=\n start\n stop\n setWorld\n Entity\n World\n foo\n bar\nfresh-methods:\nmethods-of:Entity.new:\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\n getX\n getY\n onDestroy\npath:\n lib/kitty\nclasses:\n Entity\n World\nconfidential:\nconstructors-of:Entity:\n new\nmethods-of:World.new:\n canvasWidth:=\n entities\n addEntity\n canvasHeight:=\n canvasWidth\n canvas:=\n canvasHeight\n canvas\n entities:=\nmodules:\nconstructors-of:World:\n new\n";
 if (originalSourceLines) {
   originalSourceLines["lib/kitty"] = [
     "// Main class for game library",
@@ -1404,5 +1482,11 @@ if (originalSourceLines) {
     "        return entities.add(e)",
     "    }",
     "}",
+    "",
+    "// TEST SECTION //",
+    "",
+    "def foo = World.new(100, 100)",
+    "def bar = Entity.new(10, 10)",
+    "foo.addEntity(bar)",
   ];
 }

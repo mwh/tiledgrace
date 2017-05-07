@@ -72,3 +72,9 @@ class World.new(x, y) {
         return entities.add(e)
     }
 }
+
+// TEST SECTION //
+
+def foo = World.new(100, 100)
+def bar = Entity.new(10, 10)
+foo.addEntity(bar)
