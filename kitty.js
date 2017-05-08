@@ -1405,7 +1405,7 @@ function gracecode_lib$kitty () {
 gracecode_lib$kitty.imports = [
 ];
 if (gctCache)
-  gctCache['lib/kitty'] = "public:\n world\n world:=\n start\n stop\n setWorld\n Entity\n World\n foo\n bar\nfresh-methods:\nmethods-of:Entity.new:\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\n getX\n getY\n onDestroy\npath:\n lib/kitty\nclasses:\n Entity\n World\nconfidential:\nconstructors-of:Entity:\n new\nmethods-of:World.new:\n canvasWidth:=\n entities\n addEntity\n canvasHeight:=\n canvasWidth\n canvas:=\n canvasHeight\n canvas\n entities:=\nmodules:\nconstructors-of:World:\n new\n";
+  gctCache['lib/kitty'] = "path:\n lib/kitty\nclasses:\n Entity\n World\nconfidential:\nconstructors-of:Entity:\n new\nmodules:\nfresh-methods:\nconstructors-of:World:\n new\npublic:\n world\n world:=\n start\n stop\n setWorld\n Entity\n World\n foo\n bar\nmethods-of:World.new:\n canvasWidth:=\n canvasHeight:=\n entities\n canvas:=\n canvasHeight\n canvas\n canvasWidth\n entities:=\n addEntity\nmethods-of:Entity.new:\n awake\n posX\n posY\n start\n rotation\n getRotation\n getX\n getY\n posX:=\n posY:=\n update\n setLocation\n onDestroy\n rotation:=\n";
 if (originalSourceLines) {
   originalSourceLines["lib/kitty"] = [
     "// Main class for game library",
