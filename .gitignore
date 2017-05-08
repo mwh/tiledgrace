@@ -1,5 +1,14 @@
 # grace
+*.s
+*.o
+*.bc
+*.ll
+*.gco
+*.gso
+*.gso.dSYM
+*.gcn
 *.gct
+*.c
 
 # Logs
 logs
