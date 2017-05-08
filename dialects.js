@@ -712,7 +712,9 @@ dialects.sniff.methods.mouse.category = "Sensing";
 dialects.sniff.methods.touching.category = "Sensing";
 dialects.sniff.methods.touchingEdge.category = "Sensing";
 extendDialect("sniff", "StandardGrace");
+dialects.kitty = {
 
+};
 
 function createOperatorTile(op) {
     var tile = document.createElement("div");
