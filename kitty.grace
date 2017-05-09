@@ -1,3 +1,5 @@
+import "mgcollections" as collections
+
 // Main class for game library
 var world
 
@@ -66,11 +68,11 @@ class World.new(x, y) {
     var canvasWidth := x
     var canvasHeight := y 
 
-    // var entities := List
+    var entities := collections.list.new
 
-    // method addEntity(e: Entity) {
-    //     return entities.add(e)
-    // }
+    method addEntity(e: Entity) {
+        return entities.add(e)
+    }
 }
 
 // TEST SECTION //
