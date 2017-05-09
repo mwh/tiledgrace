@@ -746,6 +746,13 @@ dialects.kitty = {
             returns: "Done",
             description: "Create a world object",
             inheritedVars: ["canvas", "canvasWidth", "canvasHeight"]
+        },
+        "Image": {
+            name: "Image",
+            parts: [{name: "World", args: ["String"]}],
+            returns: "Done",
+            description: "Creates an image",
+            inheritedVars: ["imgTag", "height", "width"]
         }
     }
 };

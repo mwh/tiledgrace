@@ -1,6 +1,9 @@
 import "mgcollections" as collections
 import "dom" as dom
 
+import "StandardPrelude" as sp
+inherits sp.new
+
 // Main class for game library
 var m_world
 
@@ -16,12 +19,13 @@ method setWorld(world') {
     m_world := world'
 }
 
-class KittyImage.new() {
+class KittyImage.new(url') {
     
+    def imgTag = dom.document.createElement("img")
+    imgTag.src := url'
+
     var height := 64
     var width := 64
-
-    def imgTag = dom.document.createElement("img")
 
     method draw(canvas') {
         canvas'.save
@@ -30,9 +34,9 @@ class KittyImage.new() {
     }
 }
 
-method Image {
+method Image(url') {
     object {
-        inherits KittyImage.new
+        inherits KittyImage.new(url')
     }
 }
 
