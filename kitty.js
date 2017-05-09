@@ -1338,7 +1338,7 @@ gracecode_kitty.imports = [
 'mgcollections',
 ];
 if (gctCache)
-  gctCache['kitty'] = "methods-of:Entity.new:\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n getRotation\n rotation\n getX\n getY\n onDestroy\n posX:=\n posY:=\nfresh-methods:\nconfidential:\npath:\n kitty\nclasses:\n Entity\n World\nmethods-of:World.new:\n entities\n addEntity\n canvasWidth\n canvasHeight:=\n canvas\n canvas:=\n canvasWidth:=\n canvasHeight\n entities:=\nconstructors-of:Entity:\n new\nmodules:\n mgcollections\nconstructors-of:World:\n new\npublic:\n world\n world:=\n start\n stop\n setWorld\n Entity\n World\n";
+  gctCache['kitty'] = "public:\n world\n world:=\n start\n stop\n setWorld\n Entity\n World\nfresh-methods:\nmethods-of:Entity.new:\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\n getX\n getY\n onDestroy\npath:\n kitty\nclasses:\n Entity\n World\nconfidential:\nconstructors-of:Entity:\n new\nmethods-of:World.new:\n canvasWidth:=\n entities\n addEntity\n canvasHeight:=\n canvasWidth\n canvas:=\n canvasHeight\n canvas\n entities:=\nmodules:\n mgcollections\nconstructors-of:World:\n new\n";
 if (originalSourceLines) {
   originalSourceLines["kitty"] = [
     "import \"mgcollections\" as collections",
@@ -1416,8 +1416,8 @@ if (originalSourceLines) {
     "    method addEntity(e: Entity) {",
     "        return entities.add(e)",
     "    }",
-    "}",
     "",
+    "}",
     "// TEST SECTION //",
     "",
     "// def foo = World.new(100, 100)",

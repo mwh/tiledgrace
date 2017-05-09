@@ -73,8 +73,8 @@ class World.new(x, y) {
     method addEntity(e: Entity) {
         return entities.add(e)
     }
-}
 
+}
 // TEST SECTION //
 
 // def foo = World.new(100, 100)
