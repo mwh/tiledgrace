@@ -713,6 +713,16 @@ dialects.sniff.methods.touching.category = "Sensing";
 dialects.sniff.methods.touchingEdge.category = "Sensing";
 extendDialect("sniff", "StandardGrace");
 
+dialects.kitty = {
+    methods: {
+        "stop": {
+            name: "stop",
+            parts: [{name: "stop", args: []}],
+            description: "Stop the program.",
+            returns: "Done"
+        },
+    }
+};
 
 function createOperatorTile(op) {
     var tile = document.createElement("div");
