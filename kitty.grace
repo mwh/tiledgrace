@@ -4,11 +4,11 @@ import "mgcollections" as collections
 var m_world
 
 method start {
-
+    print "STARTING..."
 }
 
 method stop {
-
+    print "STOPPING..."
 }
 
 method setWorld(world') {
@@ -26,12 +26,12 @@ class KittyEntity.new(x', y') {
 
     // Called on creation
     method awake {
-
+        print "awake"
     }
 
     // Called on game start
     method start {
-
+        print "start"
     }
 
     // Called by main game class
