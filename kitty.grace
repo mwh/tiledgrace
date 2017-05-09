@@ -1,7 +1,7 @@
 import "mgcollections" as collections
 
 // Main class for game library
-var world
+var m_world
 
 method start {
 
@@ -12,16 +12,16 @@ method stop {
 }
 
 method setWorld(world') {
-    world := world'
+    m_world := world'
 }
 
-class KittyEntity.new(x, y) {
+class KittyEntity.new(x', y') {
     
     // inherits image
     awake
 
-    var posX := x
-    var posY := y
+    var posX := x'
+    var posY := y'
     var rotation := 0
 
     // Called on creation

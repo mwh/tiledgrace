@@ -68,7 +68,7 @@ function gracecode_kitty () {
     try {
       lineNumber = 16
       lineNumber = 15
-      var_world = var_world__39__;
+      var_m__95__world = var_world__39__;
       return var_world__39__
     } catch(e) {
       if ((e.exctype == 'return') && (e.target == returnTarget)) {
@@ -284,18 +284,18 @@ function gracecode_kitty () {
       new GraceString('could not find module collections'));
   var var_collections = do_import("mgcollections", gracecode_mgcollections);
   lineNumber = 6
-  var var_world;
+  var var_m__95__world;
   lineNumber = 1
   var func19 = function(argcv) {
     var curarg = 1;
     if (argcv[0] !=  func19.paramCounts[0])
-      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (world)"));
+      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (m_world)"));
     var returnTarget = invocationCount;
     invocationCount++;
     moduleName = "kitty";
     try {
       lineNumber = 4
-      return var_world
+      return var_m__95__world
     } catch(e) {
       if ((e.exctype == 'return') && (e.target == returnTarget)) {
         return e.returnvalue;
@@ -310,7 +310,7 @@ function gracecode_kitty () {
   func19.variableArities = [
     false,
   ];
-  this.methods["world"] = func19;
+  this.methods["m_world"] = func19;
   func19.definitionLine = 1;
   func19.definitionModule = "kitty";
   lineNumber = 1
@@ -319,12 +319,12 @@ function gracecode_kitty () {
     var var___95__var__95__assign__95__tmp = arguments[curarg];
     curarg++;
     if (argcv[0] !=  func20.paramCounts[0])
-      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (world:=)"));
+      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (m_world:=)"));
     var returnTarget = invocationCount;
     invocationCount++;
     moduleName = "kitty";
     try {
-      var_world = var___95__var__95__assign__95__tmp;
+      var_m__95__world = var___95__var__95__assign__95__tmp;
       return var___95__var__95__assign__95__tmp
     } catch(e) {
       if ((e.exctype == 'return') && (e.target == returnTarget)) {
@@ -340,7 +340,7 @@ function gracecode_kitty () {
   func20.variableArities = [
     false,
   ];
-  this.methods["world:="] = func20;
+  this.methods["m_world:="] = func20;
   func20.definitionLine = 1;
   func20.definitionModule = "kitty";
   lineNumber = 6
@@ -387,9 +387,9 @@ function gracecode_kitty () {
     obj22.annotations = [];
     var func24 = function(argcv) {
       var curarg = 1;
-      var var_x = arguments[curarg];
+      var var_x__39__ = arguments[curarg];
       curarg++;
-      var var_y = arguments[curarg];
+      var var_y__39__ = arguments[curarg];
       curarg++;
       if (argcv[0] !=  func24.paramCounts[0])
         callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (new)"));
@@ -649,12 +649,12 @@ function gracecode_kitty () {
           var call40 = callmethod(this, "awake", [0]);
           sourceObject = obj25;
           lineNumber = 23
-          obj25.data["posX"] = var_x;
+          obj25.data["posX"] = var_x__39__;
           var reader_kitty_posX_41 = function() {
             return this.data["posX"];
           }
           obj25.methods["posX"] = reader_kitty_posX_41;
-          obj25.data["posX"] = var_x;
+          obj25.data["posX"] = var_x__39__;
           var writer_kitty_posX_41 = function(argcv, o) {
             this.data["posX"] = o;
           }
@@ -665,19 +665,19 @@ function gracecode_kitty () {
           moduleName = "kitty";
           lineNumber = 23
           if (!Grace_isTrue(callmethod(var_Unknown, "match",
-            [1], var_x)))
+            [1], var_x__39__)))
               throw new GraceExceptionPacket(TypeErrorObject,
                     new GraceString("expected "
                     + "initial value of var 'posX' to be of type Unknown"))
           obj25.mutable = true;
           sourceObject = obj25;
           lineNumber = 24
-          obj25.data["posY"] = var_y;
+          obj25.data["posY"] = var_y__39__;
           var reader_kitty_posY_42 = function() {
             return this.data["posY"];
           }
           obj25.methods["posY"] = reader_kitty_posY_42;
-          obj25.data["posY"] = var_y;
+          obj25.data["posY"] = var_y__39__;
           var writer_kitty_posY_42 = function(argcv, o) {
             this.data["posY"] = o;
           }
@@ -688,7 +688,7 @@ function gracecode_kitty () {
           moduleName = "kitty";
           lineNumber = 24
           if (!Grace_isTrue(callmethod(var_Unknown, "match",
-            [1], var_y)))
+            [1], var_y__39__)))
               throw new GraceExceptionPacket(TypeErrorObject,
                     new GraceString("expected "
                     + "initial value of var 'posY' to be of type Unknown"))
@@ -747,9 +747,9 @@ function gracecode_kitty () {
     func24.definitionModule = "kitty";
     var func44 = function(argcv) {
       var curarg = 1;
-      var var_x = arguments[curarg];
+      var var_x__39__ = arguments[curarg];
       curarg++;
-      var var_y = arguments[curarg];
+      var var_y__39__ = arguments[curarg];
       curarg++;
       var inheritingObject = arguments[curarg++];
       var returnTarget = invocationCount;
@@ -1011,12 +1011,12 @@ function gracecode_kitty () {
           var call60 = callmethod(this, "awake", [0]);
           sourceObject = obj45;
           lineNumber = 23
-          obj45.data["posX"] = var_x;
+          obj45.data["posX"] = var_x__39__;
           var reader_kitty_posX_61 = function() {
             return this.data["posX"];
           }
           obj45.methods["posX"] = reader_kitty_posX_61;
-          obj45.data["posX"] = var_x;
+          obj45.data["posX"] = var_x__39__;
           var writer_kitty_posX_61 = function(argcv, o) {
             this.data["posX"] = o;
           }
@@ -1027,19 +1027,19 @@ function gracecode_kitty () {
           moduleName = "kitty";
           lineNumber = 23
           if (!Grace_isTrue(callmethod(var_Unknown, "match",
-            [1], var_x)))
+            [1], var_x__39__)))
               throw new GraceExceptionPacket(TypeErrorObject,
                     new GraceString("expected "
                     + "initial value of var 'posX' to be of type Unknown"))
           obj45.mutable = true;
           sourceObject = obj45;
           lineNumber = 24
-          obj45.data["posY"] = var_y;
+          obj45.data["posY"] = var_y__39__;
           var reader_kitty_posY_62 = function() {
             return this.data["posY"];
           }
           obj45.methods["posY"] = reader_kitty_posY_62;
-          obj45.data["posY"] = var_y;
+          obj45.data["posY"] = var_y__39__;
           var writer_kitty_posY_62 = function(argcv, o) {
             this.data["posY"] = o;
           }
@@ -1050,7 +1050,7 @@ function gracecode_kitty () {
           moduleName = "kitty";
           lineNumber = 24
           if (!Grace_isTrue(callmethod(var_Unknown, "match",
-            [1], var_y)))
+            [1], var_y__39__)))
               throw new GraceExceptionPacket(TypeErrorObject,
                     new GraceString("expected "
                     + "initial value of var 'posY' to be of type Unknown"))
@@ -1530,13 +1530,13 @@ gracecode_kitty.imports = [
 'mgcollections',
 ];
 if (gctCache)
-  gctCache['kitty'] = "methods-of:KittyWorld.new:\n entities\n addEntity\n entities:=\n canvasHeight:=\n canvas:=\n canvas\n canvasHeight\n canvasWidth:=\n canvasWidth\nfresh:World:\n entities\n addEntity\n canvas:=\n canvasHeight:=\n canvasWidth:=\n canvasWidth\n canvasHeight\n canvas\n entities:=\nconstructors-of:KittyEntity:\n new\nfresh-methods:\n Entity\n World\npath:\n kitty\nclasses:\n KittyEntity\n KittyWorld\nfresh:Entity:\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\n onDestroy\n getX\n getY\nconfidential:\nconstructors-of:KittyWorld:\n new\nmodules:\n mgcollections\nmethods-of:KittyEntity.new:\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n getRotation\n rotation\n onDestroy\n getX\n getY\npublic:\n world\n world:=\n start\n stop\n setWorld\n KittyEntity\n Entity\n KittyWorld\n World\n";
+  gctCache['kitty'] = "public:\n m_world\n m_world:=\n start\n stop\n setWorld\n KittyEntity\n Entity\n KittyWorld\n World\nmethods-of:KittyWorld.new:\n canvas\n canvasWidth\n entities:=\n canvasWidth:=\n entities\n addEntity\n canvasHeight:=\n canvas:=\n canvasHeight\nconstructors-of:KittyEntity:\n new\npath:\n kitty\nclasses:\n KittyEntity\n KittyWorld\nfresh:Entity:\n onDestroy\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getY\n getX\n getRotation\nconfidential:\nconstructors-of:KittyWorld:\n new\nfresh-methods:\n Entity\n World\nfresh:World:\n canvas\n canvasWidth\n entities:=\n canvasWidth:=\n entities\n addEntity\n canvasHeight:=\n canvas:=\n canvasHeight\nmodules:\n mgcollections\nmethods-of:KittyEntity.new:\n onDestroy\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\n getX\n getY\n";
 if (originalSourceLines) {
   originalSourceLines["kitty"] = [
     "import \"mgcollections\" as collections",
     "",
     "// Main class for game library",
-    "var world",
+    "var m_world",
     "",
     "method start {",
     "",
@@ -1547,16 +1547,16 @@ if (originalSourceLines) {
     "}",
     "",
     "method setWorld(world') {",
-    "    world := world'",
+    "    m_world := world'",
     "}",
     "",
-    "class KittyEntity.new(x, y) {",
+    "class KittyEntity.new(x', y') {",
     "    ",
     "    // inherits image",
     "    awake",
     "",
-    "    var posX := x",
-    "    var posY := y",
+    "    var posX := x'",
+    "    var posY := y'",
     "    var rotation := 0",
     "",
     "    // Called on creation",
