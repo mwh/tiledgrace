@@ -66,15 +66,15 @@ class World.new(x, y) {
     var canvasWidth := x
     var canvasHeight := y 
 
-    var entities := List
+    // var entities := List
 
-    method addEntity(e: Entity) {
-        return entities.add(e)
-    }
+    // method addEntity(e: Entity) {
+    //     return entities.add(e)
+    // }
 }
 
 // TEST SECTION //
 
-def foo = World.new(100, 100)
-def bar = Entity.new(10, 10)
-foo.addEntity(bar)
+// def foo = World.new(100, 100)
+// def bar = Entity.new(10, 10)
+// foo.addEntity(bar)
