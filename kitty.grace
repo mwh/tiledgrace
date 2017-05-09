@@ -1,4 +1,5 @@
 import "mgcollections" as collections
+import "dom" as dom
 
 // Main class for game library
 var m_world
@@ -13,6 +14,26 @@ method stop {
 
 method setWorld(world') {
     m_world := world'
+}
+
+class KittyImage.new() {
+    
+    var height := 64
+    var width := 64
+
+    def imgTag = dom.document.createElement("img")
+
+    method draw(canvas') {
+        canvas'.save
+        canvas'.drawImage(imgTag, -width / 2, -height / 2, width, height)
+        canvas'.restore
+    }
+}
+
+method Image {
+    object {
+        inherits KittyImage.new
+    }
 }
 
 class KittyEntity.new(x', y') {
@@ -68,13 +89,31 @@ method Entity(x', y') {
     }
 }
 
-class KittyWorld.new(x', y') {
+class KittyWorld.new() {
 
+    var document
     var canvas
-    var canvasWidth := x'
-    var canvasHeight := y' 
+    var canvasWidth
+    var canvasHeight
 
     var entities := collections.list.new
+
+    var isInit := false
+
+    // Called on initialization
+    method init {
+
+        if (isInit) then {
+            return false
+        }
+
+        document := dom.document
+        canvas := document.getElementById("standard-canvas")
+        canvasWidth := canvas.width
+        canvasHeight := canvas.height
+
+        isInit := true
+    }
 
     method addEntity(e: Entity) {
         return entities.add(e)
@@ -82,9 +121,9 @@ class KittyWorld.new(x', y') {
 
 }
 
-method World(x', y') {
+method World() {
     object {
-        inherits KittyWorld.new(x', y')
+        inherits KittyWorld.new()
     }
 }
 
