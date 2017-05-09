@@ -742,10 +742,18 @@ dialects.kitty = {
         },
         "World": {
             name: "World",
-            parts: [{name: "World", args: ["Number", "Number"]}],
+            parts: [{name: "World", args: []}],
             returns: "Done",
             description: "Create a world object",
-            inheritedVars: ["canvas", "canvasWidth", "canvasHeight"]
+            inheritedVars: [
+                "background", 
+                "document", 
+                "canvas", 
+                "canvasWidth", 
+                "canvasHeight",
+                "entities",
+                "isInit"
+                ]
         },
         "Image": {
             name: "Image",

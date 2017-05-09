@@ -21,6 +21,7 @@ method setWorld(world') {
 
 class KittyImage.new(url') {
     
+    print "CREATING NEW IMAGE: {url'}"
     def imgTag = dom.document.createElement("img")
     imgTag.src := url'
 
@@ -28,10 +29,15 @@ class KittyImage.new(url') {
     var width := 64
 
     method draw(canvas') {
+        print "DRAWING IMAGE: {imgTag.src}"
+        canvas'.translate(0, 0)
         canvas'.save
         canvas'.drawImage(imgTag, -width / 2, -height / 2, width, height)
         canvas'.restore
+        print "IMAGE: {imgTag.src} DRAWN"
     }
+
+    print "CREATED NEW IMAGE: {url'}"
 }
 
 method Image(url') {
@@ -42,7 +48,6 @@ method Image(url') {
 
 class KittyEntity.new(x', y') {
     
-    // inherits image
     awake
 
     var posX := x'
@@ -95,6 +100,10 @@ method Entity(x', y') {
 
 class KittyWorld.new() {
 
+    print "CREATED NEW WORLD..."
+    
+    var background
+
     var document
     var canvas
     var canvasWidth
@@ -104,11 +113,15 @@ class KittyWorld.new() {
 
     var isInit := false
 
+    init
+
     // Called on initialization
     method init {
 
+        print "INIT..."
+
         if (isInit) then {
-            return false
+            return
         }
 
         document := dom.document
@@ -117,6 +130,20 @@ class KittyWorld.new() {
         canvasHeight := canvas.height
 
         isInit := true
+        print "FINISHED..."
+    }
+
+    method update {
+        print "HERE"
+        background.draw(canvas)
+        print "DONE"
+    }
+
+    // method addBackground(url') {
+    //     background := Image(url')
+    // }
+    method addBackground(background') {
+        background := background'
     }
 
     method addEntity(e: Entity) {
