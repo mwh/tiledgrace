@@ -721,6 +721,20 @@ dialects.kitty = {
             description: "Stop the program.",
             returns: "Done"
         },
+        "Entity": {
+            name: "Entity",
+            parts: [{name: "Entity", args: ["Number", "Number"]}],
+            returns: "Done",
+            description: "Create an entity object",
+            inheritedVars: ["posX", "posY", "rotation"]
+        },
+        "World": {
+            name: "World",
+            parts: [{name: "World", args: ["Number", "Number"]}],
+            returns: "Done",
+            description: "Create a world object",
+            inheritedVars: ["canvas", "canvasWidth", "canvasHeight"]
+        }
     }
 };
 
