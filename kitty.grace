@@ -15,7 +15,7 @@ method setWorld(world') {
     world := world'
 }
 
-class Entity.new(x, y) {
+class KittyEntity.new(x, y) {
     
     // inherits image
     awake
@@ -62,11 +62,17 @@ class Entity.new(x, y) {
     }
 } 
 
-class World.new(x, y) {
+method Entity(x', y') {
+    object {
+        inherits KittyEntity.new(x', y')
+    }
+}
+
+class KittyWorld.new(x', y') {
 
     var canvas
-    var canvasWidth := x
-    var canvasHeight := y 
+    var canvasWidth := x'
+    var canvasHeight := y' 
 
     var entities := collections.list.new
 
@@ -75,6 +81,13 @@ class World.new(x, y) {
     }
 
 }
+
+method World(x', y') {
+    object {
+        inherits KittyWorld.new(x', y')
+    }
+}
+
 // TEST SECTION //
 
 // def foo = World.new(100, 100)
