@@ -143,7 +143,7 @@ class KittyWorld.new() {
 
     method start {
         print "STARTING WORLD..."
-        backingCanvas := dom.document.createElement("canvas")
+        backingCanvas := document.createElement("canvas")
         backingCanvas.height := canvasHeight
         backingCanvas.width := canvasWidth
         backingContext := backingCanvas.getContext("2d")

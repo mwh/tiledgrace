@@ -1873,12 +1873,13 @@ function gracecode_kitty () {
               lineNumber = 138
               lineNumber = 146
               var string282 = new GraceString("canvas");
-              var call283 = callmethod(var_dom,"document", [0]);
+              onSelf = true;
+              var call283 = callmethod(this, "document", [0]);
               var call284 = callmethod(call283,"createElement", [1], string282);
               onSelf = true;
               var call285 = callmethod(this, "backingCanvas:=", [1], call284);
               lineNumber = 148
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 147
               onSelf = true;
               var call286 = callmethod(this, "canvasHeight", [0]);
@@ -1886,7 +1887,7 @@ function gracecode_kitty () {
               var call287 = callmethod(this, "backingCanvas", [0]);
               var call288 = callmethod(call287,"height:=", [1], call286);
               lineNumber = 149
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 148
               onSelf = true;
               var call289 = callmethod(this, "canvasWidth", [0]);
@@ -1894,7 +1895,7 @@ function gracecode_kitty () {
               var call290 = callmethod(this, "backingCanvas", [0]);
               var call291 = callmethod(call290,"width:=", [1], call289);
               lineNumber = 149
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 149
               var string292 = new GraceString("2d");
               onSelf = true;
@@ -1903,7 +1904,7 @@ function gracecode_kitty () {
               onSelf = true;
               var call295 = callmethod(this, "backingContext:=", [1], call294);
               lineNumber = 150
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 150
               var string296 = new GraceString("2d");
               onSelf = true;
@@ -2386,12 +2387,13 @@ function gracecode_kitty () {
               lineNumber = 138
               lineNumber = 146
               var string367 = new GraceString("canvas");
-              var call368 = callmethod(var_dom,"document", [0]);
+              onSelf = true;
+              var call368 = callmethod(this, "document", [0]);
               var call369 = callmethod(call368,"createElement", [1], string367);
               onSelf = true;
               var call370 = callmethod(this, "backingCanvas:=", [1], call369);
               lineNumber = 148
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 147
               onSelf = true;
               var call371 = callmethod(this, "canvasHeight", [0]);
@@ -2399,7 +2401,7 @@ function gracecode_kitty () {
               var call372 = callmethod(this, "backingCanvas", [0]);
               var call373 = callmethod(call372,"height:=", [1], call371);
               lineNumber = 149
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 148
               onSelf = true;
               var call374 = callmethod(this, "canvasWidth", [0]);
@@ -2407,7 +2409,7 @@ function gracecode_kitty () {
               var call375 = callmethod(this, "backingCanvas", [0]);
               var call376 = callmethod(call375,"width:=", [1], call374);
               lineNumber = 149
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 149
               var string377 = new GraceString("2d");
               onSelf = true;
@@ -2416,7 +2418,7 @@ function gracecode_kitty () {
               onSelf = true;
               var call380 = callmethod(this, "backingContext:=", [1], call379);
               lineNumber = 150
-              lineNumber = 146
+              lineNumber = 138
               lineNumber = 150
               var string381 = new GraceString("2d");
               onSelf = true;
@@ -2815,7 +2817,7 @@ gracecode_kitty.imports = [
 'StandardPrelude',
 ];
 if (gctCache)
-  gctCache['kitty'] = "constructors-of:KittyImage:\n new\nmodules:\n StandardPrelude\n mgcollections\nmethods-of:KittyEntity.new:\n getX\n getY\n posX:=\n posY:=\n update\n setLocation\n onDestroy\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\nfresh:World:\n init\n canvasWidth\n document\n backingCanvas:=\n update\n entities\n backgroundColour:=\n backingContext:=\n canvasHeight:=\n backingContext\n start\n canvas:=\n backgroundColour\n canvasHeight\n background:=\n canvas\n background\n entities:=\n addEntity\n isInit:=\n canvasWidth:=\n setBackground\n isInit\n mctx\n backingCanvas\n mctx:=\n document:=\nfresh-methods:\n Image\n Entity\n World\npublic:\n m_world\n m_world:=\n start\n stop\n setWorld\n KittyImage\n Image\n KittyEntity\n Entity\n KittyWorld\n World\nmethods-of:KittyImage.new:\n imgTag\n height\n draw\n height:=\n width\n width:=\nmethods-of:KittyWorld.new:\n init\n canvasWidth\n document\n backingCanvas:=\n update\n entities\n isInit:=\n backingContext:=\n canvasHeight:=\n backingContext\n start\n canvas:=\n backgroundColour\n canvasHeight\n background:=\n canvas\n background\n mctx\n addEntity\n backingCanvas\n mctx:=\n setBackground\n isInit\n entities:=\n backgroundColour:=\n canvasWidth:=\n document:=\nconstructors-of:KittyEntity:\n new\npath:\n kitty\nclasses:\n KittyImage\n KittyEntity\n KittyWorld\nfresh:Entity:\n getX\n getY\n posX:=\n posY:=\n update\n setLocation\n onDestroy\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getRotation\nconfidential:\nconstructors-of:KittyWorld:\n new\nfresh:Image:\n imgTag\n height\n draw\n height:=\n width\n width:=\n";
+  gctCache['kitty'] = "public:\n m_world\n m_world:=\n start\n stop\n setWorld\n KittyImage\n Image\n KittyEntity\n Entity\n KittyWorld\n World\nmethods-of:KittyImage.new:\n height:=\n draw\n width\n imgTag\n width:=\n height\nconstructors-of:KittyImage:\n new\nfresh:World:\n canvas\n canvasWidth\n background\n backingCanvas:=\n isInit:=\n backingCanvas\n backgroundColour:=\n start\n backgroundColour\n isInit\n mctx:=\n document:=\n entities:=\n document\n update\n canvasWidth:=\n entities\n addEntity\n backingContext\n mctx\n backingContext:=\n canvasHeight:=\n canvas:=\n init\n canvasHeight\n background:=\n setBackground\nmethods-of:KittyWorld.new:\n canvas\n canvasWidth\n background\n backingCanvas:=\n isInit:=\n backingCanvas\n backingContext:=\n start\n init\n isInit\n mctx:=\n document:=\n entities:=\n document\n update\n canvas:=\n entities\n addEntity\n backingContext\n mctx\n backgroundColour:=\n canvasHeight:=\n canvasWidth:=\n backgroundColour\n canvasHeight\n background:=\n setBackground\nconstructors-of:KittyEntity:\n new\npath:\n kitty\nclasses:\n KittyImage\n KittyEntity\n KittyWorld\nfresh:Entity:\n rotation\n onDestroy\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n getRotation\n getX\n getY\nconfidential:\nconstructors-of:KittyWorld:\n new\nfresh:Image:\n height:=\n draw\n width\n height\n width:=\n imgTag\nfresh-methods:\n Image\n Entity\n World\nmodules:\n mgcollections\n StandardPrelude\nmethods-of:KittyEntity.new:\n getRotation\n onDestroy\n posX:=\n posY:=\n update\n setLocation\n rotation:=\n awake\n posX\n posY\n start\n rotation\n getX\n getY\n";
 if (originalSourceLines) {
   originalSourceLines["kitty"] = [
     "import \"mgcollections\" as collections",
@@ -2963,7 +2965,7 @@ if (originalSourceLines) {
     "",
     "    method start {",
     "        print \"STARTING WORLD...\"",
-    "        backingCanvas := dom.document.createElement(\"canvas\")",
+    "        backingCanvas := document.createElement(\"canvas\")",
     "        backingCanvas.height := canvasHeight",
     "        backingCanvas.width := canvasWidth",
     "        backingContext := backingCanvas.getContext(\"2d\")",

@@ -746,13 +746,17 @@ dialects.kitty = {
             returns: "Done",
             description: "Create a world object",
             inheritedVars: [
-                "background", 
+                "background",
+                "backgroundColour", 
                 "document", 
+                "backingCanvas",
+                "backingContext",
                 "canvas", 
                 "canvasWidth", 
                 "canvasHeight",
                 "entities",
-                "isInit"
+                "isInit",
+                "mctx"
                 ]
         },
         "Image": {
@@ -764,6 +768,7 @@ dialects.kitty = {
         }
     }
 };
+extendDialect("kitty", "StandardGrace")
 
 function createOperatorTile(op) {
     var tile = document.createElement("div");
