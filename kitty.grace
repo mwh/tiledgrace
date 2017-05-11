@@ -1,8 +1,7 @@
 import "mgcollections" as collections
 import "dom" as dom
-
 import "StandardPrelude" as sp
-inherits sp.new
+inherits sp.methods
 
 // Main class for game library
 var m_world
@@ -129,7 +128,7 @@ class KittyWorld.new() {
         print "INITIALIZING WORLD..."
 
         if (isInit) then {
-            return
+            return false
         }
 
         document := dom.document
@@ -143,11 +142,11 @@ class KittyWorld.new() {
 
     method start {
         print "STARTING WORLD..."
-        backingCanvas := document.createElement("canvas")
+        backingCanvas := dom.document.createElement("canvas")
         backingCanvas.height := canvasHeight
         backingCanvas.width := canvasWidth
         backingContext := backingCanvas.getContext("2d")
-        mctx := canvas.getCanvas.getContext("2d")
+        mctx := canvas.getContext("2d")
         print "WORLD STARTED"
     }
 
