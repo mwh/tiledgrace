@@ -34,9 +34,17 @@ class KittyImage.new(url') {
         // ctx'.save
         // ctx'.translate(0, 0)
         // ctx'.rotate(-(180 + 180) / 180 * 3.1415)
-        ctx'.drawImage(imgTag, -width' / 2, -height' / 2, width', height')
+        // ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
+        //            0, 0, canvas.width, canvas.height); // destination rectangle
+        ctx'.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, width', height')
         ctx'.restore
         print "IMAGE: {imgTag.src} DRAWN"
+    }
+
+    method drawBackground(ctx') {
+        print "DRAWING BACKGROUND: {imgTag.src} (500, 500)..."
+        ctx'.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, 500, 500)
+        print "BACKGROUND: {imgTag.src} DRAWN"
     }
 
     print "CREATED NEW IMAGE: {url'}"
@@ -178,7 +186,9 @@ class KittyWorld.new() {
         mctx.fillStyle := backgroundColour
         mctx.fillRect(0, 0, canvasWidth, canvasHeight)
         mctx.drawImage(backingCanvas, 0, 0)
-        background.drawWithSize(mctx, 150, 150)
+        // background.drawWithSize(mctx, canvasWidth, canvasHeight)
+        // background.draw(mctx)
+        background.drawBackground(mctx)
 
         // Draw the entities
         for (entities) do {
