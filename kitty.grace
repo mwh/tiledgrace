@@ -19,7 +19,7 @@ class KittyImage.new(url') {
     var height := 64
     var width := 64
 
-    method draw(ctx') {
+    method drawOld(ctx') {
         print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
         ctx'.save
         ctx'.translate(0, 0)
@@ -45,6 +45,16 @@ class KittyImage.new(url') {
         print "DRAWING BACKGROUND: {imgTag.src} (500, 500)..."
         ctx.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, 500, 500)
         print "BACKGROUND: {imgTag.src} DRAWN"
+    }
+
+    method draw(ctx, dx, dy, dw, dh, rot) {
+        print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
+        ctx.save
+        ctx.translate(dx, dy)
+        ctx.rotate(rot *  180 / 3.14)
+        ctx.drawImage(imgTag, -imgTag.width / 2, -imgTag.height / 2, dw, dh)
+        ctx.restore
+        print "IMAGE: {imgTag.src} DRAWN"
     }
 
     print "CREATED NEW IMAGE: {url'}"
@@ -183,12 +193,13 @@ class KittyWorld.new() {
         print "UPDATING WORLD..."
 
         // Draw the background
-        // mctx.fillStyle := backgroundColour
-        // mctx.fillRect(0, 0, canvasWidth, canvasHeight)
-        // mctx.drawImage(backingCanvas, 0, 0)
+        mctx.fillStyle := backgroundColour
+        mctx.fillRect(0, 0, canvasWidth, canvasHeight)
+        mctx.drawImage(backingCanvas, 0, 0)
         // background.drawWithSize(mctx, canvasWidth, canvasHeight)
         // background.draw(mctx)
-        background.drawBackground(mctx)
+        // background.drawBackground(mctx)
+        background.draw(mctx, canvasWidth / 2, canvasHeight / 2, canvasWidth, canvasHeight, 0)
 
         // Draw the entities
         // for (entities) do {
