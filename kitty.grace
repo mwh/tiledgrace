@@ -189,7 +189,7 @@ class KittyWorld.new() {
     }
 
     method addEntity(e: KittyEntity) {
-        return entities.add(e)
+        return entities.push(e)
     }
 
     print "WORLD CREATED"
