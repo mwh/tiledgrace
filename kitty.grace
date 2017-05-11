@@ -41,9 +41,9 @@ class KittyImage.new(url') {
         print "IMAGE: {imgTag.src} DRAWN"
     }
 
-    method drawBackground(ctx') {
+    method drawBackground(ctx) {
         print "DRAWING BACKGROUND: {imgTag.src} (500, 500)..."
-        ctx'.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, 500, 500)
+        ctx.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, 500, 500)
         print "BACKGROUND: {imgTag.src} DRAWN"
     }
 
@@ -183,17 +183,17 @@ class KittyWorld.new() {
         print "UPDATING WORLD..."
 
         // Draw the background
-        mctx.fillStyle := backgroundColour
-        mctx.fillRect(0, 0, canvasWidth, canvasHeight)
-        mctx.drawImage(backingCanvas, 0, 0)
+        // mctx.fillStyle := backgroundColour
+        // mctx.fillRect(0, 0, canvasWidth, canvasHeight)
+        // mctx.drawImage(backingCanvas, 0, 0)
         // background.drawWithSize(mctx, canvasWidth, canvasHeight)
         // background.draw(mctx)
         background.drawBackground(mctx)
 
         // Draw the entities
-        for (entities) do {
-            entity->entity.draw(mctx)
-        }
+        // for (entities) do {
+        //     entity->entity.draw(mctx)
+        // }
 
         print "WORLD UPDATED"
     }
