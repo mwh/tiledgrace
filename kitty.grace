@@ -6,18 +6,6 @@ inherits sp.methods
 // Main class for game library
 var m_world
 
-method start {
-    print "STARTING..."
-}
-
-method stop {
-    print "STOPPING..."
-}
-
-method setWorld(world') {
-    m_world := world'
-}
-
 class KittyImage.new(url') {
     
     print "CREATING NEW IMAGE: {url'}..."
@@ -154,6 +142,7 @@ class KittyWorld.new() {
         print "INITIALIZATION FINISHED"
     }
 
+    // Called on game start
     method start {
         print "STARTING WORLD..."
         backingCanvas := dom.document.createElement("canvas")
@@ -164,6 +153,7 @@ class KittyWorld.new() {
         print "WORLD STARTED"
     }
 
+    // Updates the game world
     method update {
         print "UPDATING WORLD..."
 
@@ -199,6 +189,23 @@ method World() {
     object {
         inherits KittyWorld.new()
     }
+}
+
+// CONTROL SECTION //
+method start {
+    print "STARTING..."
+}
+
+method stop {
+    print "STOPPING..."
+}
+
+method setWorld(world': KittyWorld) {
+    if (!m_world) then {
+        print "NO WORLD!!"
+        return 
+    }
+    m_world := world'
 }
 
 // TEST SECTION //
