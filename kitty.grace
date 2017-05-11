@@ -28,12 +28,13 @@ class KittyImage.new(url') {
     var height := 64
     var width := 64
 
-    method draw(canvas') {
+    method draw(ctx') {
         print "DRAWING IMAGE: {imgTag.src}..."
-        canvas'.translate(0, 0)
-        canvas'.save
-        canvas'.drawImage(imgTag, -width / 2, -height / 2, width, height)
-        canvas'.restore
+        ctx'.save
+        ctx'.translate(0, 0)
+        ctx'.rotate(-(180 + 180) / 180 * 3.1415)
+        ctx'.drawImage(imgTag, -width / 2, -height / 2, width, height)
+        ctx'.restore
         print "IMAGE: {imgTag.src} DRAWN"
     }
 
@@ -103,8 +104,13 @@ class KittyWorld.new() {
     print "CREATING NEW WORLD..."
     
     var background
+    var backgroundColour := "white"
 
     var document
+
+    var backingCanvas
+    var backingContext
+
     var canvas
     var canvasWidth
     var canvasHeight
@@ -112,6 +118,8 @@ class KittyWorld.new() {
     var entities := collections.list.new
 
     var isInit := false
+
+    var mctx
 
     init
 
@@ -133,16 +141,27 @@ class KittyWorld.new() {
         print "INITIALIZATION FINISHED"
     }
 
+    method start {
+        backingCanvas := dom.document.createElement("canvas")
+        backingCanvas.height := canvasHeight
+        backingCanvas.width := canvasWidth
+        backingContext := backingCanvas.getContext("2d")
+        mctx := canvas.getCanvas.getContext("2d")
+    }
+
     method update {
         print "UPDATING WORLD..."
-        background.draw(canvas)
+        mctx.fillStyle := backgroundColour
+        mctx.fillRect(0, 0, canvasWidth, canvasHeight)
+        mctx.drawImage(backingCanvas, 0, 0)
+        background.draw(mctx)
         print "WORLD UPDATED"
     }
 
     // method addBackground(url') {
     //     background := Image(url')
     // }
-    method addBackground(background') {
+    method setBackground(background') {
         background := background'
     }
 
