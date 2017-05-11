@@ -48,6 +48,8 @@ method Image(url') {
 
 class KittyEntity.new(x', y') {
     
+    print "CREATING ENTITY AT ({x'}, {y'})..."
+
     var posX := x'
     var posY := y'
     var rotation := 0
@@ -58,12 +60,12 @@ class KittyEntity.new(x', y') {
 
     // Called on creation
     method awake {
-        print "awake"
+        // print "awake"
     }
 
     // Called on game start
     method start {
-        print "start"
+        // print "start"
     }
 
     // Called by main game class
@@ -100,6 +102,8 @@ class KittyEntity.new(x', y') {
     method getRotation {
         return rotation
     }
+
+    print "ENTITY CREATED"
 } 
 
 method Entity(x', y') {
@@ -184,7 +188,7 @@ class KittyWorld.new() {
         background := background'
     }
 
-    method addEntity(e: Entity) {
+    method addEntity(e: KittyEntity) {
         return entities.add(e)
     }
 
