@@ -48,11 +48,13 @@ method Image(url') {
 
 class KittyEntity.new(x', y') {
     
-    awake
-
     var posX := x'
     var posY := y'
     var rotation := 0
+
+    var image
+
+    awake
 
     // Called on creation
     method awake {
@@ -66,12 +68,20 @@ class KittyEntity.new(x', y') {
 
     // Called by main game class
     method update {
-
+        
     }
 
     // Called on class destructor
     method onDestroy {
 
+    }
+
+    method draw(ctx') {
+        image.draw(ctx')
+    }
+
+    method setImage(image': KittyImage) {
+        image := image'
     }
 
     method setLocation(x, y) {
@@ -152,10 +162,18 @@ class KittyWorld.new() {
 
     method update {
         print "UPDATING WORLD..."
+
+        // Draw the background
         mctx.fillStyle := backgroundColour
         mctx.fillRect(0, 0, canvasWidth, canvasHeight)
         mctx.drawImage(backingCanvas, 0, 0)
         background.draw(mctx)
+
+        // Draw the entities
+        for (entities) do {
+            entity->entity.draw(mctx)
+        }
+
         print "WORLD UPDATED"
     }
 
