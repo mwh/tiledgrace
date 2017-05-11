@@ -20,11 +20,21 @@ class KittyImage.new(url') {
     var width := 64
 
     method draw(ctx') {
-        print "DRAWING IMAGE: {imgTag.src}..."
+        print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
         ctx'.save
         ctx'.translate(0, 0)
         ctx'.rotate(-(180 + 180) / 180 * 3.1415)
         ctx'.drawImage(imgTag, -width / 2, -height / 2, width, height)
+        ctx'.restore
+        print "IMAGE: {imgTag.src} DRAWN"
+    }
+    
+    method drawWithSize(ctx', width', height') {
+        print "DRAWING IMAGE: {imgTag.src} ({width'}, {height'})..."
+        ctx'.save
+        ctx'.translate(0, 0)
+        ctx'.rotate(-(180 + 180) / 180 * 3.1415)
+        ctx'.drawImage(imgTag, -width' / 2, -height' / 2, width', height')
         ctx'.restore
         print "IMAGE: {imgTag.src} DRAWN"
     }
@@ -167,7 +177,7 @@ class KittyWorld.new() {
         mctx.fillStyle := backgroundColour
         mctx.fillRect(0, 0, canvasWidth, canvasHeight)
         mctx.drawImage(backingCanvas, 0, 0)
-        background.draw(mctx)
+        background.drawWithSize(mctx, canvasWidth, canvasHeight)
 
         // Draw the entities
         for (entities) do {
