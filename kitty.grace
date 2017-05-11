@@ -5,7 +5,11 @@ inherits sp.methods
 
 // Main class for game library
 var m_world
+var worldSet := false
 
+// XXX: Control functions are at the bottom
+
+// Represents an image in the game world
 class KittyImage.new(url') {
     
     print "CREATING NEW IMAGE: {url'}..."
@@ -34,6 +38,7 @@ method Image(url') {
     }
 }
 
+// Represents an object in the game world
 class KittyEntity.new(x', y') {
     
     print "CREATING ENTITY AT ({x'}, {y'})..."
@@ -100,6 +105,7 @@ method Entity(x', y') {
     }
 }
 
+// Represents the game world itself
 class KittyWorld.new() {
 
     print "CREATING NEW WORLD..."
@@ -192,20 +198,31 @@ method World() {
 }
 
 // CONTROL SECTION //
+
+// Called on game start
 method start {
+
+    print "CHECKING..."
+
+    if (!worldSet) then {
+        print "NO WORLD!!"
+        return 
+    }
+
     print "STARTING..."
+
+    // Dewit
+    m_world.start
 }
 
+// XXX: Not sure how to call this
 method stop {
     print "STOPPING..."
 }
 
 method setWorld(world': KittyWorld) {
-    if (!m_world) then {
-        print "NO WORLD!!"
-        return 
-    }
     m_world := world'
+    worldSet := true
 }
 
 // TEST SECTION //
