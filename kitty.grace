@@ -31,9 +31,9 @@ class KittyImage.new(url') {
     
     method drawWithSize(ctx', width', height') {
         print "DRAWING IMAGE: {imgTag.src} ({width'}, {height'})..."
-        ctx'.save
-        ctx'.translate(0, 0)
-        ctx'.rotate(-(180 + 180) / 180 * 3.1415)
+        // ctx'.save
+        // ctx'.translate(0, 0)
+        // ctx'.rotate(-(180 + 180) / 180 * 3.1415)
         ctx'.drawImage(imgTag, -width' / 2, -height' / 2, width', height')
         ctx'.restore
         print "IMAGE: {imgTag.src} DRAWN"
@@ -156,6 +156,7 @@ class KittyWorld.new() {
 
         isInit := true
         print "INITIALIZATION FINISHED"
+        start
     }
 
     // Called on game start
@@ -177,7 +178,7 @@ class KittyWorld.new() {
         mctx.fillStyle := backgroundColour
         mctx.fillRect(0, 0, canvasWidth, canvasHeight)
         mctx.drawImage(backingCanvas, 0, 0)
-        background.drawWithSize(mctx, canvasWidth, canvasHeight)
+        background.drawWithSize(mctx, 150, 150)
 
         // Draw the entities
         for (entities) do {
