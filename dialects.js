@@ -761,7 +761,7 @@ dialects.kitty = {
         },
         "Image": {
             name: "Image",
-            parts: [{name: "World", args: ["String"]}],
+            parts: [{name: "World", args: ["String", "Number", "Number"]}],
             returns: "Done",
             description: "Creates an image",
             inheritedVars: ["imgTag", "height", "width"]

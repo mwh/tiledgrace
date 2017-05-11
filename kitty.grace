@@ -10,14 +10,14 @@ var worldSet := false
 // XXX: Control functions are at the bottom
 
 // Represents an image in the game world
-class KittyImage.new(url') {
+class KittyImage.new(url', height', width') {
     
     print "CREATING NEW IMAGE: {url'}..."
     def imgTag = dom.document.createElement("img")
     imgTag.src := url'
 
-    var height := 64
-    var width := 64
+    var height := height'
+    var width := width'
 
     method drawOld(ctx') {
         print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
@@ -47,12 +47,12 @@ class KittyImage.new(url') {
         print "BACKGROUND: {imgTag.src} DRAWN"
     }
 
-    method draw(ctx, dx, dy, dw, dh, rot) {
+    method draw(ctx, dx, dy, rot) {
         print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
         ctx.save
         ctx.translate(dx, dy)
         ctx.rotate(rot *  180 / 3.14)
-        ctx.drawImage(imgTag, -imgTag.width / 2, -imgTag.height / 2, dw, dh)
+        ctx.drawImage(imgTag, -width / 2, -height / 2, width, height)
         ctx.restore
         print "IMAGE: {imgTag.src} DRAWN"
     }
@@ -60,9 +60,9 @@ class KittyImage.new(url') {
     print "CREATED NEW IMAGE: {url'}"
 }
 
-method Image(url') {
+method Image(url', x', y') {
     object {
-        inherits KittyImage.new(url')
+        inherits KittyImage.new(url', x', y')
     }
 }
 
@@ -199,7 +199,7 @@ class KittyWorld.new() {
         // background.drawWithSize(mctx, canvasWidth, canvasHeight)
         // background.draw(mctx)
         // background.drawBackground(mctx)
-        background.draw(mctx, canvasWidth / 2, canvasHeight / 2, canvasWidth, canvasHeight, 0)
+        background.draw(mctx, canvasWidth / 2, canvasHeight / 2, 0)
 
         // Draw the entities
         // for (entities) do {
@@ -213,7 +213,7 @@ class KittyWorld.new() {
     //     background := Image(url')
     // }
     method setBackground(background') {
-        background := background'
+        background := Image(background', canvasWidth, canvasHeight)
     }
 
     method addEntity(e: KittyEntity) {
