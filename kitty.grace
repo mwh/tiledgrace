@@ -99,12 +99,15 @@ class KittyEntity.new(x', y') {
 
     }
 
-    method draw(ctx') {
-        image.draw(ctx')
+    method draw(ctx) {
+        ctx.save
+        ctx.translate(posX, posY)
+        image.draw(ctx)
+        ctx.restore
     }
 
-    method setImage(image': KittyImage) {
-        image := image'
+    method setImage(image') {
+        image := Image(image', 64, 64)
     }
 
     method setLocation(x, y) {
@@ -196,15 +199,12 @@ class KittyWorld.new() {
         mctx.fillStyle := backgroundColour
         mctx.fillRect(0, 0, canvasWidth, canvasHeight)
         mctx.drawImage(backingCanvas, 0, 0)
-        // background.drawWithSize(mctx, canvasWidth, canvasHeight)
-        // background.draw(mctx)
-        // background.drawBackground(mctx)
         background.draw(mctx, canvasWidth / 2, canvasHeight / 2, 0)
 
         // Draw the entities
-        // for (entities) do {
-        //     entity->entity.draw(mctx)
-        // }
+        for (entities) do {
+            entity->entity.draw(mctx)
+        }
 
         print "WORLD UPDATED"
     }
