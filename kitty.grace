@@ -104,7 +104,7 @@ class KittyWorld.new() {
     print "CREATING NEW WORLD..."
     
     var background
-    var backgroundColour := "white"
+    var backgroundColour := "black"
 
     var document
 
@@ -153,8 +153,8 @@ class KittyWorld.new() {
         print "UPDATING WORLD..."
         mctx.fillStyle := backgroundColour
         mctx.fillRect(0, 0, canvasWidth, canvasHeight)
-        mctx.drawImage(backingCanvas, 0, 0)
-        background.draw(mctx)
+        // mctx.drawImage(backingCanvas, 0, 0)
+        // background.draw(mctx)
         print "WORLD UPDATED"
     }
 
