@@ -128,6 +128,7 @@ class KittyWorld.new() {
     var entities := collections.list.new
 
     var isInit := false
+    var isRunning := false
 
     var mctx
 
@@ -147,22 +148,28 @@ class KittyWorld.new() {
         canvasWidth := canvas.width
         canvasHeight := canvas.height
 
-        isInit := true
-        print "INITIALIZATION FINISHED"
-
-        // Start the game
-        start
-    }
-
-    // Called on game start
-    method start {
-        print "STARTING WORLD..."
         backingCanvas := dom.document.createElement("canvas")
         backingCanvas.height := canvasHeight
         backingCanvas.width := canvasWidth
         backingContext := backingCanvas.getContext("2d")
         mctx := canvas.getContext("2d")
+
+        isInit := true
+        print "INITIALIZATION FINISHED"
+
+        // Start the game
+        // print "STARTING WORLD..."
+        // start
+    }
+
+    // Called on game start
+    method start {
+
         print "WORLD STARTED"
+        isRunning := true
+        dom.while { isRunning } waiting 10 do {
+            update
+        }        
     }
 
     // Updates the game world
