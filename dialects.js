@@ -742,13 +742,33 @@ dialects.kitty = {
         },
         "World": {
             name: "World",
-            parts: [{name: "World", args: ["Number", "Number"]}],
+            parts: [{name: "World", args: []}],
             returns: "Done",
             description: "Create a world object",
-            inheritedVars: ["canvas", "canvasWidth", "canvasHeight"]
+            inheritedVars: [
+                "background",
+                "backgroundColour", 
+                "document", 
+                "backingCanvas",
+                "backingContext",
+                "canvas", 
+                "canvasWidth", 
+                "canvasHeight",
+                "entities",
+                "isInit",
+                "mctx"
+                ]
+        },
+        "Image": {
+            name: "Image",
+            parts: [{name: "World", args: ["String", "Number", "Number"]}],
+            returns: "Done",
+            description: "Creates an image",
+            inheritedVars: ["imgTag", "height", "width"]
         }
     }
 };
+extendDialect("kitty", "StandardGrace")
 
 function createOperatorTile(op) {
     var tile = document.createElement("div");
