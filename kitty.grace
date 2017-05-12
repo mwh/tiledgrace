@@ -19,34 +19,6 @@ class KittyImage.new(url', height', width') {
     var height := height'
     var width := width'
 
-    method drawOld(ctx') {
-        print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
-        ctx'.save
-        ctx'.translate(0, 0)
-        ctx'.rotate(-(180 + 180) / 180 * 3.1415)
-        ctx'.drawImage(imgTag, -width / 2, -height / 2, width, height)
-        ctx'.restore
-        print "IMAGE: {imgTag.src} DRAWN"
-    }
-    
-    method drawWithSize(ctx', width', height') {
-        print "DRAWING IMAGE: {imgTag.src} ({width'}, {height'})..."
-        // ctx'.save
-        // ctx'.translate(0, 0)
-        // ctx'.rotate(-(180 + 180) / 180 * 3.1415)
-        // ctx.drawImage(img, 0, 0, img.width,    img.height,     // source rectangle
-        //            0, 0, canvas.width, canvas.height); // destination rectangle
-        ctx'.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, width', height')
-        ctx'.restore
-        print "IMAGE: {imgTag.src} DRAWN"
-    }
-
-    method drawBackground(ctx) {
-        print "DRAWING BACKGROUND: {imgTag.src} (500, 500)..."
-        ctx.drawImage(imgTag, 0, 0, imgTag.width, imgTag.height, 0, 0, 500, 500)
-        print "BACKGROUND: {imgTag.src} DRAWN"
-    }
-
     method draw(ctx, dx, dy, rot) {
         print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
         ctx.save
@@ -99,10 +71,10 @@ class KittyEntity.new(x', y') {
 
     }
 
-    method draw(ctx) {
+    method draw(ctx, dx, dy) {
         ctx.save
         ctx.translate(posX, posY)
-        image.draw(ctx)
+        image.draw(ctx, dx, dy, rotation)
         ctx.restore
     }
 
@@ -177,6 +149,8 @@ class KittyWorld.new() {
 
         isInit := true
         print "INITIALIZATION FINISHED"
+
+        // Start the game
         start
     }
 
@@ -203,15 +177,12 @@ class KittyWorld.new() {
 
         // Draw the entities
         for (entities) do {
-            entity->entity.draw(mctx)
+            entity->entity.draw(mctx, canvasWidth / 2, canvasHeight / 2)
         }
 
         print "WORLD UPDATED"
     }
 
-    // method addBackground(url') {
-    //     background := Image(url')
-    // }
     method setBackground(background') {
         background := Image(background', canvasWidth, canvasHeight)
     }
@@ -223,13 +194,15 @@ class KittyWorld.new() {
     print "WORLD CREATED"
 }
 
-method World() {
+method World {
     object {
         inherits KittyWorld.new()
     }
 }
 
 // CONTROL SECTION //
+// XXX: No longer used
+// TODO: Remove this
 
 // Called on game start
 method start {
