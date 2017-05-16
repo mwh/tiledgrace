@@ -67,12 +67,28 @@ class KittyEntity.new(x', y') {
 
     // Called by main game class
     method update {
-        
+    
     }
 
     // Called on class destructor
     method onDestroy {
 
+    }
+
+    method moveUp(dy) {
+        posY := posY - dy
+    }
+
+    method moveDown(dy) {
+        posY := posY + dy
+    }
+
+    method moveLeft(dx) {
+        posX := posX - dx
+    }
+
+    method moveRight(dx) {
+        posX := posX + dx
     }
 
     method draw(ctx, dx, dy) {
@@ -159,15 +175,31 @@ class KittyWorld.new() {
             def y = (ev.clientY - canvas.offsetTop) / canvas.offsetHeight * canvasHeight
             
             print "MOUSEDOWN"
-            // if ((x > (canvasWidth - 20)) && (y < 20)) then {
-            //     ev.preventDefault
-            //     stop
+            
+            if ((x > (canvasWidth - 20)) && (y < 20)) then {
+                ev.preventDefault
+                stop
+            }
         }
         canvas.addEventListener("mousedown", mouseDownListener)
 
         // Key Listener
         keyDownListener := { ev->
-            print "KEYDOWN"
+            print "WORLD"
+            if (ev.keyCode == 81) then {
+                stop
+            }
+
+            var key := ev.keyCode
+
+            // Feed key event to entities
+            for (entities) do { entity->
+                match (key) 
+                    case { 87 -> entity.moveUp(1)}
+                    case { 83 -> entity.moveDown(1)}
+                    case { 65 -> entity.moveLeft(1)}
+                    case { 68 -> entity.moveRight(1)}
+            }
         }
         document.addEventListener("keydown", keyDownListener)
 
@@ -187,16 +219,17 @@ class KittyWorld.new() {
 
     // Called on game start
     method start {
-
         print "WORLD STARTED"
         isRunning := true
         dom.while { isRunning } waiting 10 do {
             update
-        }        
+        }
+        print "WORLD STOPPED"        
     }
 
     // Updates the game world
     method update {
+
         print "UPDATING WORLD..."
 
         // Draw the background
@@ -206,11 +239,17 @@ class KittyWorld.new() {
         background.draw(mctx, canvasWidth / 2, canvasHeight / 2, 0)
 
         // Draw the entities
-        for (entities) do {
-            entity->entity.draw(mctx, canvasWidth / 2, canvasHeight / 2)
+        for (entities) do { entity->
+            entity.update
+            entity.draw(mctx, canvasWidth / 2, canvasHeight / 2)
         }
 
         print "WORLD UPDATED"
+    }
+
+    method stop {
+        print "WORLD STOPPING..."
+        isRunning := false
     }
 
     method setBackground(background') {
