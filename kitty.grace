@@ -7,6 +7,10 @@ inherits sp.methods
 var m_world
 var worldSet := false
 
+// Listeners
+var doKeyDown
+var mouseDownListener
+
 // XXX: Control functions are at the bottom
 
 // Represents an image in the game world
@@ -147,6 +151,19 @@ class KittyWorld.new() {
         canvas := document.getElementById("standard-canvas")
         canvasWidth := canvas.width
         canvasHeight := canvas.height
+
+        // Mouse Listener
+        mouseDownListener := { ev ->
+            
+            def x = (ev.clientX - canvas.offsetLeft) / canvas.offsetWidth * canvasHeight
+            def y = (ev.clientY - canvas.offsetTop) / canvas.offsetHeight * canvasHeight
+            
+            print "HERE"
+            // if ((x > (canvasWidth - 20)) && (y < 20)) then {
+            //     ev.preventDefault
+            //     stop
+        }
+        canvas.addEventListener("mousedown", mouseDownListener)
 
         backingCanvas := dom.document.createElement("canvas")
         backingCanvas.height := canvasHeight
