@@ -8,7 +8,7 @@ var m_world
 var worldSet := false
 
 // Listeners
-var doKeyDown
+var keyDownListener
 var mouseDownListener
 
 // XXX: Control functions are at the bottom
@@ -158,12 +158,18 @@ class KittyWorld.new() {
             def x = (ev.clientX - canvas.offsetLeft) / canvas.offsetWidth * canvasHeight
             def y = (ev.clientY - canvas.offsetTop) / canvas.offsetHeight * canvasHeight
             
-            print "HERE"
+            print "MOUSEDOWN"
             // if ((x > (canvasWidth - 20)) && (y < 20)) then {
             //     ev.preventDefault
             //     stop
         }
         canvas.addEventListener("mousedown", mouseDownListener)
+
+        // Key Listener
+        keyDownListener := { ev->
+            print "KEYDOWN"
+        }
+        document.addEventListener("keydown", keyDownListener)
 
         backingCanvas := dom.document.createElement("canvas")
         backingCanvas.height := canvasHeight
