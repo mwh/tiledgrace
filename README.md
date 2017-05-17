@@ -59,3 +59,31 @@ foo.addEntity(bar)
 // Start the game
 foo.start
 ````
+
+````
+dialect "kitty"
+
+def foo = World
+foo.setBackground("doggo.jpg")
+
+def bar = Entity(10, 10)
+bar.setImage("realyee.png")
+
+def barAction = object {
+    method update {
+        if (foo.isKeyDown(87)) then {
+            bar.moveUp(1)
+        } elseif {foo.isKeyDown(65)} then {
+            bar.moveLeft(1)
+        } elseif {foo.isKeyDown(83)} then {
+            bar.moveDown(1)   
+        } elseif {foo.isKeyDown(68)} then {
+            bar.moveRight(1)
+        }
+    }
+}
+bar.setAction(barAction)
+
+foo.addEntity(bar)
+foo.start
+````

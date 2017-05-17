@@ -9,6 +9,7 @@ var worldSet := false
 
 // Listeners
 var keyDownListener
+var keyUpListener
 var mouseDownListener
 
 // XXX: Control functions are at the bottom
@@ -162,6 +163,8 @@ class KittyWorld.new() {
 
     var mctx
 
+    var currentKeyDown := -1
+
     init
 
     // Called on initialization
@@ -193,25 +196,21 @@ class KittyWorld.new() {
         }
         canvas.addEventListener("mousedown", mouseDownListener)
 
-        // Key Listener
+        // Key Listeners
         keyDownListener := { ev->
-            print "KEYDOWN"
+            print "KEYDOWN: {ev.keyCode}"
             if (ev.keyCode == 81) then {
                 stop
             }
-
-            var key := ev.keyCode
-
-            // Feed key event to entities
-            for (entities) do { entity->
-                match (key) 
-                    case { 87 -> entity.moveUp(1)}
-                    case { 83 -> entity.moveDown(1)}
-                    case { 65 -> entity.moveLeft(1)}
-                    case { 68 -> entity.moveRight(1)}
-            }
+            currentKeyDown := ev.keyCode
         }
         document.addEventListener("keydown", keyDownListener)
+
+        keyUpListener := { ev->
+            print "KEYUP"
+            currentKeyDown := -1
+        }
+        document.addEventListener("keyup", keyUpListener)
 
         backingCanvas := dom.document.createElement("canvas")
         backingCanvas.height := canvasHeight
@@ -262,6 +261,11 @@ class KittyWorld.new() {
         isRunning := false
         canvas.removeEventListener("mousedown", mouseDownListener)
         document.removeEventListener("keydown", keyDownListener)
+        document.removeEventListener("keyup", keyUpListener)
+    }
+
+    method isKeyDown(key) {
+        return key == currentKeyDown
     }
 
     method setBackground(background') {
@@ -299,11 +303,6 @@ method start {
 
     // Dewit
     m_world.start
-}
-
-// XXX: Not sure how to call this
-method stop {
-    print "STOPPING..."
 }
 
 method setWorld(world': KittyWorld) {
