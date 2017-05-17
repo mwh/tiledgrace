@@ -286,8 +286,6 @@ method World {
 }
 
 // CONTROL SECTION //
-// XXX: No longer used
-// TODO: Remove this
 
 // Called on game start
 method start {
@@ -308,6 +306,10 @@ method start {
 method setWorld(world': KittyWorld) {
     m_world := world'
     worldSet := true
+}
+
+method atModuleEnd(module) {
+    start
 }
 
 // TEST SECTION //
