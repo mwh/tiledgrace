@@ -738,7 +738,7 @@ dialects.kitty = {
             parts: [{name: "Entity", args: ["Number", "Number"]}],
             returns: "Done",
             description: "Create an entity object",
-            inheritedVars: ["posX", "posY", "rotation"]
+            inheritedVars: ["posX", "posY", "rotation", "action"]
         },
         "World": {
             name: "World",
