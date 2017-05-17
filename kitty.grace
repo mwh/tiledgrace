@@ -8,7 +8,7 @@ var m_world
 var worldSet := false
 
 // Listeners
-var keyPressListener
+var keyDownListener
 var keyUpListener
 var mouseDownListener
 
@@ -197,14 +197,14 @@ class KittyWorld.new() {
         canvas.addEventListener("mousedown", mouseDownListener)
 
         // Key Listeners
-        keyPressListener := { ev->
+        keyDownListener := { ev->
             print "KEYDOWN: {ev.keyCode}"
             if (ev.keyCode == 81) then {
                 stop
             }
             currentKeyDown := ev.keyCode
         }
-        document.addEventListener("keypress", keyPressListener)
+        document.addEventListener("keydown", keyDownListener)
 
         keyUpListener := { ev->
             print "KEYUP"
@@ -260,7 +260,7 @@ class KittyWorld.new() {
         print "WORLD STOPPING..."
         isRunning := false
         canvas.removeEventListener("mousedown", mouseDownListener)
-        document.removeEventListener("keypress", keyPressListener)
+        document.removeEventListener("keydown", keyDownListener)
         document.removeEventListener("keyup", keyUpListener)
     }
 
@@ -303,11 +303,6 @@ method start {
 
     // Dewit
     m_world.start
-}
-
-// XXX: Not sure how to call this
-method stop {
-    print "STOPPING..."
 }
 
 method setWorld(world': KittyWorld) {

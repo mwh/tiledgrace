@@ -552,18 +552,18 @@ function gracecode_kitty () {
             + "initial value of var 'worldSet' to be of type Unknown"))
   lineNumber = 11
   lineNumber = 12
-  var var_keyPressListener;
+  var var_keyDownListener;
   lineNumber = 305
   var func45 = function(argcv) {
     var curarg = 1;
     if (argcv[0] !=  func45.paramCounts[0])
-      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (keyPressListener)"));
+      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (keyDownListener)"));
     var returnTarget = invocationCount;
     invocationCount++;
     moduleName = "kitty";
     try {
       lineNumber = 11
-      return var_keyPressListener
+      return var_keyDownListener
     } catch(e) {
       if ((e.exctype == 'return') && (e.target == returnTarget)) {
         return e.returnvalue;
@@ -578,7 +578,7 @@ function gracecode_kitty () {
   func45.variableArities = [
     false,
   ];
-  this.methods["keyPressListener"] = func45;
+  this.methods["keyDownListener"] = func45;
   func45.definitionLine = 305;
   func45.definitionModule = "kitty";
   lineNumber = 305
@@ -587,12 +587,12 @@ function gracecode_kitty () {
     var var___95__var__95__assign__95__tmp = arguments[curarg];
     curarg++;
     if (argcv[0] !=  func46.paramCounts[0])
-      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (keyPressListener:=)"));
+      callmethod(RuntimeErrorObject, "raise", [1], new GraceString("wrong number of arguments for part 1 (keyDownListener:=)"));
     var returnTarget = invocationCount;
     invocationCount++;
     moduleName = "kitty";
     try {
-      var_keyPressListener = var___95__var__95__assign__95__tmp;
+      var_keyDownListener = var___95__var__95__assign__95__tmp;
       return var___95__var__95__assign__95__tmp
     } catch(e) {
       if ((e.exctype == 'return') && (e.target == returnTarget)) {
@@ -608,7 +608,7 @@ function gracecode_kitty () {
   func46.variableArities = [
     false,
   ];
-  this.methods["keyPressListener:="] = func46;
+  this.methods["keyDownListener:="] = func46;
   func46.definitionLine = 305;
   func46.definitionModule = "kitty";
   lineNumber = 13
@@ -3025,12 +3025,12 @@ function gracecode_kitty () {
                 var call513 = callmethod(this, "currentKeyDown:=", [1], call512);
                 return call513;
               };
-              var_keyPressListener = block495;
+              var_keyDownListener = block495;
               lineNumber = 207
-              var string514 = new GraceString("keypress");
+              var string514 = new GraceString("keydown");
               onSelf = true;
               var call515 = callmethod(this, "document", [0]);
-              var call516 = callmethod(call515,"addEventListener", [2], string514, var_keyPressListener);
+              var call516 = callmethod(call515,"addEventListener", [2], string514, var_keyDownListener);
               lineNumber = 213
               var block517 = Grace_allocObject();
               block517.methods["apply"] = function() {
@@ -3352,10 +3352,10 @@ function gracecode_kitty () {
               var call605 = callmethod(this, "canvas", [0]);
               var call606 = callmethod(call605,"removeEventListener", [2], string604, var_mouseDownListener);
               lineNumber = 263
-              var string607 = new GraceString("keypress");
+              var string607 = new GraceString("keydown");
               onSelf = true;
               var call608 = callmethod(this, "document", [0]);
-              var call609 = callmethod(call608,"removeEventListener", [2], string607, var_keyPressListener);
+              var call609 = callmethod(call608,"removeEventListener", [2], string607, var_keyDownListener);
               lineNumber = 264
               var string610 = new GraceString("keyup");
               onSelf = true;
@@ -3979,12 +3979,12 @@ function gracecode_kitty () {
                 var call743 = callmethod(this, "currentKeyDown:=", [1], call742);
                 return call743;
               };
-              var_keyPressListener = block725;
+              var_keyDownListener = block725;
               lineNumber = 207
-              var string744 = new GraceString("keypress");
+              var string744 = new GraceString("keydown");
               onSelf = true;
               var call745 = callmethod(this, "document", [0]);
-              var call746 = callmethod(call745,"addEventListener", [2], string744, var_keyPressListener);
+              var call746 = callmethod(call745,"addEventListener", [2], string744, var_keyDownListener);
               lineNumber = 213
               var block747 = Grace_allocObject();
               block747.methods["apply"] = function() {
@@ -4306,10 +4306,10 @@ function gracecode_kitty () {
               var call835 = callmethod(this, "canvas", [0]);
               var call836 = callmethod(call835,"removeEventListener", [2], string834, var_mouseDownListener);
               lineNumber = 263
-              var string837 = new GraceString("keypress");
+              var string837 = new GraceString("keydown");
               onSelf = true;
               var call838 = callmethod(this, "document", [0]);
-              var call839 = callmethod(call838,"removeEventListener", [2], string837, var_keyPressListener);
+              var call839 = callmethod(call838,"removeEventListener", [2], string837, var_keyDownListener);
               lineNumber = 264
               var string840 = new GraceString("keyup");
               onSelf = true;
@@ -4752,7 +4752,7 @@ gracecode_kitty.imports = [
 'StandardPrelude',
 ];
 if (gctCache)
-  gctCache['kitty'] = "path:\n kitty\nclasses:\n KittyImage\n KittyEntity\n KittyWorld\nfresh:Entity:\n awake\n posX\n posY\n draw\n moveDown\n rotation\n setAction\n moveRight\n setImage\n getRotation\n moveLeft\n update\n setLocation\n start\n action:=\n getX\n getY\n image:=\n moveUp\n action\n posX:=\n posY:=\n image\n onDestroy\n rotation:=\nconfidential:\nconstructors-of:KittyWorld:\n new\nfresh:Image:\n imgTag\n height\n draw\n height:=\n width\n width:=\nconstructors-of:KittyImage:\n new\nmodules:\n StandardPrelude\n mgcollections\nmethods-of:KittyEntity.new:\n awake\n posX\n posY\n draw\n moveDown\n rotation\n setAction\n moveRight\n setImage\n getRotation\n moveLeft\n update\n setLocation\n start\n action:=\n getX\n getY\n image:=\n moveUp\n action\n posX:=\n posY:=\n image\n rotation:=\n onDestroy\nfresh:World:\n setBackground\n backingContext\n canvasWidth:=\n document:=\n mctx\n document\n backingCanvas:=\n update\n backingCanvas\n backgroundColour:=\n canvas:=\n backgroundColour\n background:=\n currentKeyDown\n addEntity\n isRunning:=\n isInit\n mctx:=\n entities:=\n entities\n isRunning\n backingContext:=\n canvasHeight:=\n start\n init\n canvasHeight\n currentKeyDown:=\n canvas\n isKeyDown\n background\n canvasWidth\n stop\n isInit:=\nfresh-methods:\n Image\n Entity\n World\npublic:\n m_world\n m_world:=\n worldSet\n worldSet:=\n keyPressListener\n keyPressListener:=\n keyUpListener\n keyUpListener:=\n mouseDownListener\n mouseDownListener:=\n KittyImage\n Image\n KittyEntity\n Entity\n KittyWorld\n World\n start\n stop\n setWorld\nmethods-of:KittyImage.new:\n imgTag\n height\n draw\n height:=\n width\n width:=\nmethods-of:KittyWorld.new:\n setBackground\n backgroundColour\n canvasWidth:=\n document:=\n mctx\n document\n backingCanvas:=\n update\n backingCanvas\n backingContext:=\n canvas:=\n backingContext\n background:=\n currentKeyDown\n addEntity\n init\n isInit\n mctx:=\n canvasWidth\n entities\n isRunning\n backgroundColour:=\n canvasHeight:=\n start\n isRunning:=\n canvasHeight\n currentKeyDown:=\n canvas\n isKeyDown\n background\n entities:=\n stop\n isInit:=\nconstructors-of:KittyEntity:\n new\n";
+  gctCache['kitty'] = "public:\n m_world\n m_world:=\n worldSet\n worldSet:=\n keyDownListener\n keyDownListener:=\n keyUpListener\n keyUpListener:=\n mouseDownListener\n mouseDownListener:=\n KittyImage\n Image\n KittyEntity\n Entity\n KittyWorld\n World\n start\n stop\n setWorld\nmethods-of:KittyImage.new:\n height:=\n draw\n width\n imgTag\n width:=\n height\nconstructors-of:KittyImage:\n new\nfresh:World:\n canvas\n canvasWidth\n background\n backingCanvas\n isRunning:=\n document:=\n entities:=\n isRunning\n update\n entities\n addEntity\n backingContext\n backingContext:=\n init\n canvasHeight\n currentKeyDown:=\n backingCanvas:=\n currentKeyDown\n stop\n isInit:=\n start\n setBackground\n isInit\n mctx:=\n mctx\n isKeyDown\n document\n canvasWidth:=\n backgroundColour:=\n canvasHeight:=\n canvas:=\n backgroundColour\n background:=\nmethods-of:KittyWorld.new:\n canvas\n canvasWidth\n background\n backingCanvas\n isRunning:=\n document:=\n mctx\n isKeyDown\n update\n entities\n addEntity\n backingContext\n backingContext:=\n init\n canvasHeight\n currentKeyDown:=\n backingCanvas:=\n currentKeyDown\n stop\n isInit:=\n start\n setBackground\n isInit\n mctx:=\n entities:=\n isRunning\n document\n canvasWidth:=\n backgroundColour:=\n canvasHeight:=\n canvas:=\n backgroundColour\n background:=\nconstructors-of:KittyEntity:\n new\npath:\n kitty\nclasses:\n KittyImage\n KittyEntity\n KittyWorld\nfresh:Entity:\n moveUp\n action\n posX:=\n posY:=\n setLocation\n rotation:=\n moveRight\n posX\n posY\n draw\n moveDown\n rotation\n image:=\n moveLeft\n image\n action:=\n onDestroy\n awake\n setAction\n getRotation\n setImage\n update\n start\n getX\n getY\nconfidential:\nconstructors-of:KittyWorld:\n new\nfresh:Image:\n height:=\n draw\n width\n height\n width:=\n imgTag\nfresh-methods:\n Image\n Entity\n World\nmodules:\n mgcollections\n StandardPrelude\nmethods-of:KittyEntity.new:\n moveUp\n action\n posX:=\n posY:=\n setLocation\n rotation:=\n draw\n posX\n posY\n start\n moveDown\n rotation\n image:=\n moveLeft\n image\n setAction\n onDestroy\n awake\n moveRight\n getRotation\n getX\n update\n action:=\n setImage\n getY\n";
 if (originalSourceLines) {
   originalSourceLines["kitty"] = [
     "import \"mgcollections\" as collections",
@@ -4765,7 +4765,7 @@ if (originalSourceLines) {
     "var worldSet := false",
     "",
     "// Listeners",
-    "var keyPressListener",
+    "var keyDownListener",
     "var keyUpListener",
     "var mouseDownListener",
     "",
@@ -4954,14 +4954,14 @@ if (originalSourceLines) {
     "        canvas.addEventListener(\"mousedown\", mouseDownListener)",
     "",
     "        // Key Listeners",
-    "        keyPressListener := { ev->",
+    "        keyDownListener := { ev->",
     "            print \"KEYDOWN: {ev.keyCode}\"",
     "            if (ev.keyCode == 81) then {",
     "                stop",
     "            }",
     "            currentKeyDown := ev.keyCode",
     "        }",
-    "        document.addEventListener(\"keypress\", keyPressListener)",
+    "        document.addEventListener(\"keydown\", keyDownListener)",
     "",
     "        keyUpListener := { ev->",
     "            print \"KEYUP\"",
@@ -5017,7 +5017,7 @@ if (originalSourceLines) {
     "        print \"WORLD STOPPING...\"",
     "        isRunning := false",
     "        canvas.removeEventListener(\"mousedown\", mouseDownListener)",
-    "        document.removeEventListener(\"keypress\", keyPressListener)",
+    "        document.removeEventListener(\"keydown\", keyDownListener)",
     "        document.removeEventListener(\"keyup\", keyUpListener)",
     "    }",
     "",
