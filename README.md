@@ -5,32 +5,96 @@ Project for ENGR489 MMXVII.
 - James Noble
 - Michael Homer
 
-## Live Sites
-### Master
+## Live Site
 - The current master implementation is here:
 https://cambis.github.io/tiledgrace/
-
-### Dev
-- Will be posting dev updates here:
-https://immense-meadow-20220.herokuapp.com/
 
 # Kitty Dialect
 The kitty dialect contains the functions needed to make simple games in Grace.
 
 ## Usage
-`dialect "kitty"`
+Import the dialect using this line:
+````grace
+dialect "kitty"
+````
 
 ## Classes
 ### KittyWorld
 - Worlds represent the game world, each game needs one world to run.
-- `def world = World`
+````grace
+def world = World
+````
 
 ### KittyEntity
 - Entities reprent objects in the game world, they are assigned to a world. The constructor is fed the coordinates of the entity.
-- `def entity = Entity(10, 10)`
+````grace
+def entity = Entity(10, 10)
+````
+
+## World Setup
+- Each world needs to be represented by one World object.
+
+### Adding Entities to World
+- Entities need to be added to a world so the can be interacted with.
+````grace
+def world = World
+
+def entity = Entity(10, 10)
+world.addEntity(entity)
+```` 
+### Running the Game
+- Currently the method `KittyWorld.start` must be called manually in order to start the game. Pressing the `Q` key will stop the game. *TiledGrace must be reloaded in order to restart the game.*
+````grace
+def world = World
+world.start
+````
+
+## Images
+- Images must currently be uploaded to the root directory of the server. 
+````grace
+def world = World
+world.setBackground("doggo.jpg")
+
+def entity = Entity(10, 10)
+entity.setImage("realyee.png")
+````
+
+## Actions
+- In order for an entity to complete a task, it must first be supplied with an action. Actions are created as objects which are parsed into an entity. *The action object must contain the method `update` for the action to be executed*. This is because the `KittyWorld` class will execute this method.
+````grace
+def entity = Entity(10, 10)
+
+// Create an action
+def action = object {
+    method update {
+        entity.moveUp(1)
+        entity.moveRight(2)
+    }
+}
+
+// Assign action to entity
+entity.setAction(action)
+````
+
+## Key Listener
+- Users can listen for key presses using the `KittyWorld.isKeyDown(key)` method. *This method takes keycodes not characters*
+````grace
+def foo = World
+def bar = Entity(10, 10)
+
+def action = object {
+    method update {
+        if (foo.isKeyDown(87)) then {
+            bar.moveUp(1)
+        }
+    }
+}
+bar.addAction(action)
+foo.addEntity(bar)
+````
 
 ## Examples
-Below is a very basic example of usage:
+- Below is a very basic example of usage:
 ````grace
 // Import dialect
 dialect "kitty"
@@ -59,8 +123,8 @@ foo.addEntity(bar)
 // Start the game
 foo.start
 ````
-
-````
+- Example using the key listener:
+````grace
 dialect "kitty"
 
 def foo = World
