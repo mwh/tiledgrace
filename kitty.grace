@@ -8,7 +8,8 @@ var m_world
 var worldSet := false
 
 // Listeners
-var keyDownListener
+var keyPressListener
+var keyUpListener
 var mouseDownListener
 
 // XXX: Control functions are at the bottom
@@ -195,15 +196,21 @@ class KittyWorld.new() {
         }
         canvas.addEventListener("mousedown", mouseDownListener)
 
-        // Key Listener
-        keyDownListener := { ev->
+        // Key Listeners
+        keyPressListener := { ev->
             print "KEYDOWN: {ev.keyCode}"
             if (ev.keyCode == 81) then {
                 stop
             }
             currentKeyDown := ev.keyCode
         }
-        document.addEventListener("keydown", keyDownListener)
+        document.addEventListener("keypress", keyPressListener)
+
+        keyUpListener := { ev->
+            print "KEYUP"
+            currentKeyDown := -1
+        }
+        document.addEventListener("keyup", keyUpListener)
 
         backingCanvas := dom.document.createElement("canvas")
         backingCanvas.height := canvasHeight
@@ -253,7 +260,8 @@ class KittyWorld.new() {
         print "WORLD STOPPING..."
         isRunning := false
         canvas.removeEventListener("mousedown", mouseDownListener)
-        document.removeEventListener("keydown", keyDownListener)
+        document.removeEventListener("keypress", keyPressListener)
+        document.removeEventListener("keyup", keyUpListener)
     }
 
     method isKeyDown(key) {
