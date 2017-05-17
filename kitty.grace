@@ -195,7 +195,7 @@ class KittyWorld.new() {
 
         // Key Listener
         keyDownListener := { ev->
-            print "WORLD"
+            print "KEYDOWN"
             if (ev.keyCode == 81) then {
                 stop
             }
@@ -260,6 +260,8 @@ class KittyWorld.new() {
     method stop {
         print "WORLD STOPPING..."
         isRunning := false
+        canvas.removeEventListener("mousedown", mouseDownListener)
+        document.removeEventListener("keydown", keyDownListener)
     }
 
     method setBackground(background') {

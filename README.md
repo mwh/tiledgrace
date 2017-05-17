@@ -13,3 +13,49 @@ https://cambis.github.io/tiledgrace/
 ### Dev
 - Will be posting dev updates here:
 https://immense-meadow-20220.herokuapp.com/
+
+# Kitty Dialect
+The kitty dialect contains the functions needed to make simple games in Grace.
+
+## Usage
+`dialect "kitty"`
+
+## Classes
+### KittyWorld
+- Worlds represent the game world
+- `def world = World`
+
+### KittyEntity
+- Entities reprent objects in the game world
+- `def entity = Entity(10, 10)`
+
+## Examples
+Below is a very basic example of usage:
+````
+// Import dialect
+dialect "kitty"
+
+// Create a new world
+def foo = World
+foo.setBackground("doggo.jpg")
+
+// Create an entity
+def bar = Entity(10, 10)
+bar.setImage("realyee.png")
+
+// Create an action for the entity
+def barAction = object {
+    method update {
+        print "UPDATING ENTITY..."
+        bar.moveUp(1)   
+        bar.moveRight(2)
+    }
+}
+bar.setAction(barAction)
+
+// Add entity to the world
+foo.addEntity(bar)
+
+// Start the game
+foo.start
+````
