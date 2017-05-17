@@ -162,6 +162,8 @@ class KittyWorld.new() {
 
     var mctx
 
+    var currentKeyDown := -1
+
     init
 
     // Called on initialization
@@ -195,21 +197,11 @@ class KittyWorld.new() {
 
         // Key Listener
         keyDownListener := { ev->
-            print "KEYDOWN"
+            print "KEYDOWN: {ev.keyCode}"
             if (ev.keyCode == 81) then {
                 stop
             }
-
-            var key := ev.keyCode
-
-            // Feed key event to entities
-            for (entities) do { entity->
-                match (key) 
-                    case { 87 -> entity.moveUp(1)}
-                    case { 83 -> entity.moveDown(1)}
-                    case { 65 -> entity.moveLeft(1)}
-                    case { 68 -> entity.moveRight(1)}
-            }
+            currentKeyDown := ev.keyCode
         }
         document.addEventListener("keydown", keyDownListener)
 
@@ -262,6 +254,10 @@ class KittyWorld.new() {
         isRunning := false
         canvas.removeEventListener("mousedown", mouseDownListener)
         document.removeEventListener("keydown", keyDownListener)
+    }
+
+    method isKeyDown(key) {
+        return key == currentKeyDown
     }
 
     method setBackground(background') {
