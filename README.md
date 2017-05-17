@@ -32,7 +32,12 @@ def entity = Entity(10, 10)
 ````
 
 ## World Setup
-- Each world needs to be represented by one World object.
+- Each world needs to be represented by one World object. You must set the world so the dialect can run it.
+````grace
+def world = World
+setWorld(world)
+````
+- The game will not run if a world is not set.
 
 ### Adding Entities to World
 - Entities need to be added to a world so the can be interacted with.
@@ -43,11 +48,7 @@ def entity = Entity(10, 10)
 world.addEntity(entity)
 ```` 
 ### Running the Game
-- Currently the method `KittyWorld.start` must be called manually in order to start the game. Pressing the `Q` key will stop the game. *TiledGrace must be reloaded in order to restart the game.*
-````grace
-def world = World
-world.start
-````
+- You can run the game by using the `Run` button in the editor. Pressing the `Q` key will stop the game.
 
 ## Images
 - Images must currently be uploaded to the root directory of the server. 
@@ -103,6 +104,9 @@ dialect "kitty"
 def foo = World
 foo.setBackground("doggo.jpg")
 
+// Set the world
+setWorld(foo)
+
 // Create an entity
 def bar = Entity(10, 10)
 bar.setImage("realyee.png")
@@ -119,9 +123,6 @@ bar.setAction(barAction)
 
 // Add entity to the world
 foo.addEntity(bar)
-
-// Start the game
-foo.start
 ````
 - Example using the key listener:
 ````grace
@@ -129,6 +130,7 @@ dialect "kitty"
 
 def foo = World
 foo.setBackground("doggo.jpg")
+setWorld(foo)
 
 def bar = Entity(10, 10)
 bar.setImage("realyee.png")
@@ -147,7 +149,5 @@ def barAction = object {
     }
 }
 bar.setAction(barAction)
-
 foo.addEntity(bar)
-foo.start
 ````

@@ -187,7 +187,7 @@ class KittyWorld.new() {
             def x = (ev.clientX - canvas.offsetLeft) / canvas.offsetWidth * canvasHeight
             def y = (ev.clientY - canvas.offsetTop) / canvas.offsetHeight * canvasHeight
             
-            print "MOUSEDOWN"
+            // print "MOUSEDOWN"
             
             if ((x > (canvasWidth - 20)) && (y < 20)) then {
                 ev.preventDefault
