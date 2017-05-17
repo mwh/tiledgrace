@@ -250,7 +250,7 @@ class KittyWorld.new() {
 
         // Draw the entities
         for (entities) do { entity->
-            entity.doUpdate
+            entity.update
             entity.draw(mctx, canvasWidth / 2, canvasHeight / 2)
         }
 
