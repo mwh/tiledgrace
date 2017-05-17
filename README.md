@@ -22,16 +22,16 @@ The kitty dialect contains the functions needed to make simple games in Grace.
 
 ## Classes
 ### KittyWorld
-- Worlds represent the game world
+- Worlds represent the game world, each game needs one world to run.
 - `def world = World`
 
 ### KittyEntity
-- Entities reprent objects in the game world
+- Entities reprent objects in the game world, they are assigned to a world. The constructor is fed the coordinates of the entity.
 - `def entity = Entity(10, 10)`
 
 ## Examples
 Below is a very basic example of usage:
-````
+````grace
 // Import dialect
 dialect "kitty"
 
