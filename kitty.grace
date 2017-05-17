@@ -51,6 +51,12 @@ class KittyEntity.new(x', y') {
     var posY := y'
     var rotation := 0
 
+    var action := object {
+        method update {
+            print "UPDATING ENTITY..."
+        }
+    }
+
     var image
 
     awake
@@ -67,7 +73,7 @@ class KittyEntity.new(x', y') {
 
     // Called by main game class
     method update {
-    
+        action.update
     }
 
     // Called on class destructor
@@ -100,6 +106,10 @@ class KittyEntity.new(x', y') {
 
     method setImage(image') {
         image := Image(image', 64, 64)
+    }
+
+    method setAction(action') {
+        action := action'
     }
 
     method setLocation(x, y) {
@@ -240,7 +250,7 @@ class KittyWorld.new() {
 
         // Draw the entities
         for (entities) do { entity->
-            entity.update
+            entity.doUpdate
             entity.draw(mctx, canvasWidth / 2, canvasHeight / 2)
         }
 
