@@ -17,7 +17,7 @@ var mouseDownListener
 // Represents an image in the game world
 class KittyImage.new(url', height', width') {
     
-    print "CREATING NEW IMAGE: {url'}..."
+    // print "CREATING NEW IMAGE: {url'}..."
     def imgTag = dom.document.createElement("img")
     imgTag.src := url'
 
@@ -25,16 +25,16 @@ class KittyImage.new(url', height', width') {
     var width := width'
 
     method draw(ctx, dx, dy, rot) {
-        print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
+        // print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
         ctx.save
         ctx.translate(dx, dy)
         ctx.rotate(rot *  180 / 3.14)
         ctx.drawImage(imgTag, -width / 2, -height / 2, width, height)
         ctx.restore
-        print "IMAGE: {imgTag.src} DRAWN"
+        // print "IMAGE: {imgTag.src} DRAWN"
     }
 
-    print "CREATED NEW IMAGE: {url'}"
+    // print "CREATED NEW IMAGE: {url'}"
 }
 
 method Image(url', x', y') {
@@ -46,7 +46,7 @@ method Image(url', x', y') {
 // Represents an object in the game world
 class KittyEntity.new(x', y') {
     
-    print "CREATING ENTITY AT ({x'}, {y'})..."
+    // print "CREATING ENTITY AT ({x'}, {y'})..."
 
     var posX := x'
     var posY := y'
@@ -54,7 +54,7 @@ class KittyEntity.new(x', y') {
 
     var action := object {
         method update {
-            print "UPDATING ENTITY..."
+            // print "UPDATING ENTITY..."
         }
     }
 
@@ -130,7 +130,7 @@ class KittyEntity.new(x', y') {
         return rotation
     }
 
-    print "ENTITY CREATED"
+    // print "ENTITY CREATED"
 } 
 
 method Entity(x', y') {
@@ -142,7 +142,7 @@ method Entity(x', y') {
 // Represents the game world itself
 class KittyWorld.new() {
 
-    print "CREATING NEW WORLD..."
+    // print "CREATING NEW WORLD..."
     
     var background
     var backgroundColour := "black"
@@ -170,7 +170,7 @@ class KittyWorld.new() {
     // Called on initialization
     method init {
 
-        print "INITIALIZING WORLD..."
+        // print "INITIALIZING WORLD..."
 
         if (isInit) then {
             return false
@@ -198,7 +198,7 @@ class KittyWorld.new() {
 
         // Key Listeners
         keyDownListener := { ev->
-            print "KEYDOWN: {ev.keyCode}"
+            // print "KEYDOWN: {ev.keyCode}"
             if (ev.keyCode == 81) then {
                 stop
             }
@@ -207,7 +207,7 @@ class KittyWorld.new() {
         document.addEventListener("keydown", keyDownListener)
 
         keyUpListener := { ev->
-            print "KEYUP"
+            // print "KEYUP"
             currentKeyDown := -1
         }
         document.addEventListener("keyup", keyUpListener)
@@ -219,7 +219,7 @@ class KittyWorld.new() {
         mctx := canvas.getContext("2d")
 
         isInit := true
-        print "INITIALIZATION FINISHED"
+        // print "INITIALIZATION FINISHED"
 
         // Start the game
         // print "STARTING WORLD..."
@@ -228,18 +228,18 @@ class KittyWorld.new() {
 
     // Called on game start
     method start {
-        print "WORLD STARTED"
+        // print "WORLD STARTED"
         isRunning := true
         dom.while { isRunning } waiting 10 do {
             update
         }
-        print "WORLD STOPPED"        
+        // print "WORLD STOPPED"        
     }
 
     // Updates the game world
     method update {
 
-        print "UPDATING WORLD..."
+        // print "UPDATING WORLD..."
 
         // Draw the background
         mctx.fillStyle := backgroundColour
@@ -253,7 +253,7 @@ class KittyWorld.new() {
             entity.draw(mctx, canvasWidth / 2, canvasHeight / 2)
         }
 
-        print "WORLD UPDATED"
+        // print "WORLD UPDATED"
     }
 
     method stop {
@@ -276,7 +276,7 @@ class KittyWorld.new() {
         return entities.push(e)
     }
 
-    print "WORLD CREATED"
+    // print "WORLD CREATED"
 }
 
 method World {
