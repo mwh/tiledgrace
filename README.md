@@ -51,7 +51,7 @@ world.addEntity(entity)
 - You can run the game by using the `Run` button in the editor. Pressing the `Q` key will stop the game.
 
 ## Images
-- Images must currently be uploaded to the root directory of the server. 
+- Images must currently be uploaded to the root directory of the server. There are default images on both the `KittyWorld` and `KittyEntity` classes. Custom images can be set using `KittyWorld.setBackground(image)` and `KittyEntity.setImage(image)`.
 ````grace
 def world = World
 world.setBackground("doggo.jpg")

@@ -65,6 +65,7 @@ class KittyEntity.new(x', y') {
     // Called on creation
     method awake {
         // print "awake"
+        setImage("realyee.png")
     }
 
     // Called on game start
@@ -217,6 +218,9 @@ class KittyWorld.new() {
         backingCanvas.width := canvasWidth
         backingContext := backingCanvas.getContext("2d")
         mctx := canvas.getContext("2d")
+
+        // Default background
+        setBackground("doggo.jpg")
 
         isInit := true
         // print "INITIALIZATION FINISHED"
