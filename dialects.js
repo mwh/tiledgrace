@@ -713,6 +713,62 @@ dialects.sniff.methods.touching.category = "Sensing";
 dialects.sniff.methods.touchingEdge.category = "Sensing";
 extendDialect("sniff", "StandardGrace");
 
+dialects.kitty = {
+    methods: {
+        "setWorld": {
+            name: "setWorld",
+            parts: [{name: "setWorld", args: ["Object"]}],
+            description: "Sets the world for the game",
+            returns: "Done"
+        },
+        "start": {
+            name: "start",
+            parts: [{name: "start", args: []}],
+            description: "Starts the game.",
+            returns: "Done"
+        },
+        "stop": {
+            name: "stop",
+            parts: [{name: "stop", args: []}],
+            description: "Stop the game.",
+            returns: "Done"
+        },
+        "Entity": {
+            name: "Entity",
+            parts: [{name: "Entity", args: ["Number", "Number"]}],
+            returns: "Done",
+            description: "Create an entity object",
+            inheritedVars: ["posX", "posY", "rotation", "action"]
+        },
+        "World": {
+            name: "World",
+            parts: [{name: "World", args: []}],
+            returns: "Done",
+            description: "Create a world object",
+            inheritedVars: [
+                "background",
+                "backgroundColour", 
+                "document", 
+                "backingCanvas",
+                "backingContext",
+                "canvas", 
+                "canvasWidth", 
+                "canvasHeight",
+                "entities",
+                "isInit",
+                "mctx"
+                ]
+        },
+        "Image": {
+            name: "Image",
+            parts: [{name: "World", args: ["String", "Number", "Number"]}],
+            returns: "Done",
+            description: "Creates an image",
+            inheritedVars: ["imgTag", "height", "width"]
+        }
+    }
+};
+extendDialect("kitty", "StandardGrace")
 
 function createOperatorTile(op) {
     var tile = document.createElement("div");
