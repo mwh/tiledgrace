@@ -68,13 +68,36 @@ def entity = Entity(10, 10)
 // Create an action
 def action = object {
     method update {
-        entity.moveUp(1)
-        entity.moveRight(2)
+        entity.move(10)
     }
 }
 
 // Assign action to entity
 entity.setAction(action)
+````
+## Movement
+- There are two functions that move entities, `KittyEntity.move(distance)` and `KittyEntity.strafe(distance)`. The first moves the entity that distance in the direction that it is currently facing. The second is the same as the first, but it moves the entity 90 degrees to the direction it is facing.
+- To rotate the entity use `KittyEntity.turn(angle)`.
+````grace
+def entity = Entity(10, 10)
+
+// Rotate forward
+entity.turn(5)
+
+// Rotate backwards
+entity.turn(-5)
+
+// Move forwards
+entity.move(5)
+
+// Move backwards
+entity.move(-5)
+
+// Strafe left
+entity.strafe(5)
+
+// Strafe right
+entity.strafe(-5)
 ````
 
 ## Key Listener
@@ -95,59 +118,45 @@ foo.addEntity(bar)
 ````
 
 ## Examples
-- Below is a very basic example of usage:
-````grace
-// Import dialect
-dialect "kitty"
-
-// Create a new world
-def foo = World
-foo.setBackground("doggo.jpg")
-
-// Set the world
-setWorld(foo)
-
-// Create an entity
-def bar = Entity(10, 10)
-bar.setImage("realyee.png")
-
-// Create an action for the entity
-def barAction = object {
-    method update {
-        print "UPDATING ENTITY..."
-        bar.moveUp(1)   
-        bar.moveRight(2)
-    }
-}
-bar.setAction(barAction)
-
-// Add entity to the world
-foo.addEntity(bar)
-````
-- Example using the key listener:
+- Simple Movement:
 ````grace
 dialect "kitty"
 
+// Press 'Run' button to start the game.
+// Press the 'K' key to stop the game
+
 def foo = World
-foo.setBackground("doggo.jpg")
 setWorld(foo)
 
 def bar = Entity(10, 10)
-bar.setImage("realyee.png")
-
-def barAction = object {
-    method update {
-        if (foo.isKeyDown(87)) then {
-            bar.moveUp(1)
-        } elseif {foo.isKeyDown(65)} then {
-            bar.moveLeft(1)
-        } elseif {foo.isKeyDown(83)} then {
-            bar.moveDown(1)   
-        } elseif {foo.isKeyDown(68)} then {
-            bar.moveRight(1)
-        }
-    }
+def action = object {
+ method update {
+  // Q
+  if (foo.isKeyDown(81)) then {
+   bar.turn(-5)   
+  } 
+  // E
+  elseif {foo.isKeyDown(69)} then {
+   bar.turn(5)
+  } 
+  // W
+  elseif {foo.isKeyDown(87)} then {
+   bar.strafe(-5)
+  } 
+  // S
+  elseif {foo.isKeyDown(83)} then {
+   bar.strafe(5)
+  } 
+  // D
+  elseif {foo.isKeyDown(68)} then {
+   bar.move(5)   
+  } 
+  // A
+  elseif {foo.isKeyDown(65)} then {
+   bar.move(-5)   
+  }
+ }
 }
-bar.setAction(barAction)
+bar.setAction(action)
 foo.addEntity(bar)
 ````
