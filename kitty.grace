@@ -1,6 +1,6 @@
 import "mgcollections" as collections
 import "dom" as dom
-import "math" as math
+// import "math" as math
 import "StandardPrelude" as sp
 inherits sp.methods
 
@@ -12,6 +12,9 @@ var worldSet := false
 var keyDownListener
 var keyUpListener
 var mouseDownListener
+
+// Grace math returns NaNs
+def math = dom.window.Math
 
 // XXX: Control functions are at the bottom
 
@@ -85,8 +88,8 @@ class KittyEntity.new(x', y') {
     }
 
     method move(distance) {
-        posX := posX + distance * math.cos(rotation * 3.14 / 180)
-        posY := posY + distance * math.sin(rotation * 3.14 / 180)
+        posX := posX + distance * math.cos(rotation * 3.14159 / 180)
+        posY := posY + distance * math.sin(rotation * 3.14159 / 180)
     }
 
     method turn(angle) {
