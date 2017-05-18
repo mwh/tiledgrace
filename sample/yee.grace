@@ -17,6 +17,14 @@ def action = object {
   elseif {foo.isKeyDown(69)} then {
    bar.turn(5)
   } 
+  // W
+  elseif {foo.isKeyDown(87)} then {
+   bar.strafe(-5)
+  } 
+  // S
+  elseif {foo.isKeyDown(83)} then {
+   bar.strafe(5)
+  } 
   // D
   elseif {foo.isKeyDown(68)} then {
    bar.move(5)   

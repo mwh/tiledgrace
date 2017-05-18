@@ -93,24 +93,13 @@ class KittyEntity.new(x', y') {
         posY := posY + distance * math.sin(rotation * 3.14159 / 180)
     }
 
+    method strafe(distance) {
+        posX := posX + distance * math.cos((90 + rotation) * 3.14159 / 180)
+        posY := posY + distance * math.sin((90 + rotation) * 3.14159 / 180)
+    }
+
     method turn(angle) {
         rotation := rotation + angle
-    }
-
-    method moveUp(dy) {
-        posY := posY - dy
-    }
-
-    method moveDown(dy) {
-        posY := posY + dy
-    }
-
-    method moveLeft(dx) {
-        posX := posX - dx
-    }
-
-    method moveRight(dx) {
-        posX := posX + dx
     }
 
     method draw(ctx, dx, dy) {
