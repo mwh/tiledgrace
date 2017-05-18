@@ -1,5 +1,6 @@
 import "mgcollections" as collections
 import "dom" as dom
+import "math" as math
 import "StandardPrelude" as sp
 inherits sp.methods
 
@@ -81,6 +82,15 @@ class KittyEntity.new(x', y') {
     // Called on class destructor
     method onDestroy {
 
+    }
+
+    method move(distance) {
+        posX := posX + distance * math.cos(rotation * 3.14 / 180)
+        posY := posY + distance * math.sin(rotation * 3.14 / 180)
+    }
+
+    method turn(angle) {
+        rotation := rotation + angle
     }
 
     method moveUp(dy) {
@@ -200,7 +210,7 @@ class KittyWorld.new() {
         // Key Listeners
         keyDownListener := { ev->
             // print "KEYDOWN: {ev.keyCode}"
-            if (ev.keyCode == 81) then {
+            if (ev.keyCode == 75) then {
                 stop
             }
             currentKeyDown := ev.keyCode
