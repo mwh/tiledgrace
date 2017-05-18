@@ -32,7 +32,8 @@ class KittyImage.new(url', height', width') {
         // print "DRAWING IMAGE: {imgTag.src} ({width}, {height})..."
         ctx.save
         ctx.translate(dx, dy)
-        ctx.rotate(rot *  180 / 3.14)
+        // ctx.rotate(rot *  180 / 3.14)
+        ctx.rotate(rot * 3.14159 / 180)
         ctx.drawImage(imgTag, -width / 2, -height / 2, width, height)
         ctx.restore
         // print "IMAGE: {imgTag.src} DRAWN"
